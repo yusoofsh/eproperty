@@ -1,0 +1,50 @@
+include: package:lint/analysis_options.yaml
+
+analyzer:
+  errors:
+    missing_return: error
+    missing_required_param: error
+  strong-mode:
+    implicit-casts: true
+  exclude:
+    - "**/*.g.dart"
+
+linter:
+  rules:
+    # Use parameter order as in json response.
+    always_put_required_named_parameters_first: true
+    # Util classes are awesome!
+    avoid_classes_with_only_static_members: false
+    # Make constructors the first thing in every class.
+    sort_constructors_first: false
+    # The new tabs vs. spaces. Choose wisely.
+    prefer_single_quotes: true
+    # Good application/packages document everything. But fuck documentation my manager won't gave enough time.
+    public_member_api_docs: false
+    # Blindly follow the Flutter code style, which prefers types everywhere.
+    always_specify_types: false
+    # Back to the 80s.
+    lines_longer_than_80_chars: true
+    # Others I don't have time to document.
+    avoid_types_on_closure_parameters: true
+    avoid_void_async: true
+    await_only_futures: true
+    camel_case_types: true
+    cancel_subscriptions: true
+    constant_identifier_names: true
+    control_flow_in_finally: true
+    directives_ordering: true
+    empty_statements: true
+    hash_and_equals: true
+    implementation_imports: true
+    non_constant_identifier_names: true
+    package_api_docs: true
+    package_names: true
+    package_prefixed_library_names: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    test_types_in_equals: true
+    throw_in_finally: true
+    unnecessary_brace_in_string_interps: true
+    unnecessary_getters_setters: true
+    unnecessary_statements: true
