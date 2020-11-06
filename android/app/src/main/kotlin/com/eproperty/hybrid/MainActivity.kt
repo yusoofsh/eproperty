@@ -1,4 +1,4 @@
-package com.eproperty.mobile
+package com.eproperty.hybrid
 
 import io.flutter.embedding.android.FlutterActivity
 
