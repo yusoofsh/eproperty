@@ -1,12 +1,16 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eproperty/routes/router.gr.dart';
-import 'package:eproperty/services/locator_service.dart';
-import 'package:eproperty/values/values.dart';
+import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/route/router.gr.dart';
+import 'package:eproperty/value/value.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void main() {
-  configureDependencies();
+Future<void> initialization() async {
+  await DatabaseHelper().initialize();
+}
+
+Future<void> main() async {
+  await initialization();
 
   runApp(
     // For widgets to be able to read providers, we need to wrap the entire
@@ -20,13 +24,13 @@ void main() {
 
 class App extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(_) {
     return MaterialApp(
       title: CustomStrings.APP_NAME,
-      theme: CustomTheme.lightThemeData,
+      theme: CustomTheme().lightThemeData,
       builder: ExtendedNavigator<Router>(
         router: Router(),
-        initialRoute: Routes.loginScreen,
+        initialRoute: Routes.authView,
       ),
     );
   }
