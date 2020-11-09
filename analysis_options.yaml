@@ -8,15 +8,16 @@ analyzer:
     implicit-casts: true
   exclude:
     - "**/*.g.dart"
+    - "**/*.gr.dart"
 
 linter:
   rules:
     # Use parameter order as in json response.
     always_put_required_named_parameters_first: true
     # Util classes are awesome!
-    avoid_classes_with_only_static_members: false
+    avoid_classes_with_only_static_members: true
     # Make constructors the first thing in every class.
-    sort_constructors_first: false
+    sort_constructors_first: true
     # The new tabs vs. spaces. Choose wisely.
     prefer_single_quotes: true
     # Good application/packages document everything. But fuck documentation my manager won't gave enough time.
