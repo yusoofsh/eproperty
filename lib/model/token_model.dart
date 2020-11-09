@@ -1,5 +1,7 @@
-class TokenModel {
-  TokenModel({this.success, this.message, this.token, this.user});
+import 'base_model.dart';
+
+class TokenModel extends BaseModel {
+  TokenModel({this.token, this.user});
 
   TokenModel.fromJson(dynamic json) {
     success = json['success'];
@@ -8,6 +10,7 @@ class TokenModel {
     user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['success'] = success;
@@ -19,8 +22,6 @@ class TokenModel {
     return map;
   }
 
-  bool success;
-  String message;
   String token;
   User user;
 }

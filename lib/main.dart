@@ -7,6 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<void> initialization() async {
   await DatabaseHelper().initialize();
+
+  LoadingHelper().initialize();
 }
 
 Future<void> main() async {

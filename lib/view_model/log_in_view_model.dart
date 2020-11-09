@@ -28,5 +28,7 @@ class LogInViewModel with ActionMixin {
         .then((_) => callback(const Success()));
   }
 
-  void forgotCredential() {}
+  void goToForgot() {
+    callback(const Forgot());
+  }
 }

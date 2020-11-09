@@ -4,26 +4,25 @@ import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/auth/widget/button_widget.dart';
 import 'package:eproperty/view/auth/widget/text_field_widget.dart';
-import 'package:eproperty/view_model/log_in_view_model.dart';
+import 'package:eproperty/view_model/forgot_view_model.dart';
 import 'package:eproperty/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final viewModelProvider = Provider<LogInViewModel>(
-  (_) => LogInViewModel(),
+final viewModelProvider = Provider<ForgotViewModel>(
+  (_) => ForgotViewModel(),
 );
 
-class LogInView extends StatefulWidget {
+class ForgotInitialView extends StatefulWidget {
   @override
-  _LogInViewState createState() => _LogInViewState();
+  _ForgotInitialViewState createState() => _ForgotInitialViewState();
 }
 
-class _LogInViewState extends State<LogInView> {
-  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+class _ForgotInitialViewState extends State<ForgotInitialView> {
+  final GlobalKey<FormBuilderState> formKeyTwo = GlobalKey<FormBuilderState>();
 
   List<ActionEntry> actions() {
     return [
@@ -40,7 +39,7 @@ class _LogInViewState extends State<LogInView> {
             type: 'success',
           );
 
-          context.navigator.replace('/dashboard-view');
+          context.navigator.push('/forgot-final-view');
         },
       ),
       ActionEntry(
@@ -50,12 +49,6 @@ class _LogInViewState extends State<LogInView> {
             CustomStrings.LOG_IN_FAILURE,
             type: 'failure',
           );
-        },
-      ),
-      ActionEntry(
-        event: const Forgot(),
-        action: (_) {
-          context.navigator.push('/forgot-initial-view');
         },
       ),
     ];
@@ -69,16 +62,12 @@ class _LogInViewState extends State<LogInView> {
   }
 
   @override
-  Widget build(BuildContext context,) {
+  Widget build(
+    BuildContext context,
+  ) {
     final ThemeData theme = Theme.of(context);
-    final height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return FlutterEasyLoading(
       child: GestureDetector(
@@ -106,14 +95,14 @@ class _LogInViewState extends State<LogInView> {
                         height: height * 0.1,
                       ),
                       Text(
-                        CustomStrings.WELCOME_BACK,
+                        CustomStrings.DONT_WORRY,
                         style: theme.textTheme.headline6.copyWith(
                           fontSize: CustomSizes.TEXT_SIZE_20,
                           color: Colors.white,
                         ),
                       ),
                       Text(
-                        CustomStrings.LOG_IN,
+                        CustomStrings.RESET_PASSWORD,
                         style: theme.textTheme.headline4.copyWith(
                           color: Colors.white,
                         ),
@@ -133,7 +122,7 @@ class _LogInViewState extends State<LogInView> {
                   margin: const EdgeInsets.symmetric(
                     horizontal: CustomSizes.MARGIN_20,
                   ),
-                  child: BuildForm(formKey),
+                  child: const BuildForm(),
                 ),
               ],
             ),
@@ -144,10 +133,15 @@ class _LogInViewState extends State<LogInView> {
   }
 }
 
-class BuildForm extends StatelessWidget {
-  const BuildForm(this.formKey);
+class BuildForm extends StatefulWidget {
+  const BuildForm({Key key}) : super(key: key);
 
-  final GlobalKey<FormBuilderState> formKey;
+  @override
+  _BuildFormState createState() => _BuildFormState();
+}
+
+class _BuildFormState extends State<BuildForm> {
+  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -155,64 +149,39 @@ class BuildForm extends StatelessWidget {
 
     return FormBuilder(
       key: formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
           BuildTextField(
             attribute: 'email',
             labelText: CustomStrings.EMAIL_ADDRESS,
+            autovalidateMode: AutovalidateMode.disabled,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.email(),
             ],
           ),
-          const CustomSpaces(height: 8),
-          BuildTextField(
-            attribute: 'password',
-            labelText: CustomStrings.PASSWORD,
-            obscureText: true,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.maxLength(24),
-            ],
-            suffixIcon: const Icon(
-              FeatherIcons.lock,
-              color: Colors.black87,
-            ),
-          ),
           const CustomSpaces(height: 12),
           Row(
             children: [
-              InkWell(
-                onTap: () {
-                  context.read(viewModelProvider).goToForgot();
-                },
-                child: Text(
-                  CustomStrings.FORGOT_PASSWORD,
-                  style: theme.textTheme.subtitle2.copyWith(
-                    color: Colors.black87,
-                    fontSize: CustomSizes.TEXT_SIZE_14,
-                  ),
-                ),
-              ),
+              const SizedBox(),
               const Spacer(),
               BuildButton(
-                title: CustomStrings.LOG_IN,
+                title: CustomStrings.REQUEST_CODE,
                 theme: theme,
                 onPressed: () {
-                  FocusHelper(context).unfocus();
-
                   final formState = formKey.currentState;
+
+                  FocusHelper(context).unfocus();
 
                   if (formState.saveAndValidate()) {
                     context
                         .read(viewModelProvider)
-                        .requestAuthentication(formState.value);
+                        .requestForgot(formState.value);
                   }
                 },
-              )
+              ),
             ],
-          ),
+          )
         ],
       ),
     );

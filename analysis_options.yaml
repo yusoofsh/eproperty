@@ -6,6 +6,9 @@ analyzer:
     missing_required_param: error
   strong-mode:
     implicit-casts: true
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.gr.dart"
 
 linter:
   rules:

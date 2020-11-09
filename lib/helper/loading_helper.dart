@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LoadingHelper {
-  LoadingHelper() {
-    initialize();
-  }
-
   void initialize() {
     EasyLoading.instance
       ..displayDuration = const Duration(seconds: 2)
@@ -24,12 +20,10 @@ class LoadingHelper {
     String message, {
     String type,
   }) {
-    const Duration _duration = Duration(seconds: 4);
-
     if (type == 'success') {
-      EasyLoading.showSuccess(message, duration: _duration);
+      EasyLoading.showSuccess(message);
     } else if (type == 'failure') {
-      EasyLoading.showError(message, duration: _duration);
+      EasyLoading.showError(message);
     } else {
       EasyLoading.show(status: message);
     }

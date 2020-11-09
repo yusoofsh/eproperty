@@ -4,12 +4,18 @@ class Loading extends EventBase {
   const Loading();
 }
 
+class Success extends EventBase {
+  const Success({this.message});
+
+  final String message;
+}
+
 class Failure extends EventBase {
-  Failure({this.error});
+  const Failure({this.error});
 
   final dynamic error;
 }
 
-class Success extends EventBase {
-  const Success();
+class Forgot extends EventBase {
+  const Forgot();
 }
