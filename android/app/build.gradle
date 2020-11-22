@@ -2,6 +2,7 @@ def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
+        //noinspection GroovyAssignabilityCheck
         localProperties.load(reader)
     }
 }
@@ -37,8 +38,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId 'com.eproperty.mobile'
+        applicationId 'com.eproperty.hybrid'
         minSdkVersion 16
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
