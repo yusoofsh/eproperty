@@ -17,7 +17,7 @@ class _ApiService implements ApiService {
   String baseUrl;
 
   @override
-  Future<TokenModel> authToken() async {
+  Future<UserModel> authToken() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -29,7 +29,7 @@ class _ApiService implements ApiService {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = TokenModel.fromJson(_result.data);
+    final value = UserModel.fromJson(_result.data);
     return value;
   }
 
@@ -64,7 +64,7 @@ class _ApiService implements ApiService {
     final _result = await _dio.request<Map<String, dynamic>>('/auth/reset',
         queryParameters: queryParameters,
         options: RequestOptions(
-            method: 'PATCH',
+            method: 'POST',
             headers: <String, dynamic>{},
             extra: _extra,
             baseUrl: baseUrl),

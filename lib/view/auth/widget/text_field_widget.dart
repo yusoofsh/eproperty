@@ -7,18 +7,22 @@ class BuildTextField extends StatelessWidget {
   const BuildTextField({
     @required this.attribute,
     @required this.labelText,
-    this.autovalidateMode,
     this.obscureText,
-    this.validators,
+    this.autoCorrect,
     this.suffixIcon,
+    this.keyboardType,
+    this.autoValidateMode,
+    this.validators,
     Key key,
   }) : super(key: key);
 
   final String attribute;
   final String labelText;
   final bool obscureText;
+  final bool autoCorrect;
   final Icon suffixIcon;
-  final AutovalidateMode autovalidateMode;
+  final TextInputType keyboardType;
+  final AutovalidateMode autoValidateMode;
   final List<FormFieldValidator> validators;
 
   @override
@@ -26,6 +30,9 @@ class BuildTextField extends StatelessWidget {
     return FormBuilderTextField(
       attribute: attribute,
       obscureText: obscureText ?? false,
+      autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
+      autocorrect: autoCorrect ?? true,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: CustomStyles.customTextStyle(),

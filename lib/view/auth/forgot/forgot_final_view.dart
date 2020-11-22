@@ -7,7 +7,6 @@ import 'package:eproperty/view/auth/widget/text_field_widget.dart';
 import 'package:eproperty/view_model/forgot_view_model.dart';
 import 'package:eproperty/widget/widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,15 +21,14 @@ class ForgotFinalView extends StatefulWidget {
 }
 
 class _ForgotFinalViewState extends State<ForgotFinalView> {
-  final GlobalKey<FormBuilderState> formKeyTwo = GlobalKey<FormBuilderState>();
-
   List<ActionEntry> actions() {
     return [
       ActionEntry(
-          event: const Loading(),
-          action: (_) {
-            LoadingHelper().show(CustomStrings.PLEASE_WAIT);
-          }),
+        event: const Loading(),
+        action: (_) {
+          LoadingHelper().show(CustomStrings.PLEASE_WAIT);
+        },
+      ),
       ActionEntry(
         event: const Success(),
         action: (_) {
@@ -69,65 +67,63 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return FlutterEasyLoading(
-      child: GestureDetector(
-        onTap: () {
-          FocusHelper(context).unfocus();
-        },
-        child: Stack(
-          children: <Widget>[
-            CustomClipShadow(
-              clipper: CustomClipperShape(),
-              shadow: const Shadow(
-                blurRadius: 24,
-                color: CustomColors.blue,
-              ),
+    return GestureDetector(
+      onTap: () {
+        FocusHelper(context).unfocus();
+      },
+      child: Stack(
+        children: <Widget>[
+          CustomClipShadow(
+            clipper: CustomClipperShape(),
+            shadow: const Shadow(
+              blurRadius: 24,
+              color: CustomColors.blue,
+            ),
+            child: Container(
+              height: height * 0.4,
+              width: width,
+              color: CustomColors.blue,
               child: Container(
-                height: height * 0.4,
-                width: width,
-                color: CustomColors.blue,
-                child: Container(
-                  margin: const EdgeInsets.only(left: CustomSizes.MARGIN_24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: height * 0.1,
+                margin: const EdgeInsets.only(left: CustomSizes.MARGIN_24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: height * 0.1,
+                    ),
+                    Text(
+                      CustomStrings.DONT_WORRY,
+                      style: theme.textTheme.headline6.copyWith(
+                        fontSize: CustomSizes.TEXT_SIZE_20,
+                        color: Colors.white,
                       ),
-                      Text(
-                        CustomStrings.DONT_WORRY,
-                        style: theme.textTheme.headline6.copyWith(
-                          fontSize: CustomSizes.TEXT_SIZE_20,
-                          color: Colors.white,
-                        ),
+                    ),
+                    Text(
+                      CustomStrings.RESET_PASSWORD,
+                      style: theme.textTheme.headline4.copyWith(
+                        color: Colors.white,
                       ),
-                      Text(
-                        CustomStrings.RESET_PASSWORD,
-                        style: theme.textTheme.headline4.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            ListView(
-              padding: const EdgeInsets.all(CustomSizes.PADDING_0),
-              children: <Widget>[
-                SizedBox(
-                  height: height * 0.45,
+          ),
+          ListView(
+            padding: const EdgeInsets.all(CustomSizes.PADDING_0),
+            children: <Widget>[
+              SizedBox(
+                height: height * 0.45,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: CustomSizes.MARGIN_20,
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: CustomSizes.MARGIN_20,
-                  ),
-                  child: const BuildForm(),
-                ),
-              ],
-            ),
-          ],
-        ),
+                child: const BuildForm(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -141,20 +137,20 @@ class BuildForm extends StatefulWidget {
 }
 
 class _BuildFormState extends State<BuildForm> {
-  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+  final forgotFinalFormKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return FormBuilder(
-      key: formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      key: forgotFinalFormKey,
       child: Column(
         children: [
           BuildTextField(
             attribute: 'code',
             labelText: CustomStrings.CODE,
+            keyboardType: TextInputType.number,
             validators: [
               FormBuilderValidators.required(),
             ],
@@ -183,10 +179,10 @@ class _BuildFormState extends State<BuildForm> {
               const SizedBox(),
               const Spacer(),
               BuildButton(
-                title: CustomStrings.RESET_PASSWORD,
+                title: CustomStrings.RESET,
                 theme: theme,
                 onPressed: () {
-                  final formState = formKey.currentState;
+                  final formState = forgotFinalFormKey.currentState;
 
                   FocusHelper(context).unfocus();
 

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eproperty/repository/token_repository.dart';
+import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class AuthView extends StatefulWidget {
@@ -9,7 +9,7 @@ class AuthView extends StatefulWidget {
 
 class _AuthViewState extends State<AuthView> {
   Future<void> isTokenExist() async {
-    final token = await TokenRepository().store('get');
+    final token = await UserRepository().store('get');
     if (token != null) {
       context.navigator.replace('/dashboard-view');
     } else {

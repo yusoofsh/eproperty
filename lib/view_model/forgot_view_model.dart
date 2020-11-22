@@ -3,31 +3,33 @@ import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/repository/forgot_repository.dart';
 
 class ForgotViewModel with ActionMixin {
-  final repository = ForgotRepository();
+  final forgotRepository = ForgotRepository();
+  final databaseHelper = DatabaseHelper();
 
-  Future<void> requestForgot(Map<String, dynamic> body) async {
+  Future<void> requestForgot(Map<String, dynamic> value) async {
     callback(const Loading());
 
-    final _mainBox = await DatabaseHelper().openBox('main');
-    _mainBox.put('email', body['email']);
+    final _tempBox = await databaseHelper.openBox('temp');
+    _tempBox.put('email', value['email']);
 
-    await repository
-        .requestForgot(body)
-        .then((value) => callback(const Success()))
+    await forgotRepository
+        .requestForgot(value)
+        .then((_) => callback(const Success()))
         .catchError((error) => callback(Failure(error: error)));
   }
 
-  Future<void> requestReset(Map<String, dynamic> body) async {
+  Future<void> requestReset(Map<String, dynamic> value) async {
     callback(const Loading());
 
-    final _mainBox = await DatabaseHelper().openBox('main');
-    final _email = _mainBox.get('email');
+    final _tempBox = databaseHelper.box('temp');
+    final _email = _tempBox.get('email');
+    value['email'] = _email;
 
-    body['email'] = _email;
-
-    await repository
-        .requestReset(body)
-        .then((_) => callback(const Success()))
+    await forgotRepository
+        .requestReset(value)
+        .then((_) => _tempBox
+            .deleteFromDisk()
+            .whenComplete(() => callback(const Success())))
         .catchError((error) => callback(Failure(error: error)));
   }
 }

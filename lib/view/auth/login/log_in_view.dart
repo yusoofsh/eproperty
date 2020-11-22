@@ -7,7 +7,6 @@ import 'package:eproperty/view/auth/widget/text_field_widget.dart';
 import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:eproperty/widget/widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,15 +22,14 @@ class LogInView extends StatefulWidget {
 }
 
 class _LogInViewState extends State<LogInView> {
-  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-
   List<ActionEntry> actions() {
     return [
       ActionEntry(
-          event: const Loading(),
-          action: (_) {
-            LoadingHelper().show(CustomStrings.PLEASE_WAIT);
-          }),
+        event: const Loading(),
+        action: (_) {
+          LoadingHelper().show(CustomStrings.PLEASE_WAIT);
+        },
+      ),
       ActionEntry(
         event: const Success(),
         action: (_) {
@@ -69,93 +67,89 @@ class _LogInViewState extends State<LogInView> {
   }
 
   @override
-  Widget build(BuildContext context,) {
+  Widget build(
+    BuildContext context,
+  ) {
     final ThemeData theme = Theme.of(context);
-    final height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
-    return FlutterEasyLoading(
-      child: GestureDetector(
-        onTap: () {
-          FocusHelper(context).unfocus();
-        },
-        child: Stack(
-          children: <Widget>[
-            CustomClipShadow(
-              clipper: CustomClipperShape(),
-              shadow: const Shadow(
-                blurRadius: 24,
-                color: CustomColors.blue,
-              ),
+    return GestureDetector(
+      onTap: () {
+        FocusHelper(context).unfocus();
+      },
+      child: Stack(
+        children: <Widget>[
+          CustomClipShadow(
+            clipper: CustomClipperShape(),
+            shadow: const Shadow(
+              blurRadius: 24,
+              color: CustomColors.blue,
+            ),
+            child: Container(
+              height: height * 0.4,
+              width: width,
+              color: CustomColors.blue,
               child: Container(
-                height: height * 0.4,
-                width: width,
-                color: CustomColors.blue,
-                child: Container(
-                  margin: const EdgeInsets.only(left: CustomSizes.MARGIN_24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: height * 0.1,
+                margin: const EdgeInsets.only(left: CustomSizes.MARGIN_24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: height * 0.1,
+                    ),
+                    Text(
+                      CustomStrings.WELCOME_BACK,
+                      style: theme.textTheme.headline6.copyWith(
+                        fontSize: CustomSizes.TEXT_SIZE_20,
+                        color: Colors.white,
                       ),
-                      Text(
-                        CustomStrings.WELCOME_BACK,
-                        style: theme.textTheme.headline6.copyWith(
-                          fontSize: CustomSizes.TEXT_SIZE_20,
-                          color: Colors.white,
-                        ),
+                    ),
+                    Text(
+                      CustomStrings.LOG_IN,
+                      style: theme.textTheme.headline4.copyWith(
+                        color: Colors.white,
                       ),
-                      Text(
-                        CustomStrings.LOG_IN,
-                        style: theme.textTheme.headline4.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            ListView(
-              padding: const EdgeInsets.all(CustomSizes.PADDING_0),
-              children: <Widget>[
-                SizedBox(
-                  height: height * 0.45,
+          ),
+          ListView(
+            padding: const EdgeInsets.all(CustomSizes.PADDING_0),
+            children: <Widget>[
+              SizedBox(
+                height: height * 0.45,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: CustomSizes.MARGIN_20,
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: CustomSizes.MARGIN_20,
-                  ),
-                  child: BuildForm(formKey),
-                ),
-              ],
-            ),
-          ],
-        ),
+                child: BuildForm(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
-class BuildForm extends StatelessWidget {
-  const BuildForm(this.formKey);
+class BuildForm extends StatefulWidget {
+  @override
+  _BuildFormState createState() => _BuildFormState();
+}
 
-  final GlobalKey<FormBuilderState> formKey;
+class _BuildFormState extends State<BuildForm> {
+  final logInFormKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return FormBuilder(
-      key: formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      key: logInFormKey,
       child: Column(
         children: [
           BuildTextField(
@@ -202,7 +196,7 @@ class BuildForm extends StatelessWidget {
                 onPressed: () {
                   FocusHelper(context).unfocus();
 
-                  final formState = formKey.currentState;
+                  final formState = logInFormKey.currentState;
 
                   if (formState.saveAndValidate()) {
                     context

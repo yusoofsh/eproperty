@@ -10,6 +10,8 @@ class DatabaseHelper {
 
   List<int> generateSecureKey() => _hive.generateSecureKey();
 
+  Box box(String name) => _hive.box(name);
+
   Future<Box> openBox(String box, {List<int> key}) {
     return _hive.openBox(
       box,

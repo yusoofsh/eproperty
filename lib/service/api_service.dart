@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:eproperty/model/base_model.dart';
-import 'package:eproperty/model/token_model.dart';
+import 'package:eproperty/model/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_service.g.dart';
@@ -10,11 +10,11 @@ abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   @POST('/auth/token')
-  Future<TokenModel> authToken();
+  Future<UserModel> authToken();
 
   @POST('/auth/forgot')
   Future<BaseModel> authForgot(@Body() Map<String, dynamic> body);
 
-  @PATCH('/auth/reset')
+  @POST('/auth/reset')
   Future<BaseModel> authReset(@Body() Map<String, dynamic> body);
 }

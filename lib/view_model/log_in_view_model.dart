@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:action_mixin/action_mixin.dart';
 import 'package:eproperty/helper/event_helper.dart';
-import 'package:eproperty/repository/token_repository.dart';
+import 'package:eproperty/repository/user_repository.dart';
 
 class LogInViewModel with ActionMixin {
-  final repository = TokenRepository();
+  final repository = UserRepository();
 
   Future<void> requestAuthentication(Map<String, dynamic> credential) async {
     callback(const Loading());
@@ -16,15 +16,15 @@ class LogInViewModel with ActionMixin {
 
     await repository
         .request(authentication)
-        .then((value) => storeResponse(value))
+        .then((response) => storeResponse(response))
         .catchError((error) => callback(Failure(error: error)));
   }
 
-  Future<void> storeResponse(String token) async {
+  Future<void> storeResponse(Map<String, dynamic> data) async {
     callback(const Loading());
 
     await repository
-        .store('put', token: token)
+        .store('put', data: data)
         .then((_) => callback(const Success()));
   }
 

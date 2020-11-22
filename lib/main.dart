@@ -3,6 +3,7 @@ import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:flutter/material.dart' hide Router;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<void> initialization() async {
@@ -30,9 +31,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: CustomStrings.APP_NAME,
       theme: CustomTheme().lightThemeData,
-      builder: ExtendedNavigator<Router>(
+      onGenerateRoute: Router(),
+      builder: ExtendedNavigator.builder<Router>(
         router: Router(),
         initialRoute: Routes.authView,
+        builder: (context, navigator) => FlutterEasyLoading(child: navigator),
       ),
     );
   }
