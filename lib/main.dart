@@ -4,7 +4,7 @@ import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> initialization() async {
   await DatabaseHelper().initialize();
