@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:eproperty/model/base_model.dart';
+import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/model/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -17,4 +18,7 @@ abstract class ApiService {
 
   @POST('/auth/reset')
   Future<BaseModel> authReset(@Body() Map<String, dynamic> body);
+
+  @GET('/companies/active')
+  Future<CompaniesModel> companiesActive(@Header('Authorization') String token);
 }

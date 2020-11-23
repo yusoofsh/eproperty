@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/auth/widget/button_widget.dart';
-import 'package:eproperty/view/auth/widget/text_field_widget.dart';
+import 'package:eproperty/view/auth/widget/field_widget.dart';
 import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:eproperty/widget/widget.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class _LogInViewState extends State<LogInView> {
             type: 'success',
           );
 
-          context.navigator.replace('/dashboard-view');
+          context.navigator.replace('/filter-view');
         },
       ),
       ActionEntry(
@@ -151,7 +151,8 @@ class _BuildFormState extends State<BuildForm> {
       key: logInFormKey,
       child: Column(
         children: [
-          BuildTextField(
+          BuildField(
+            type: 'text',
             attribute: 'email',
             labelText: CustomStrings.EMAIL_ADDRESS,
             validators: [
@@ -160,7 +161,8 @@ class _BuildFormState extends State<BuildForm> {
             ],
           ),
           const CustomSpaces(height: 8),
-          BuildTextField(
+          BuildField(
+            type: 'text',
             attribute: 'password',
             labelText: CustomStrings.PASSWORD,
             obscureText: true,

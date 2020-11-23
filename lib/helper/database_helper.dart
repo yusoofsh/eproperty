@@ -12,7 +12,7 @@ class DatabaseHelper {
 
   Box box(String name) => _hive.box(name);
 
-  Future<Box> openBox(String box, {List<int> key}) {
+  Future<Box> open(String box, {List<int> key}) {
     return _hive.openBox(
       box,
       encryptionCipher: key != null ? HiveAesCipher(key) : null,

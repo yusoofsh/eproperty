@@ -4,22 +4,23 @@ import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/auth/widget/button_widget.dart';
 import 'package:eproperty/view/auth/widget/field_widget.dart';
-import 'package:eproperty/view_model/forgot_view_model.dart';
+import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:eproperty/widget/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final viewModelProvider = Provider<ForgotViewModel>(
-  (_) => ForgotViewModel(),
+final filterViewModelProvider = Provider<FilterViewModel>(
+  (_) => FilterViewModel(),
 );
 
-class ForgotFinalView extends StatefulWidget {
+class FilterView extends StatefulWidget {
   @override
-  _ForgotFinalViewState createState() => _ForgotFinalViewState();
+  _FilterViewState createState() => _FilterViewState();
 }
 
-class _ForgotFinalViewState extends State<ForgotFinalView> {
+class _FilterViewState extends State<FilterView> {
   List<ActionEntry> actions() {
     return [
       ActionEntry(
@@ -36,7 +37,7 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
             type: 'success',
           );
 
-          context.navigator.replace('/log-in-view');
+          context.navigator.replace('/filter-view');
         },
       ),
       ActionEntry(
@@ -48,6 +49,12 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
           );
         },
       ),
+      ActionEntry(
+        event: const Forgot(),
+        action: (_) {
+          context.navigator.push('/forgot-initial-view');
+        },
+      ),
     ];
   }
 
@@ -55,7 +62,9 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
   void initState() {
     super.initState();
 
-    context.read(viewModelProvider).initActions(actions());
+    context.read(filterViewModelProvider).initActions(actions());
+
+    context.read(filterViewModelProvider).populate();
   }
 
   @override
@@ -91,14 +100,14 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
                       height: height * 0.1,
                     ),
                     Text(
-                      CustomStrings.DONT_WORRY,
+                      CustomStrings.WELCOME_BACK,
                       style: theme.textTheme.headline6.copyWith(
                         fontSize: CustomSizes.TEXT_SIZE_20,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      CustomStrings.RESET_PASSWORD,
+                      CustomStrings.LOG_IN,
                       style: theme.textTheme.headline4.copyWith(
                         color: Colors.white,
                       ),
@@ -118,7 +127,7 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
                 margin: const EdgeInsets.symmetric(
                   horizontal: CustomSizes.MARGIN_20,
                 ),
-                child: const BuildForm(),
+                child: BuildForm(),
               ),
             ],
           ),
@@ -129,74 +138,66 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
 }
 
 class BuildForm extends StatefulWidget {
-  const BuildForm({Key key}) : super(key: key);
-
   @override
   _BuildFormState createState() => _BuildFormState();
 }
 
 class _BuildFormState extends State<BuildForm> {
-  final forgotFinalFormKey = GlobalKey<FormBuilderState>();
+  final logInFormKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return FormBuilder(
-      key: forgotFinalFormKey,
+      key: logInFormKey,
       child: Column(
         children: [
           BuildField(
-            type: 'text',
-            attribute: 'code',
-            labelText: CustomStrings.CODE,
-            keyboardType: TextInputType.number,
+            type: 'drop',
+            attribute: 'companies',
+            labelText: CustomStrings.EMAIL_ADDRESS,
             validators: [
               FormBuilderValidators.required(),
+              FormBuilderValidators.email(),
             ],
           ),
           const CustomSpaces(height: 8),
           BuildField(
-            type: 'text',
-            attribute: 'newPassword',
+            type: 'drop',
+            attribute: 'project',
+            labelText: CustomStrings.PASSWORD,
             obscureText: true,
-            labelText: CustomStrings.NEW_PASSWORD,
             validators: [
               FormBuilderValidators.required(),
+              FormBuilderValidators.maxLength(24),
             ],
-          ),
-          const CustomSpaces(height: 8),
-          BuildField(
-            type: 'text',
-            attribute: 'confirmNewPassword',
-            obscureText: true,
-            labelText: CustomStrings.CONFIRM_NEW_PASSWORD,
-            validators: [
-              FormBuilderValidators.required(),
-            ],
+            suffixIcon: const Icon(
+              FeatherIcons.lock,
+              color: Colors.black87,
+            ),
           ),
           const CustomSpaces(height: 12),
           Row(
             children: [
-              const SizedBox(),
               const Spacer(),
               BuildButton(
-                title: CustomStrings.RESET,
+                title: CustomStrings.LOG_IN,
                 theme: theme,
                 onPressed: () {
-                  final formState = forgotFinalFormKey.currentState;
-
                   FocusHelper(context).unfocus();
+
+                  final formState = logInFormKey.currentState;
 
                   if (formState.saveAndValidate()) {
                     context
-                        .read(viewModelProvider)
-                        .requestReset(formState.value);
+                        .read(filterViewModelProvider)
+                        .request(formState.value);
                   }
                 },
-              ),
+              )
             ],
-          )
+          ),
         ],
       ),
     );

@@ -54,3 +54,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+scripts:
+  build: fvm flutter pub run build_runner build --delete-conflicting-outputs

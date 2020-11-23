@@ -9,9 +9,9 @@ class AuthView extends StatefulWidget {
 
 class _AuthViewState extends State<AuthView> {
   Future<void> isTokenExist() async {
-    final token = await UserRepository().store('get');
+    final token = await UserRepository().store('get', name: 'token');
     if (token != null) {
-      context.navigator.replace('/dashboard-view');
+      context.navigator.replace('/filter-view');
     } else {
       context.navigator.replace('/log-in-view');
     }
