@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:eproperty/widget/widget.dart';
+import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:flutter/material.dart';
 
 class BuildButton extends StatelessWidget {
