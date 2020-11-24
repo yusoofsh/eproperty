@@ -1,5 +1,4 @@
 import 'package:action_mixin/action_mixin.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/auth/widget/button_widget.dart';
@@ -7,7 +6,6 @@ import 'package:eproperty/view/auth/widget/field_widget.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,32 +25,6 @@ class _FilterViewState extends State<FilterView> {
         event: const Loading(),
         action: (_) {
           LoadingHelper().show(CustomStrings.PLEASE_WAIT);
-        },
-      ),
-      ActionEntry(
-        event: const Success(),
-        action: (_) {
-          LoadingHelper().show(
-            CustomStrings.LOG_IN_SUCCESS,
-            type: 'success',
-          );
-
-          context.navigator.replace('/filter-view');
-        },
-      ),
-      ActionEntry(
-        event: const Failure(),
-        action: (_) {
-          LoadingHelper().show(
-            CustomStrings.LOG_IN_FAILURE,
-            type: 'failure',
-          );
-        },
-      ),
-      ActionEntry(
-        event: const Forgot(),
-        action: (_) {
-          context.navigator.push('/forgot-initial-view');
         },
       ),
     ];
@@ -100,14 +72,14 @@ class _FilterViewState extends State<FilterView> {
                       height: height * 0.1,
                     ),
                     Text(
-                      CustomStrings.WELCOME_BACK,
+                      CustomStrings.FILL_REQUIRED,
                       style: theme.textTheme.headline6.copyWith(
                         fontSize: CustomSizes.TEXT_SIZE_20,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      CustomStrings.LOG_IN,
+                      CustomStrings.FILTER,
                       style: theme.textTheme.headline4.copyWith(
                         color: Colors.white,
                       ),
@@ -154,9 +126,9 @@ class _BuildFormState extends State<BuildForm> {
       child: Column(
         children: [
           BuildField(
-            type: 'drop',
+            type: 'text',
             attribute: 'companies',
-            labelText: CustomStrings.EMAIL_ADDRESS,
+            labelText: CustomStrings.COMPANY,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.email(),
@@ -164,25 +136,20 @@ class _BuildFormState extends State<BuildForm> {
           ),
           const CustomSpaces(height: 8),
           BuildField(
-            type: 'drop',
+            type: 'text',
             attribute: 'project',
-            labelText: CustomStrings.PASSWORD,
-            obscureText: true,
+            labelText: CustomStrings.PROJECT,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.maxLength(24),
             ],
-            suffixIcon: const Icon(
-              FeatherIcons.lock,
-              color: Colors.black87,
-            ),
           ),
           const CustomSpaces(height: 12),
           Row(
             children: [
               const Spacer(),
               BuildButton(
-                title: CustomStrings.LOG_IN,
+                title: CustomStrings.DONE,
                 theme: theme,
                 onPressed: () {
                   FocusHelper(context).unfocus();

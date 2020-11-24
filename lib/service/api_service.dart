@@ -11,14 +11,22 @@ abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   @POST('/auth/token')
-  Future<UserModel> authToken();
+  Future<UserModel> authToken(
+    @Header('authorization') String authentication,
+  );
 
   @POST('/auth/forgot')
-  Future<BaseModel> authForgot(@Body() Map<String, dynamic> body);
+  Future<BaseModel> authForgot(
+    @Body() Map<String, dynamic> body,
+  );
 
   @POST('/auth/reset')
-  Future<BaseModel> authReset(@Body() Map<String, dynamic> body);
+  Future<BaseModel> authReset(
+    @Body() Map<String, dynamic> body,
+  );
 
   @GET('/companies/active')
-  Future<CompaniesModel> companiesActive(@Header('Authorization') String token);
+  Future<CompaniesModel> companiesActive(
+    @Header('authorization') String authentication,
+  );
 }

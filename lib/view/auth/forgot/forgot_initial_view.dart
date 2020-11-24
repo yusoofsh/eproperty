@@ -31,6 +31,11 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
       ActionEntry(
         event: const Success(),
         action: (_) {
+          LoadingHelper().show(
+            CustomStrings.SUCCESS,
+            type: 'success',
+          );
+
           context.navigator.push('/forgot-final-view');
         },
       ),
@@ -38,7 +43,7 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
         event: const Failure(),
         action: (_) {
           LoadingHelper().show(
-            CustomStrings.LOG_IN_FAILURE,
+            CustomStrings.FAILURE,
             type: 'failure',
           );
         },

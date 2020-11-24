@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:eproperty/helper/helper.dart';
@@ -8,10 +7,8 @@ class UserRepository {
   dynamic payload;
 
   Future<dynamic> request(String authentication) async {
-    dio.options.headers[HttpHeaders.authorizationHeader] = authentication;
-
     await ApiService(dio)
-        .authToken()
+        .authToken(authentication)
         .then(
           (response) => payload = {
             'is_logged_in': true,

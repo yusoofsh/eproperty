@@ -17,7 +17,8 @@ class _ApiService implements ApiService {
   String baseUrl;
 
   @override
-  Future<UserModel> authToken() async {
+  Future<UserModel> authToken(authentication) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -25,7 +26,7 @@ class _ApiService implements ApiService {
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
-            headers: <String, dynamic>{},
+            headers: <String, dynamic>{r'authorization': authentication},
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
@@ -84,7 +85,7 @@ class _ApiService implements ApiService {
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
-            headers: <String, dynamic>{r'Authorization': token},
+            headers: <String, dynamic>{r'authorization': token},
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);

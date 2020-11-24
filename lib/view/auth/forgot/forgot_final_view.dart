@@ -32,7 +32,7 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
         event: const Success(),
         action: (_) {
           LoadingHelper().show(
-            CustomStrings.LOG_IN_SUCCESS,
+            CustomStrings.SUCCESS,
             type: 'success',
           );
 
@@ -43,7 +43,7 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
         event: const Failure(),
         action: (_) {
           LoadingHelper().show(
-            CustomStrings.LOG_IN_FAILURE,
+            CustomStrings.FAILURE,
             type: 'failure',
           );
         },
