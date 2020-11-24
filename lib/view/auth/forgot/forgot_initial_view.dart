@@ -6,7 +6,7 @@ import 'package:eproperty/view/auth/widget/button_widget.dart';
 import 'package:eproperty/view/auth/widget/field_widget.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/forgot_view_model.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,14 +25,14 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
       ActionEntry(
         event: const Loading(),
         action: (_) {
-          LoadingHelper().show(CustomStrings.PLEASE_WAIT);
+          LoadingHelper().show(Strings.PLEASE_WAIT);
         },
       ),
       ActionEntry(
         event: const Success(),
         action: (_) {
           LoadingHelper().show(
-            CustomStrings.SUCCESS,
+            Strings.SUCCESS,
             type: 'success',
           );
 
@@ -43,7 +43,7 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
         event: const Failure(),
         action: (_) {
           LoadingHelper().show(
-            CustomStrings.FAILURE,
+            Strings.FAILURE,
             type: 'failure',
           );
         },
@@ -76,14 +76,14 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
             clipper: CustomClipperShape(),
             shadow: const Shadow(
               blurRadius: 24,
-              color: CustomColors.blue,
+              color: Colors.blue,
             ),
             child: Container(
               height: height * 0.4,
               width: width,
-              color: CustomColors.blue,
+              color: Colors.blue,
               child: Container(
-                margin: const EdgeInsets.only(left: CustomSizes.MARGIN_24),
+                margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -91,14 +91,14 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
                       height: height * 0.1,
                     ),
                     Text(
-                      CustomStrings.DONT_WORRY,
+                      Strings.DONT_WORRY,
                       style: theme.textTheme.headline6.copyWith(
-                        fontSize: CustomSizes.TEXT_SIZE_20,
+                        fontSize: Sizes.TEXT_SIZE_20,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      CustomStrings.RESET_PASSWORD,
+                      Strings.RESET_PASSWORD,
                       style: theme.textTheme.headline4.copyWith(
                         color: Colors.white,
                       ),
@@ -109,14 +109,14 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
             ),
           ),
           ListView(
-            padding: const EdgeInsets.all(CustomSizes.PADDING_0),
+            padding: const EdgeInsets.all(Sizes.PADDING_0),
             children: <Widget>[
               SizedBox(
                 height: height * 0.45,
               ),
               Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: CustomSizes.MARGIN_20,
+                  horizontal: Sizes.MARGIN_20,
                 ),
                 child: const BuildForm(),
               ),
@@ -149,7 +149,7 @@ class _BuildFormState extends State<BuildForm> {
           BuildField(
             type: 'text',
             attribute: 'email',
-            labelText: CustomStrings.EMAIL_ADDRESS,
+            labelText: Strings.EMAIL_ADDRESS,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.email(),
@@ -161,7 +161,7 @@ class _BuildFormState extends State<BuildForm> {
               const SizedBox(),
               const Spacer(),
               BuildButton(
-                title: CustomStrings.REQUEST_CODE,
+                title: Strings.REQUEST_CODE,
                 theme: theme,
                 onPressed: () {
                   final formState = forgotInitialFormKey.currentState;

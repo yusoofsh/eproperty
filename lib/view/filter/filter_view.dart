@@ -5,7 +5,7 @@ import 'package:eproperty/view/auth/widget/button_widget.dart';
 import 'package:eproperty/view/auth/widget/field_widget.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +24,7 @@ class _FilterViewState extends State<FilterView> {
       ActionEntry(
         event: const Loading(),
         action: (_) {
-          LoadingHelper().show(CustomStrings.PLEASE_WAIT);
+          LoadingHelper().show(Strings.PLEASE_WAIT);
         },
       ),
     ];
@@ -57,14 +57,14 @@ class _FilterViewState extends State<FilterView> {
             clipper: CustomClipperShape(),
             shadow: const Shadow(
               blurRadius: 24,
-              color: CustomColors.blue,
+              color: Colors.blue,
             ),
             child: Container(
               height: height * 0.4,
               width: width,
-              color: CustomColors.blue,
+              color: Colors.blue,
               child: Container(
-                margin: const EdgeInsets.only(left: CustomSizes.MARGIN_24),
+                margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -72,14 +72,14 @@ class _FilterViewState extends State<FilterView> {
                       height: height * 0.1,
                     ),
                     Text(
-                      CustomStrings.FILL_REQUIRED,
+                      Strings.FILL_REQUIRED,
                       style: theme.textTheme.headline6.copyWith(
-                        fontSize: CustomSizes.TEXT_SIZE_20,
+                        fontSize: Sizes.TEXT_SIZE_20,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      CustomStrings.FILTER,
+                      Strings.FILTER,
                       style: theme.textTheme.headline4.copyWith(
                         color: Colors.white,
                       ),
@@ -90,14 +90,14 @@ class _FilterViewState extends State<FilterView> {
             ),
           ),
           ListView(
-            padding: const EdgeInsets.all(CustomSizes.PADDING_0),
+            padding: const EdgeInsets.all(Sizes.PADDING_0),
             children: <Widget>[
               SizedBox(
                 height: height * 0.45,
               ),
               Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: CustomSizes.MARGIN_20,
+                  horizontal: Sizes.MARGIN_20,
                 ),
                 child: BuildForm(),
               ),
@@ -128,7 +128,7 @@ class _BuildFormState extends State<BuildForm> {
           BuildField(
             type: 'text',
             attribute: 'companies',
-            labelText: CustomStrings.COMPANY,
+            labelText: Strings.COMPANY,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.email(),
@@ -138,7 +138,7 @@ class _BuildFormState extends State<BuildForm> {
           BuildField(
             type: 'text',
             attribute: 'project',
-            labelText: CustomStrings.PROJECT,
+            labelText: Strings.PROJECT,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.maxLength(24),
@@ -149,7 +149,7 @@ class _BuildFormState extends State<BuildForm> {
             children: [
               const Spacer(),
               BuildButton(
-                title: CustomStrings.DONE,
+                title: Strings.DONE,
                 theme: theme,
                 onPressed: () {
                   FocusHelper(context).unfocus();

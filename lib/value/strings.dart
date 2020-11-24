@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-class CustomStrings {
+class Strings {
   static const String APP_NAME = 'E Property';
   static const String WELCOME_BACK = 'Welcome back,';
   static const String LOG_IN = 'Log In';
