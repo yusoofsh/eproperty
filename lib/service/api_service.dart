@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart' hide Headers;
 import 'package:eproperty/model/base_model.dart';
 import 'package:eproperty/model/companies_model.dart';
@@ -12,7 +14,7 @@ abstract class ApiService {
 
   @POST('/auth/token')
   Future<UserModel> authToken(
-    @Header('authorization') String authentication,
+    @Header(HttpHeaders.authorizationHeader) String basic,
   );
 
   @POST('/auth/forgot')
@@ -27,6 +29,6 @@ abstract class ApiService {
 
   @GET('/companies/active')
   Future<CompaniesModel> companiesActive(
-    @Header('authorization') String authentication,
+    @Header(HttpHeaders.authorizationHeader) String bearer,
   );
 }

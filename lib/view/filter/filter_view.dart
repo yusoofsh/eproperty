@@ -36,7 +36,7 @@ class _FilterViewState extends State<FilterView> {
 
     context.read(filterViewModelProvider).initActions(actions());
 
-    context.read(filterViewModelProvider).populate();
+    context.read(filterViewModelProvider).populateCompanies();
   }
 
   @override
@@ -159,7 +159,7 @@ class _BuildFormState extends State<BuildForm> {
                   if (formState.saveAndValidate()) {
                     context
                         .read(filterViewModelProvider)
-                        .request(formState.value);
+                        .requestFilter(formState.value);
                   }
                 },
               )

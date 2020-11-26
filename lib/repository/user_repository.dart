@@ -9,17 +9,15 @@ class UserRepository {
   Future<dynamic> request(String authentication) async {
     await ApiService(dio)
         .authToken(authentication)
-        .then(
-          (response) => payload = {
-            'is_logged_in': true,
-            'token': response.token,
-            'name': response.user.name,
-            'email': response.user.email,
-            'image': response.user.image,
-            'api_url': response.user.apiUrl,
-            'api_key': response.user.apiKey,
-          },
-        )
+        .then((response) => payload = {
+              'is_logged_in': true,
+              'token': response.token,
+              'name': response.user.name,
+              'email': response.user.email,
+              'image': response.user.image,
+              'api_url': response.user.apiUrl,
+              'api_key': response.user.apiKey,
+            })
         .catchError((error) => payload = error);
 
     return payload;
@@ -45,9 +43,11 @@ class UserRepository {
 
     if (type == 'get') {
       assert(name != null, 'Fill the optional "name" parameter!');
+
       return _userBox.get(name);
     } else if (type == 'put') {
       assert(data != null, 'Fill the optional "data" parameter!');
+
       await _userBox.putAll(data);
     }
   }
