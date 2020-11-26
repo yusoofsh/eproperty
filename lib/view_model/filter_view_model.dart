@@ -11,13 +11,11 @@ class FilterViewModel with ActionMixin {
   Future<void> populateCompanies() async {
     callback(const Loading());
 
-    final url = await userRepository.store('get', name: 'api_url');
-    final token = await userRepository.store('get', name: 'token');
+    final token = 'Bearer ${await userRepository.store('get', name: 'token')}';
 
     await filterRepository
-        .populate('$url/api/admin/v1', 'Bearer $token')
-        .then((_) => callback(const Success()))
-        .catchError((error) => callback(Failure(error: error)));
+        .populate(token)
+        .whenComplete(() => callback(const Dismiss()));
   }
 
   Future<void> requestFilter(Map<String, dynamic> credential) async {

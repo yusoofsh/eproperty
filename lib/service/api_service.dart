@@ -14,7 +14,7 @@ abstract class ApiService {
 
   @POST('/auth/token')
   Future<UserModel> authToken(
-    @Header(HttpHeaders.authorizationHeader) String basic,
+    @Header(HttpHeaders.authorizationHeader) String authentication,
   );
 
   @POST('/auth/forgot')
@@ -29,6 +29,6 @@ abstract class ApiService {
 
   @GET('/companies/active')
   Future<CompaniesModel> companiesActive(
-    @Header(HttpHeaders.authorizationHeader) String bearer,
+    @Header(HttpHeaders.authorizationHeader) String authentication,
   );
 }

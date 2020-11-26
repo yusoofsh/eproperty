@@ -9,7 +9,6 @@ class LoadingHelper {
       ..indicatorSize = 32.0
       ..radius = 16.0
       ..backgroundColor = Colors.green
-      ..indicatorColor = Colors.yellow
       ..textColor = Colors.black
       ..maskType = EasyLoadingMaskType.custom
       ..maskColor = Colors.black38;
@@ -26,5 +25,9 @@ class LoadingHelper {
     } else {
       EasyLoading.show(status: message);
     }
+  }
+
+  void dismiss() {
+    EasyLoading.dismiss();
   }
 }

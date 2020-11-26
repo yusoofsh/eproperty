@@ -19,3 +19,7 @@ class Failure extends EventBase {
 class Forgot extends EventBase {
   const Forgot();
 }
+
+class Dismiss extends EventBase {
+  const Dismiss();
+}

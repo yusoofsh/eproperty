@@ -27,6 +27,12 @@ class _FilterViewState extends State<FilterView> {
           LoadingHelper().show(Strings.PLEASE_WAIT);
         },
       ),
+      ActionEntry(
+        event: const Dismiss(),
+        action: (_) {
+          LoadingHelper().dismiss();
+        },
+      ),
     ];
   }
 

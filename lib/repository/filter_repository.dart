@@ -4,11 +4,11 @@ import 'package:eproperty/service/api_service.dart';
 class FilterRepository {
   dynamic payload;
 
-  ApiService api(String baseUrl) => ApiService(dio, baseUrl: baseUrl);
+  ApiService api = ApiService(dio);
 
-  Future<dynamic> populate(String baseUrl, String bearer) async {
-    await api(baseUrl)
-        .companiesActive(bearer)
+  Future<dynamic> populate(String token) async {
+    await api
+        .companiesActive(token)
         .then((value) => payload = value)
         .catchError((error) => payload = error);
 
