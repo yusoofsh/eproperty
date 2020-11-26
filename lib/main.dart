@@ -29,8 +29,8 @@ class App extends StatelessWidget {
   @override
   Widget build(_) {
     return MaterialApp(
-      title: CustomStrings.APP_NAME,
-      theme: CustomTheme().lightThemeData,
+      title: Strings.APP_NAME,
+      theme: Themes().lightThemeData,
       onGenerateRoute: Router(),
       builder: ExtendedNavigator.builder<Router>(
         router: Router(),

@@ -17,7 +17,8 @@ class _ApiService implements ApiService {
   String baseUrl;
 
   @override
-  Future<UserModel> authToken() async {
+  Future<UserModel> authToken(basic) async {
+    ArgumentError.checkNotNull(basic, 'basic');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -25,7 +26,7 @@ class _ApiService implements ApiService {
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
-            headers: <String, dynamic>{},
+            headers: <String, dynamic>{r'authorization': basic},
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
@@ -70,6 +71,25 @@ class _ApiService implements ApiService {
             baseUrl: baseUrl),
         data: _data);
     final value = BaseModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<CompaniesModel> companiesActive(bearer) async {
+    ArgumentError.checkNotNull(bearer, 'bearer');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/companies/active',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'authorization': bearer},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CompaniesModel.fromJson(_result.data);
     return value;
   }
 }

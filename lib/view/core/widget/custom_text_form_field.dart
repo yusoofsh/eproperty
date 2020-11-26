@@ -1,5 +1,5 @@
 import 'package:eproperty/value/value.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter/services.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -16,9 +16,9 @@ class CustomTextFormField extends StatelessWidget {
     this.contentPadding,
     this.textFormFieldMargin,
     this.hasTitle = false,
-    this.border = CustomBorders.primaryInputBorder,
-    this.focusedBorder = CustomBorders.focusedBorder,
-    this.enabledBorder = CustomBorders.enabledBorder,
+    this.border = Borders.primaryInputBorder,
+    this.focusedBorder = Borders.focusedBorder,
+    this.enabledBorder = Borders.enabledBorder,
     this.hintText,
     this.labelText,
     this.hasPrefixIcon = false,

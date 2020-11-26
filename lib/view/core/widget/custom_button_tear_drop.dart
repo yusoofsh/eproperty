@@ -1,5 +1,5 @@
 import 'package:eproperty/value/value.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 
 import 'custom_painters.dart';
 
@@ -11,10 +11,10 @@ class TearDropButton extends StatelessWidget {
     this.radius,
     this.tearDropAlignment = TearDropAlignment.topRight,
     this.buttonTextStyle,
-    this.color = CustomColors.orange,
+    this.color = Colors.orange,
     this.style = PaintingStyle.fill,
     this.onTap,
-    this.elevation = CustomSizes.ELEVATION_8,
+    this.elevation = Sizes.ELEVATION_8,
     this.hasShadow = false,
     this.shadowColor,
   });

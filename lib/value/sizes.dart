@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-class CustomSizes {
+class Sizes {
   static const double HEIGHT_OF_BOTTOM_NAV_BAR = 64.0;
   static const double SAFE_AREA_MARGIN = 24.0;
   static const double SIZE_120 = 120.0;

@@ -14,18 +14,21 @@ import '../view/auth/forgot/forgot_final_view.dart';
 import '../view/auth/forgot/forgot_initial_view.dart';
 import '../view/auth/login/log_in_view.dart';
 import '../view/dashboard/dashboard_view.dart';
+import '../view/filter/filter_view.dart';
 
 class Routes {
   static const String authView = '/';
   static const String logInView = '/log-in-view';
   static const String forgotInitialView = '/forgot-initial-view';
   static const String forgotFinalView = '/forgot-final-view';
+  static const String filterView = '/filter-view';
   static const String dashboardView = '/dashboard-view';
   static const all = <String>{
     authView,
     logInView,
     forgotInitialView,
     forgotFinalView,
+    filterView,
     dashboardView,
   };
 }
@@ -38,6 +41,7 @@ class Router extends RouterBase {
     RouteDef(Routes.logInView, page: LogInView),
     RouteDef(Routes.forgotInitialView, page: ForgotInitialView),
     RouteDef(Routes.forgotFinalView, page: ForgotFinalView),
+    RouteDef(Routes.filterView, page: FilterView),
     RouteDef(Routes.dashboardView, page: DashboardView),
   ];
   @override
@@ -64,6 +68,12 @@ class Router extends RouterBase {
     ForgotFinalView: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ForgotFinalView(),
+        settings: data,
+      );
+    },
+    FilterView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FilterView(),
         settings: data,
       );
     },

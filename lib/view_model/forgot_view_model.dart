@@ -9,7 +9,7 @@ class ForgotViewModel with ActionMixin {
   Future<void> requestForgot(Map<String, dynamic> value) async {
     callback(const Loading());
 
-    final _tempBox = await databaseHelper.openBox('temp');
+    final _tempBox = await databaseHelper.open('temp');
     _tempBox.put('email', value['email']);
 
     await forgotRepository

@@ -1,33 +1,29 @@
-import 'package:flutter/material.dart';
+import 'package:eproperty/value/value.dart';
+import 'package:flutter/material.dart' hide Colors;
 import 'package:google_fonts/google_fonts.dart';
 
-import 'custom_colors.dart';
-import 'custom_sizes.dart';
-
-class CustomStyles {
+class Styles {
   static TextStyle customTextStyle({
-    Color color = CustomColors.black87,
     FontWeight fontWeight = FontWeight.w600,
-    double fontSize = CustomSizes.TEXT_SIZE_14,
+    double fontSize = Sizes.TEXT_SIZE_14,
     FontStyle fontStyle = FontStyle.normal,
   }) {
     return GoogleFonts.poppins(
       fontSize: fontSize,
-      color: color,
+      color: Colors.black87,
       fontWeight: fontWeight,
       fontStyle: fontStyle,
     );
   }
 
   static TextStyle customTextStyle2({
-    Color color = CustomColors.black87,
     FontWeight fontWeight = FontWeight.w600,
-    double fontSize = CustomSizes.TEXT_SIZE_16,
+    double fontSize = Sizes.TEXT_SIZE_16,
     FontStyle fontStyle = FontStyle.normal,
   }) {
     return GoogleFonts.roboto(
       fontSize: fontSize,
-      color: color,
+      color: Colors.black87,
       fontWeight: fontWeight,
       fontStyle: fontStyle,
     );

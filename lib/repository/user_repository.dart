@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:eproperty/helper/helper.dart';
@@ -8,42 +7,47 @@ class UserRepository {
   dynamic payload;
 
   Future<dynamic> request(String authentication) async {
-    dio.options.headers[HttpHeaders.authorizationHeader] = authentication;
-
     await ApiService(dio)
-        .authToken()
-        .then(
-          (response) => payload = {
-            'token': response.token,
-            'name': response.user.name,
-            'email': response.user.email,
-            'image': response.user.image,
-            'apiUrl': response.user.apiUrl,
-            'apiKey': response.user.apiKey,
-          },
-        )
+        .authToken(authentication)
+        .then((response) => payload = {
+              'is_logged_in': true,
+              'token': response.token,
+              'name': response.user.name,
+              'email': response.user.email,
+              'image': response.user.image,
+              'api_url': response.user.apiUrl,
+              'api_key': response.user.apiKey,
+            })
         .catchError((error) => payload = error);
 
     return payload;
   }
 
-  Future<dynamic> store(String type, {Map<String, dynamic> data}) async {
+  Future<dynamic> store(
+    String type, {
+    String name,
+    Map<String, dynamic> data,
+  }) async {
     final _helper = DatabaseHelper();
 
-    final _secureBox = await _helper.openBox('secure');
+    final _secureBox = await _helper.open('secure');
     if (!_helper.containsKey(_secureBox, 'key')) {
       await _secureBox.put('key', _helper.generateSecureKey());
     }
 
     final _key = _secureBox.get('key') as Uint8List;
-    final _userBox = await _helper.openBox(
+    final _userBox = await _helper.open(
       'user',
       key: _key,
     );
 
     if (type == 'get') {
-      return _userBox.get('token');
+      assert(name != null, 'Fill the optional "name" parameter!');
+
+      return _userBox.get(name);
     } else if (type == 'put') {
+      assert(data != null, 'Fill the optional "data" parameter!');
+
       await _userBox.putAll(data);
     }
   }

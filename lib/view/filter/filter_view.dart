@@ -1,26 +1,24 @@
 import 'package:action_mixin/action_mixin.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/auth/widget/button_widget.dart';
 import 'package:eproperty/view/auth/widget/field_widget.dart';
-import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final viewModelProvider = Provider<LogInViewModel>(
-  (_) => LogInViewModel(),
+final filterViewModelProvider = Provider<FilterViewModel>(
+  (_) => FilterViewModel(),
 );
 
-class LogInView extends StatefulWidget {
+class FilterView extends StatefulWidget {
   @override
-  _LogInViewState createState() => _LogInViewState();
+  _FilterViewState createState() => _FilterViewState();
 }
 
-class _LogInViewState extends State<LogInView> {
+class _FilterViewState extends State<FilterView> {
   List<ActionEntry> actions() {
     return [
       ActionEntry(
@@ -30,29 +28,9 @@ class _LogInViewState extends State<LogInView> {
         },
       ),
       ActionEntry(
-        event: const Success(),
+        event: const Dismiss(),
         action: (_) {
-          LoadingHelper().show(
-            Strings.SUCCESS,
-            type: 'success',
-          );
-
-          context.navigator.replace('/filter-view');
-        },
-      ),
-      ActionEntry(
-        event: const Failure(),
-        action: (_) {
-          LoadingHelper().show(
-            Strings.FAILURE,
-            type: 'failure',
-          );
-        },
-      ),
-      ActionEntry(
-        event: const Forgot(),
-        action: (_) {
-          context.navigator.push('/forgot-initial-view');
+          LoadingHelper().dismiss();
         },
       ),
     ];
@@ -62,7 +40,9 @@ class _LogInViewState extends State<LogInView> {
   void initState() {
     super.initState();
 
-    context.read(viewModelProvider).initActions(actions());
+    context.read(filterViewModelProvider).initActions(actions());
+
+    context.read(filterViewModelProvider).populateCompanies();
   }
 
   @override
@@ -98,14 +78,14 @@ class _LogInViewState extends State<LogInView> {
                       height: height * 0.1,
                     ),
                     Text(
-                      Strings.WELCOME_BACK,
+                      Strings.FILL_REQUIRED,
                       style: theme.textTheme.headline6.copyWith(
                         fontSize: Sizes.TEXT_SIZE_20,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      Strings.LOG_IN,
+                      Strings.FILTER,
                       style: theme.textTheme.headline4.copyWith(
                         color: Colors.white,
                       ),
@@ -153,8 +133,8 @@ class _BuildFormState extends State<BuildForm> {
         children: [
           BuildField(
             type: 'text',
-            attribute: 'email',
-            labelText: Strings.EMAIL_ADDRESS,
+            attribute: 'companies',
+            labelText: Strings.COMPANY,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.email(),
@@ -163,36 +143,19 @@ class _BuildFormState extends State<BuildForm> {
           const CustomSpaces(height: 8),
           BuildField(
             type: 'text',
-            attribute: 'password',
-            labelText: Strings.PASSWORD,
-            obscureText: true,
+            attribute: 'project',
+            labelText: Strings.PROJECT,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.maxLength(24),
             ],
-            suffixIcon: const Icon(
-              FeatherIcons.lock,
-              color: Colors.black87,
-            ),
           ),
           const CustomSpaces(height: 12),
           Row(
             children: [
-              InkWell(
-                onTap: () {
-                  context.read(viewModelProvider).goToForgot();
-                },
-                child: Text(
-                  Strings.FORGOT_PASSWORD,
-                  style: theme.textTheme.subtitle2.copyWith(
-                    color: Colors.black87,
-                    fontSize: Sizes.TEXT_SIZE_14,
-                  ),
-                ),
-              ),
               const Spacer(),
               BuildButton(
-                title: Strings.LOG_IN,
+                title: Strings.DONE,
                 theme: theme,
                 onPressed: () {
                   FocusHelper(context).unfocus();
@@ -201,8 +164,8 @@ class _BuildFormState extends State<BuildForm> {
 
                   if (formState.saveAndValidate()) {
                     context
-                        .read(viewModelProvider)
-                        .requestAuthentication(formState.value);
+                        .read(filterViewModelProvider)
+                        .requestFilter(formState.value);
                   }
                 },
               )

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:eproperty/widget/widget.dart';
-import 'package:flutter/material.dart';
+import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:flutter/material.dart' hide Colors;
 
 class BuildButton extends StatelessWidget {
   const BuildButton({
@@ -18,17 +18,17 @@ class BuildButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: CustomSizes.WIDTH_180,
+      width: Sizes.WIDTH_180,
       decoration: Decorations.customBoxDecoration(blurRadius: 10),
       child: CustomButton(
         title: title,
-        elevation: CustomSizes.ELEVATION_8,
+        elevation: Sizes.ELEVATION_8,
         textStyle: theme.textTheme.subtitle2.copyWith(
           color: Colors.white,
           fontWeight: FontWeight.w600,
         ),
-        color: CustomColors.blue,
-        height: CustomSizes.HEIGHT_40,
+        color: Colors.blue,
+        height: Sizes.HEIGHT_40,
         onPressed: onPressed,
       ),
     );

@@ -16,7 +16,7 @@ class LogInViewModel with ActionMixin {
 
     await repository
         .request(authentication)
-        .then((response) => storeResponse(response))
+        .then((value) => storeResponse(value))
         .catchError((error) => callback(Failure(error: error)));
   }
 

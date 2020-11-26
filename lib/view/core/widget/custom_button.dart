@@ -1,5 +1,5 @@
 import 'package:eproperty/value/value.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 
 import 'custom_spaces.dart';
 
@@ -7,11 +7,11 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     this.title,
     this.onPressed,
-    this.height = CustomSizes.HEIGHT_50,
-    this.elevation = CustomSizes.ELEVATION_1,
-    this.borderRadius = CustomSizes.RADIUS_24,
+    this.height = Sizes.HEIGHT_50,
+    this.elevation = Sizes.ELEVATION_1,
+    this.borderRadius = Sizes.RADIUS_24,
     this.color = Colors.black12,
-    this.borderSide = CustomBorders.defaultPrimaryBorder,
+    this.borderSide = Borders.defaultPrimaryBorder,
     this.textStyle,
     this.icon,
     this.hasIcon = false,
