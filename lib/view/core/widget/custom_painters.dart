@@ -1,5 +1,5 @@
 import 'package:eproperty/value/value.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 
 import 'custom_button_tear_drop.dart';
 
@@ -8,11 +8,11 @@ class DrawCircle extends CustomPainter {
     @required this.radius,
     @required this.offset,
     @required this.color,
-    this.elevation = CustomSizes.ELEVATION_8,
+    this.elevation = Sizes.ELEVATION_8,
     this.transparentOccluder = true,
     this.shadowColor,
     this.hasShadow = false,
-    this.shadowOffset = CustomSizes.SIZE_1,
+    this.shadowOffset = Sizes.SIZE_1,
   }) {
     _paint = Paint()
       ..color = color
@@ -60,12 +60,12 @@ class DrawTearDrop extends CustomPainter {
     @required this.offset,
     @required this.color,
     this.strokeWidth = 1.0,
-    this.elevation = CustomSizes.ELEVATION_8,
+    this.elevation = Sizes.ELEVATION_8,
     this.transparentOccluder = true,
     this.paintingStyle = PaintingStyle.fill,
     this.shadowColor,
     this.hasShadow = false,
-    this.shadowOffset = CustomSizes.SIZE_1,
+    this.shadowOffset = Sizes.SIZE_1,
     this.tearDropAlignment = TearDropAlignment.topLeft,
   }) {
     _paint = Paint()

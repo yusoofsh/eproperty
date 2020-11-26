@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 
 @immutable
 class CustomClipShadow extends StatelessWidget {

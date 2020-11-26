@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class BuildField extends StatelessWidget {
@@ -57,10 +57,10 @@ class BuildField extends StatelessWidget {
   InputDecoration decoration() {
     return InputDecoration(
       labelText: labelText,
-      labelStyle: CustomStyles.customTextStyle(),
-      hintStyle: CustomStyles.customTextStyle(),
-      border: CustomBorders.customOutlineInputBorder(),
-      enabledBorder: CustomBorders.customOutlineInputBorder(),
+      labelStyle: Styles.customTextStyle(),
+      hintStyle: Styles.customTextStyle(),
+      border: Borders.customOutlineInputBorder(),
+      enabledBorder: Borders.customOutlineInputBorder(),
       suffixIcon: suffixIcon,
     );
   }

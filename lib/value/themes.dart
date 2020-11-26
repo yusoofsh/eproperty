@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:eproperty/value/value.dart';
+import 'package:flutter/material.dart' hide Colors;
 import 'package:google_fonts/google_fonts.dart';
 
-import 'custom_colors.dart';
-import 'custom_sizes.dart';
-
-class CustomTheme {
+class Themes {
   static final Color lightFillColor = Colors.black;
   static final Color lightFocusColor = Colors.black.withOpacity(0.12);
 
@@ -32,73 +30,73 @@ class CustomTheme {
 
   static final TextTheme textTheme = TextTheme(
     headline1: GoogleFonts.roboto(
-      fontSize: CustomSizes.TEXT_SIZE_96,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_96,
+      color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline2: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_60,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_60,
+      color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline3: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_48,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_48,
+      color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline4: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_34,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_34,
+      color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline5: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_24,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_24,
+      color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline6: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_20,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_20,
+      color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     subtitle1: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_16,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_16,
+      color: Colors.black87,
       fontWeight: semiBold,
       fontStyle: FontStyle.normal,
     ),
     subtitle2: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_14,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_14,
+      color: Colors.black87,
       fontWeight: semiBold,
       fontStyle: FontStyle.normal,
     ),
     bodyText1: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_16,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_16,
+      color: Colors.black87,
       fontWeight: light,
       fontStyle: FontStyle.normal,
     ),
     bodyText2: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_14,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_14,
+      color: Colors.black87,
       fontWeight: light,
       fontStyle: FontStyle.normal,
     ),
     button: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_14,
-      color: CustomColors.black87,
+      fontSize: Sizes.TEXT_SIZE_14,
+      color: Colors.black87,
       fontStyle: FontStyle.normal,
       fontWeight: medium,
     ),
     caption: GoogleFonts.poppins(
-      fontSize: CustomSizes.TEXT_SIZE_12,
+      fontSize: Sizes.TEXT_SIZE_12,
       color: Colors.white,
       fontWeight: regular,
       fontStyle: FontStyle.normal,
@@ -118,7 +116,7 @@ class CustomTheme {
       highlightColor: Colors.transparent,
       accentColor: colorScheme.primary,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      focusColor: CustomColors.primaryColor,
+      focusColor: Colors.primaryColor,
     );
   }
 

@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:eproperty/value/value.dart';
+import 'package:flutter/material.dart' hide Colors;
 
-import 'custom_colors.dart';
-import 'custom_sizes.dart';
-
-class CustomBorders {
+class Borders {
   static const InputBorder defaultBorder = OutlineInputBorder(
     borderSide: BorderSide(
       color: Colors.white,
@@ -14,7 +12,7 @@ class CustomBorders {
 
   static BorderSide customBorder({
     Color color = Colors.black12,
-    double width = CustomSizes.WIDTH_1,
+    double width = Sizes.WIDTH_1,
     BorderStyle style = BorderStyle.solid,
   }) {
     return BorderSide(
@@ -25,7 +23,7 @@ class CustomBorders {
   }
 
   static const BorderSide defaultPrimaryBorder =
-      BorderSide(width: CustomSizes.WIDTH_0, style: BorderStyle.none);
+      BorderSide(width: Sizes.WIDTH_0, style: BorderStyle.none);
 
   static const UnderlineInputBorder noBorder = UnderlineInputBorder(
     borderSide: BorderSide(
@@ -34,9 +32,9 @@ class CustomBorders {
   );
 
   static OutlineInputBorder customOutlineInputBorder({
-    double borderRadius = CustomSizes.RADIUS_12,
-    Color color = CustomColors.primaryColor,
-    double width = CustomSizes.WIDTH_1,
+    double borderRadius = Sizes.RADIUS_12,
+    Color color = Colors.primaryColor,
+    double width = Sizes.WIDTH_1,
     BorderStyle style = BorderStyle.solid,
   }) {
     return OutlineInputBorder(
@@ -50,8 +48,8 @@ class CustomBorders {
   }
 
   static UnderlineInputBorder customUnderlineInputBorder({
-    Color color = CustomColors.primaryColor,
-    double width = CustomSizes.WIDTH_1,
+    Color color = Colors.primaryColor,
+    double width = Sizes.WIDTH_1,
     BorderStyle style = BorderStyle.solid,
   }) {
     return UnderlineInputBorder(
@@ -84,7 +82,7 @@ class CustomBorders {
   static const UnderlineInputBorder focusedBorder = UnderlineInputBorder(
     borderSide: BorderSide(
       color: Colors.black54,
-      width: CustomSizes.WIDTH_2,
+      width: Sizes.WIDTH_2,
     ),
   );
 }

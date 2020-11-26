@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:eproperty/value/value.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LoadingHelper {
   void initialize() {
     EasyLoading.instance
-      ..displayDuration = const Duration(seconds: 2)
       ..indicatorType = EasyLoadingIndicatorType.pulse
       ..loadingStyle = EasyLoadingStyle.light
       ..indicatorSize = 32.0
