@@ -1,15 +1,14 @@
 import 'package:action_mixin/action_mixin.dart';
 import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/auth/widget/button_widget.dart';
-import 'package:eproperty/view/auth/widget/field_widget.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final filterViewModelProvider = Provider<FilterViewModel>(
+final filterViewModelProvider = ChangeNotifierProvider<FilterViewModel>(
   (_) => FilterViewModel(),
 );
 
@@ -41,8 +40,7 @@ class _FilterViewState extends State<FilterView> {
     super.initState();
 
     context.read(filterViewModelProvider).initActions(actions());
-
-    context.read(filterViewModelProvider).populateCompanies();
+    context.read(filterViewModelProvider).prepareData();
   }
 
   @override
@@ -131,30 +129,47 @@ class _BuildFormState extends State<BuildForm> {
       key: logInFormKey,
       child: Column(
         children: [
-          BuildField(
-            type: 'text',
-            attribute: 'companies',
-            labelText: Strings.COMPANY,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email(),
-            ],
-          ),
-          const CustomSpaces(height: 8),
-          BuildField(
-            type: 'text',
-            attribute: 'project',
-            labelText: Strings.PROJECT,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.maxLength(24),
-            ],
+          Consumer(
+            builder: (context, watch, _) {
+              // Listens to the value exposed by counterProvider
+              final items = watch(filterViewModelProvider).companies;
+              final selected = watch(filterViewModelProvider).selectedCompanies;
+
+              return CustomDropdownField(
+                name: 'companies',
+                hintText: Strings.COMPANY,
+                labelText: Strings.COMPANY,
+                items: items.map<DropdownMenuItem<Datum>>(
+                      (value) {
+                    return DropdownMenuItem<Datum>(
+                      value: value,
+                      child: Text(value.name),
+                    );
+                  },
+                ).toList(),
+                onChanged: (value) {
+                  selected(value);
+                },
+                validators: [
+                  FormBuilderValidators.required(context),
+                ],
+              );
+            },
+            child: CustomDropdownField(
+              name: 'companies',
+              hintText: Strings.COMPANY,
+              labelText: Strings.COMPANY,
+              items: const [],
+              validators: [
+                FormBuilderValidators.required(context),
+              ],
+            ),
           ),
           const CustomSpaces(height: 12),
           Row(
             children: [
               const Spacer(),
-              BuildButton(
+              CustomButton(
                 title: Strings.DONE,
                 theme: theme,
                 onPressed: () {

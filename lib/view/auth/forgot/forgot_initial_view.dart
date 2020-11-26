@@ -2,8 +2,6 @@ import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/auth/widget/button_widget.dart';
-import 'package:eproperty/view/auth/widget/field_widget.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/forgot_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
@@ -146,13 +144,13 @@ class _BuildFormState extends State<BuildForm> {
       key: forgotInitialFormKey,
       child: Column(
         children: [
-          BuildField(
-            type: 'text',
-            attribute: 'email',
+          CustomTextField(
+            name: 'email',
+            hintText: Strings.EMAIL_ADDRESS,
             labelText: Strings.EMAIL_ADDRESS,
             validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email(),
+              FormBuilderValidators.required(context),
+              FormBuilderValidators.email(context),
             ],
           ),
           const CustomSpaces(height: 12),
@@ -160,7 +158,7 @@ class _BuildFormState extends State<BuildForm> {
             children: [
               const SizedBox(),
               const Spacer(),
-              BuildButton(
+              CustomButton(
                 title: Strings.REQUEST_CODE,
                 theme: theme,
                 onPressed: () {

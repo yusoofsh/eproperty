@@ -12,12 +12,11 @@ final dio = Dio()
     InterceptorsWrapper(
       onRequest: (options) async {
         // Do something before request is sent.
-
         return options;
       },
       onResponse: (response) async {
         // Do something with response data.
-        return response; // continue
+        return response;
       },
       onError: (error) async {
         // Do something with response error.

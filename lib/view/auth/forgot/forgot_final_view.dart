@@ -2,10 +2,8 @@ import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/auth/widget/button_widget.dart';
-import 'package:eproperty/view/auth/widget/field_widget.dart';
-import 'package:eproperty/view_model/forgot_view_model.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:eproperty/view_model/forgot_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -146,33 +144,33 @@ class _BuildFormState extends State<BuildForm> {
       key: forgotFinalFormKey,
       child: Column(
         children: [
-          BuildField(
-            type: 'text',
-            attribute: 'code',
+          CustomTextField(
+            name: 'code',
+            hintText: Strings.CODE,
             labelText: Strings.CODE,
             keyboardType: TextInputType.number,
             validators: [
-              FormBuilderValidators.required(),
+              FormBuilderValidators.required(context),
             ],
           ),
           const CustomSpaces(height: 8),
-          BuildField(
-            type: 'text',
-            attribute: 'newPassword',
+          CustomTextField(
+            name: 'newPassword',
             obscureText: true,
+            hintText: Strings.NEW_PASSWORD,
             labelText: Strings.NEW_PASSWORD,
             validators: [
-              FormBuilderValidators.required(),
+              FormBuilderValidators.required(context),
             ],
           ),
           const CustomSpaces(height: 8),
-          BuildField(
-            type: 'text',
-            attribute: 'confirmNewPassword',
+          CustomTextField(
+            name: 'confirmNewPassword',
             obscureText: true,
+            hintText: Strings.CONFIRM_NEW_PASSWORD,
             labelText: Strings.CONFIRM_NEW_PASSWORD,
             validators: [
-              FormBuilderValidators.required(),
+              FormBuilderValidators.required(context),
             ],
           ),
           const CustomSpaces(height: 12),
@@ -180,7 +178,7 @@ class _BuildFormState extends State<BuildForm> {
             children: [
               const SizedBox(),
               const Spacer(),
-              BuildButton(
+              CustomButton(
                 title: Strings.RESET,
                 theme: theme,
                 onPressed: () {

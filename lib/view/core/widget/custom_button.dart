@@ -5,50 +5,41 @@ import 'custom_spaces.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
-    this.title,
-    this.onPressed,
-    this.height = Sizes.HEIGHT_50,
-    this.elevation = Sizes.ELEVATION_1,
-    this.borderRadius = Sizes.RADIUS_24,
-    this.color = Colors.black12,
-    this.borderSide = Borders.defaultPrimaryBorder,
-    this.textStyle,
+    @required this.onPressed,
+    @required this.theme,
+    @required this.title,
     this.icon,
-    this.hasIcon = false,
-  });
+    Key key,
+  }) : super(key: key);
 
-  final VoidCallback onPressed;
-
-  final double height;
-  final double elevation;
-  final double borderRadius;
   final String title;
-  final Color color;
-  final BorderSide borderSide;
-  final TextStyle textStyle;
+  final ThemeData theme;
+  final VoidCallback onPressed;
   final Widget icon;
-  final bool hasIcon;
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      color: Colors.blue,
+      minWidth: Sizes.WIDTH_120,
+      elevation: Sizes.ELEVATION_8,
+      height: Sizes.HEIGHT_40,
       onPressed: onPressed,
-      elevation: elevation,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
-        side: borderSide,
+        borderRadius: BorderRadius.circular(Sizes.RADIUS_24),
       ),
-      height: height,
-      color: color,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          if (hasIcon) icon else const SizedBox(),
-          if (hasIcon) const CustomSpaces(width: 8) else const SizedBox(),
+          icon ?? const SizedBox(),
+          if (icon != null) const CustomSpaces(width: 8) else const SizedBox(),
           if (title != null)
             Text(
               title.toUpperCase(),
-              style: textStyle,
+              style: theme.textTheme.button.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
             )
           else
             const SizedBox(),
