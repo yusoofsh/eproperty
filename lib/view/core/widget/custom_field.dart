@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
     @required this.hintText,
     @required this.labelText,
     @required this.name,
+    this.autovalidateMode,
     this.inputFormatters,
     this.keyboardType,
     this.obscureText = false,
@@ -17,9 +18,9 @@ class CustomTextField extends StatelessWidget {
     this.validators,
   });
 
-  final bool obscureText;
+  final AutovalidateMode autovalidateMode;
+  final FormFieldValidator<String> validators;
   final Icon suffixIcon;
-  final List<FormFieldValidator> validators;
   final List<TextInputFormatter> inputFormatters;
   final String hintText;
   final String labelText;
@@ -27,20 +28,19 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextStyle textStyle;
   final ValueChanged<String> onChanged;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       name: name,
       obscureText: obscureText,
       onChanged: onChanged,
       style: textStyle,
-      validator: FormBuilderValidators.compose(
-        validators,
-      ),
+      validator: validators,
       decoration: decoration(
         hintText,
         labelText,
@@ -57,6 +57,7 @@ class CustomDropdownField extends StatelessWidget {
     @required this.labelText,
     @required this.name,
     this.onChanged,
+    this.onTap,
     this.suffixIcon,
     this.textStyle,
     this.validators,
@@ -70,6 +71,7 @@ class CustomDropdownField extends StatelessWidget {
   final String name;
   final TextStyle textStyle;
   final ValueChanged onChanged;
+  final VoidCallback onTap;
 
   @override
   FormBuilderDropdown build(BuildContext context) {
@@ -78,6 +80,7 @@ class CustomDropdownField extends StatelessWidget {
       items: items,
       name: name,
       onChanged: onChanged,
+      onTap: onTap,
       style: textStyle,
       decoration: decoration(
         hintText,

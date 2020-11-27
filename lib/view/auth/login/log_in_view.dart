@@ -67,7 +67,7 @@ class _LogInViewState extends State<LogInView> {
   Widget build(
     BuildContext context,
   ) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -139,24 +139,24 @@ class BuildForm extends StatefulWidget {
 }
 
 class _BuildFormState extends State<BuildForm> {
-  final logInFormKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return FormBuilder(
-      key: logInFormKey,
+      key: formKey,
       child: Column(
         children: [
           CustomTextField(
             name: 'email',
             hintText: Strings.EMAIL_ADDRESS,
             labelText: Strings.EMAIL_ADDRESS,
-            validators: [
+            validators: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context),
-            ],
+            ]),
           ),
           const CustomSpaces(height: 8),
           CustomTextField(
@@ -164,10 +164,10 @@ class _BuildFormState extends State<BuildForm> {
             hintText: Strings.PASSWORD,
             labelText: Strings.PASSWORD,
             obscureText: true,
-            validators: [
+            validators: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.maxLength(context, 24),
-            ],
+            ]),
             suffixIcon: const Icon(
               FeatherIcons.lock,
               color: Colors.black87,
@@ -195,7 +195,7 @@ class _BuildFormState extends State<BuildForm> {
                 onPressed: () {
                   FocusHelper(context).unfocus();
 
-                  final formState = logInFormKey.currentState;
+                  final formState = formKey.currentState;
 
                   if (formState.saveAndValidate()) {
                     context

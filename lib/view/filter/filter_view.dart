@@ -8,7 +8,7 @@ import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final filterViewModelProvider = ChangeNotifierProvider<FilterViewModel>(
+final filterProvider = ChangeNotifierProvider<FilterViewModel>(
   (_) => FilterViewModel(),
 );
 
@@ -39,17 +39,21 @@ class _FilterViewState extends State<FilterView> {
   void initState() {
     super.initState();
 
-    context.read(filterViewModelProvider).initActions(actions());
-    context.read(filterViewModelProvider).prepareData();
+    context.read(filterProvider).initActions(actions());
+    context.read(filterProvider).populateCompaniesActive();
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    final ThemeData theme = Theme.of(context);
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final width = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return GestureDetector(
       onTap: () {
@@ -119,26 +123,55 @@ class BuildForm extends StatefulWidget {
 }
 
 class _BuildFormState extends State<BuildForm> {
-  final logInFormKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return FormBuilder(
-      key: logInFormKey,
+      key: formKey,
       child: Column(
         children: [
           Consumer(
             builder: (context, watch, _) {
               // Listens to the value exposed by counterProvider
-              final items = watch(filterViewModelProvider).companies;
-              final selected = watch(filterViewModelProvider).selectedCompanies;
-
+              final wfp = watch(filterProvider);
               return CustomDropdownField(
-                name: 'companies',
+                name: 'company',
                 hintText: Strings.COMPANY,
                 labelText: Strings.COMPANY,
+                items: wfp.companiesActive.map<DropdownMenuItem<Datum>>(
+                      (value) {
+                    return DropdownMenuItem<Datum>(
+                      value: value,
+                      child: Text(value.name),
+                    );
+                  },
+                ).toList(),
+                onChanged: (value) {
+                  wfp.setSelectedItem(value);
+                },
+                onTap: wfp.populateCompaniesActive,
+                validators: [
+                  FormBuilderValidators.required(context),
+                ],
+              );
+            },
+          ),
+          const CustomSpaces(height: 8),
+          Consumer(
+            builder: (context, watch, _) {
+              // Listens to the value exposed by counterProvider
+              final wfp = watch(filterProvider);
+              final items = wfp.companiesChild;
+              if (items.isEmpty) {
+                return const SizedBox();
+              }
+              return CustomDropdownField(
+                name: 'projects',
+                hintText: Strings.PROJECT,
+                labelText: Strings.PROJECT,
                 items: items.map<DropdownMenuItem<Datum>>(
                       (value) {
                     return DropdownMenuItem<Datum>(
@@ -148,22 +181,14 @@ class _BuildFormState extends State<BuildForm> {
                   },
                 ).toList(),
                 onChanged: (value) {
-                  selected(value);
+                  wfp.setSelectedItem(value);
                 },
+                onTap: wfp.populateCompaniesChild,
                 validators: [
                   FormBuilderValidators.required(context),
                 ],
               );
             },
-            child: CustomDropdownField(
-              name: 'companies',
-              hintText: Strings.COMPANY,
-              labelText: Strings.COMPANY,
-              items: const [],
-              validators: [
-                FormBuilderValidators.required(context),
-              ],
-            ),
           ),
           const CustomSpaces(height: 12),
           Row(
@@ -175,12 +200,10 @@ class _BuildFormState extends State<BuildForm> {
                 onPressed: () {
                   FocusHelper(context).unfocus();
 
-                  final formState = logInFormKey.currentState;
+                  final formState = formKey.currentState;
 
                   if (formState.saveAndValidate()) {
-                    context
-                        .read(filterViewModelProvider)
-                        .requestFilter(formState.value);
+                    context.read(filterProvider).requestFilter(formState.value);
                   }
                 },
               )

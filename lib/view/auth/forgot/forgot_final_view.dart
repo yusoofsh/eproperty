@@ -60,7 +60,7 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
   Widget build(
     BuildContext context,
   ) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -149,9 +149,7 @@ class _BuildFormState extends State<BuildForm> {
             hintText: Strings.CODE,
             labelText: Strings.CODE,
             keyboardType: TextInputType.number,
-            validators: [
-              FormBuilderValidators.required(context),
-            ],
+            validators: FormBuilderValidators.required(context),
           ),
           const CustomSpaces(height: 8),
           CustomTextField(
@@ -159,9 +157,7 @@ class _BuildFormState extends State<BuildForm> {
             obscureText: true,
             hintText: Strings.NEW_PASSWORD,
             labelText: Strings.NEW_PASSWORD,
-            validators: [
-              FormBuilderValidators.required(context),
-            ],
+            validators: FormBuilderValidators.required(context),
           ),
           const CustomSpaces(height: 8),
           CustomTextField(
@@ -169,9 +165,7 @@ class _BuildFormState extends State<BuildForm> {
             obscureText: true,
             hintText: Strings.CONFIRM_NEW_PASSWORD,
             labelText: Strings.CONFIRM_NEW_PASSWORD,
-            validators: [
-              FormBuilderValidators.required(context),
-            ],
+            validators: FormBuilderValidators.required(context),
           ),
           const CustomSpaces(height: 12),
           Row(

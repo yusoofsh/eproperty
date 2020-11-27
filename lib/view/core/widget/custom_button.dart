@@ -21,9 +21,9 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       color: Colors.blue,
-      minWidth: Sizes.WIDTH_120,
       elevation: Sizes.ELEVATION_8,
       height: Sizes.HEIGHT_40,
+      minWidth: Sizes.WIDTH_120,
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Sizes.RADIUS_24),

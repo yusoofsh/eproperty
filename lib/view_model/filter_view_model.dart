@@ -5,41 +5,43 @@ import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/repository/filter_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FilterViewModel extends ChangeNotifier with ActionMixin {
-  final container = ProviderContainer();
   final filterRepository = FilterRepository();
   final userRepository = UserRepository();
 
-  List<Datum> companies = <Datum>[];
+  List<Datum> companiesActive = <Datum>[];
+  List<Datum> companiesChild = <Datum>[];
 
-  String getToken() {
-    return 'Bearer ${userRepository.store(
-      'get',
-      name: 'token',
-    )}';
+  int selectedItem;
+
+  void setSelectedItem(Datum item) {
+    selectedItem = item.id;
+
+    notifyListeners();
   }
 
-  void prepareData() {
-    populateCompanies().then((value) {
-      companies = value.data;
-      notifyListeners();
-    });
+  Future<void> populateCompaniesActive() async {
+    final token = 'bearer ${userRepository.store('get', name: 'token')}';
+
+    final result = await filterRepository.requestCompaniesActive(token);
+
+    companiesActive = result.data;
+
+    notifyListeners();
   }
 
-  Future<CompaniesModel> populateCompanies() async {
-    callback(const Loading());
+  Future<void> populateCompaniesChild() async {
+    final token = 'bearer ${await userRepository.store('get', name: 'token')}';
 
-    return filterRepository.populate(getToken()).whenComplete(
-      () {
-        callback(const Dismiss());
-      },
+    final result = await filterRepository.requestCompaniesChild(
+      selectedItem,
+      token,
     );
-  }
 
-  void selectedCompanies(Datum value) {
-    return;
+    companiesChild = result.data;
+
+    notifyListeners();
   }
 
   Future<void> requestFilter(Map<String, dynamic> credential) async {

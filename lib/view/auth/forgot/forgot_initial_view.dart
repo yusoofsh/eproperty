@@ -60,7 +60,7 @@ class _ForgotInitialViewState extends State<ForgotInitialView> {
   Widget build(
     BuildContext context,
   ) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -148,10 +148,10 @@ class _BuildFormState extends State<BuildForm> {
             name: 'email',
             hintText: Strings.EMAIL_ADDRESS,
             labelText: Strings.EMAIL_ADDRESS,
-            validators: [
+            validators: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context),
-            ],
+            ]),
           ),
           const CustomSpaces(height: 12),
           Row(

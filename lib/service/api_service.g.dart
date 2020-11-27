@@ -17,8 +17,8 @@ class _ApiService implements ApiService {
   String baseUrl;
 
   @override
-  Future<UserModel> authToken(basic) async {
-    ArgumentError.checkNotNull(basic, 'basic');
+  Future<UserModel> authToken(authentication) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -26,7 +26,7 @@ class _ApiService implements ApiService {
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
-            headers: <String, dynamic>{r'authorization': basic},
+            headers: <String, dynamic>{r'authorization': authentication},
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
@@ -75,8 +75,8 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<CompaniesModel> companiesActive(bearer) async {
-    ArgumentError.checkNotNull(bearer, 'bearer');
+  Future<CompaniesModel> companiesActive(authentication) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -85,7 +85,27 @@ class _ApiService implements ApiService {
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
-            headers: <String, dynamic>{r'authorization': bearer},
+            headers: <String, dynamic>{r'authorization': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CompaniesModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<CompaniesModel> companiesChild(id, authentication) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/companies/$id/child',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'authorization': authentication},
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
