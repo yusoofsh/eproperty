@@ -1,15 +1,14 @@
 import 'package:action_mixin/action_mixin.dart';
 import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/auth/widget/button_widget.dart';
-import 'package:eproperty/view/auth/widget/field_widget.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final filterViewModelProvider = Provider<FilterViewModel>(
+final filterProvider = ChangeNotifierProvider<FilterViewModel>(
   (_) => FilterViewModel(),
 );
 
@@ -40,16 +39,13 @@ class _FilterViewState extends State<FilterView> {
   void initState() {
     super.initState();
 
-    context.read(filterViewModelProvider).initActions(actions());
-
-    context.read(filterViewModelProvider).populateCompanies();
+    context.read(filterProvider).initActions(actions());
+    context.read(filterProvider).populateCompaniesActive();
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    final ThemeData theme = Theme.of(context);
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -121,51 +117,85 @@ class BuildForm extends StatefulWidget {
 }
 
 class _BuildFormState extends State<BuildForm> {
-  final logInFormKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return FormBuilder(
-      key: logInFormKey,
+      key: formKey,
       child: Column(
         children: [
-          BuildField(
-            type: 'text',
-            attribute: 'companies',
-            labelText: Strings.COMPANY,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email(),
-            ],
+          Consumer(
+            builder: (context, watch, _) {
+              // Listens to the value exposed by counterProvider
+              final wfp = watch(filterProvider);
+              final items = wfp.companiesActive;
+              return CustomDropdownField(
+                name: 'company',
+                hintText: Strings.COMPANY,
+                labelText: Strings.COMPANY,
+                items: items.map<DropdownMenuItem<Datum>>(
+                  (value) {
+                    return DropdownMenuItem<Datum>(
+                      value: value ?? '',
+                      child: Text(value.name ?? ''),
+                    );
+                  },
+                ).toList(),
+                onChanged: (value) {
+                  wfp.populateCompaniesChild(value);
+                },
+                validators: [
+                  FormBuilderValidators.required(context),
+                ],
+              );
+            },
           ),
           const CustomSpaces(height: 8),
-          BuildField(
-            type: 'text',
-            attribute: 'project',
-            labelText: Strings.PROJECT,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.maxLength(24),
-            ],
+          Consumer(
+            builder: (context, watch, _) {
+              // Listens to the value exposed by counterProvider
+              final wfp = watch(filterProvider);
+              final items = wfp.companiesChild;
+              if (items.isEmpty) {
+                return const SizedBox();
+              } else {
+                return CustomDropdownField(
+                  name: 'project',
+                  hintText: Strings.PROJECT,
+                  labelText: Strings.PROJECT,
+                  items: items.map<DropdownMenuItem<Datum>>(
+                    (value) {
+                      return DropdownMenuItem<Datum>(
+                        value: value,
+                        child: Text(value.name),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (items != null) ? (_) {} : null,
+                  validators: [
+                    FormBuilderValidators.required(context),
+                  ],
+                );
+              }
+            },
           ),
           const CustomSpaces(height: 12),
           Row(
             children: [
               const Spacer(),
-              BuildButton(
+              CustomButton(
                 title: Strings.DONE,
                 theme: theme,
                 onPressed: () {
                   FocusHelper(context).unfocus();
 
-                  final formState = logInFormKey.currentState;
+                  final formState = formKey.currentState;
 
                   if (formState.saveAndValidate()) {
-                    context
-                        .read(filterViewModelProvider)
-                        .requestFilter(formState.value);
+                    context.read(filterProvider).requestFilter(formState.value);
                   }
                 },
               )

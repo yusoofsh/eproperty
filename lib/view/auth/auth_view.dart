@@ -8,15 +8,23 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
-  Future<void> isTokenExist() async {
-    final isLoggedIn = await UserRepository().store(
+  Future<void> isUserLoggedIn() async {
+    final bool isLoggedIn = await UserRepository().store(
       'get',
       name: 'is_logged_in',
+      defaultValue: false,
     );
-    if (isLoggedIn != null) {
-      context.navigator.replace('/filter-view');
+
+    if (isLoggedIn) {
+      context.navigator.pushAndRemoveUntil(
+        '/filter-view',
+        (_) => false,
+      );
     } else {
-      context.navigator.replace('/log-in-view');
+      context.navigator.pushAndRemoveUntil(
+        '/log-in-view',
+        (_) => false,
+      );
     }
   }
 
@@ -24,7 +32,7 @@ class _AuthViewState extends State<AuthView> {
   void initState() {
     super.initState();
 
-    isTokenExist();
+    isUserLoggedIn();
   }
 
   @override

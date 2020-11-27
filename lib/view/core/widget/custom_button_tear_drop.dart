@@ -36,7 +36,7 @@ class TearDropButton extends StatelessWidget {
       context: context,
       fraction: 0.07,
     );
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
 
     return InkWell(
       onTap: onTap,

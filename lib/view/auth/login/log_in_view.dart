@@ -2,10 +2,8 @@ import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/auth/widget/button_widget.dart';
-import 'package:eproperty/view/auth/widget/field_widget.dart';
-import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -69,7 +67,7 @@ class _LogInViewState extends State<LogInView> {
   Widget build(
     BuildContext context,
   ) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -141,35 +139,35 @@ class BuildForm extends StatefulWidget {
 }
 
 class _BuildFormState extends State<BuildForm> {
-  final logInFormKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return FormBuilder(
-      key: logInFormKey,
+      key: formKey,
       child: Column(
         children: [
-          BuildField(
-            type: 'text',
-            attribute: 'email',
+          CustomTextField(
+            name: 'email',
+            hintText: Strings.EMAIL_ADDRESS,
             labelText: Strings.EMAIL_ADDRESS,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email(),
-            ],
+            validators: FormBuilderValidators.compose([
+              FormBuilderValidators.required(context),
+              FormBuilderValidators.email(context),
+            ]),
           ),
           const CustomSpaces(height: 8),
-          BuildField(
-            type: 'text',
-            attribute: 'password',
+          CustomTextField(
+            name: 'password',
+            hintText: Strings.PASSWORD,
             labelText: Strings.PASSWORD,
             obscureText: true,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.maxLength(24),
-            ],
+            validators: FormBuilderValidators.compose([
+              FormBuilderValidators.required(context),
+              FormBuilderValidators.maxLength(context, 24),
+            ]),
             suffixIcon: const Icon(
               FeatherIcons.lock,
               color: Colors.black87,
@@ -191,13 +189,13 @@ class _BuildFormState extends State<BuildForm> {
                 ),
               ),
               const Spacer(),
-              BuildButton(
+              CustomButton(
                 title: Strings.LOG_IN,
                 theme: theme,
                 onPressed: () {
                   FocusHelper(context).unfocus();
 
-                  final formState = logInFormKey.currentState;
+                  final formState = formKey.currentState;
 
                   if (formState.saveAndValidate()) {
                     context

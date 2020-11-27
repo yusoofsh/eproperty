@@ -1,24 +1,43 @@
 import 'package:action_mixin/action_mixin.dart';
-import 'package:eproperty/helper/event_helper.dart';
-import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/repository/filter_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
+import 'package:flutter/foundation.dart';
 
-class FilterViewModel with ActionMixin {
+class FilterViewModel extends ChangeNotifier with ActionMixin {
   final filterRepository = FilterRepository();
   final userRepository = UserRepository();
 
-  Future<void> populateCompanies() async {
-    callback(const Loading());
+  List<Datum> companiesActive = <Datum>[];
+  List<Datum> companiesChild = <Datum>[];
 
-    final token = 'Bearer ${await userRepository.store('get', name: 'token')}';
-
-    await filterRepository
-        .populate(token)
-        .whenComplete(() => callback(const Dismiss()));
+  Future<String> getToken() async {
+    return 'Bearer ${await userRepository.store(
+      'get',
+      name: 'token',
+    )}';
   }
 
-  Future<void> requestFilter(Map<String, dynamic> credential) async {
-    callback(const Loading());
+  Future<void> populateCompaniesActive() async {
+    final result = await filterRepository.requestCompaniesActive(
+      await getToken(),
+    );
+
+    companiesActive.addAll(result.data);
+
+    notifyListeners();
   }
+
+  Future<void> populateCompaniesChild(Datum item) async {
+    final result = await filterRepository.requestCompaniesChild(
+      item.id,
+      await getToken(),
+    );
+
+    companiesChild.addAll(result.data);
+
+    notifyListeners();
+  }
+
+  Future<void> requestFilter(Map<String, Datum> credential) async {}
 }
