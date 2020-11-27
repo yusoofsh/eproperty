@@ -46,14 +46,8 @@ class _FilterViewState extends State<FilterView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return GestureDetector(
       onTap: () {
@@ -137,12 +131,13 @@ class _BuildFormState extends State<BuildForm> {
             builder: (context, watch, _) {
               // Listens to the value exposed by counterProvider
               final wfp = watch(filterProvider);
+              final items = wfp.companiesActive;
               return CustomDropdownField(
                 name: 'company',
                 hintText: Strings.COMPANY,
                 labelText: Strings.COMPANY,
-                items: wfp.companiesActive.map<DropdownMenuItem<Datum>>(
-                      (value) {
+                items: items.map<DropdownMenuItem<Datum>>(
+                  (value) {
                     return DropdownMenuItem<Datum>(
                       value: value,
                       child: Text(value.name),
@@ -150,9 +145,8 @@ class _BuildFormState extends State<BuildForm> {
                   },
                 ).toList(),
                 onChanged: (value) {
-                  wfp.setSelectedItem(value);
+                  wfp.populateCompaniesChild(value);
                 },
-                onTap: wfp.populateCompaniesActive,
                 validators: [
                   FormBuilderValidators.required(context),
                 ],
@@ -165,25 +159,19 @@ class _BuildFormState extends State<BuildForm> {
               // Listens to the value exposed by counterProvider
               final wfp = watch(filterProvider);
               final items = wfp.companiesChild;
-              if (items.isEmpty) {
-                return const SizedBox();
-              }
               return CustomDropdownField(
-                name: 'projects',
+                name: 'project',
                 hintText: Strings.PROJECT,
                 labelText: Strings.PROJECT,
                 items: items.map<DropdownMenuItem<Datum>>(
                       (value) {
                     return DropdownMenuItem<Datum>(
-                      value: value,
-                      child: Text(value.name),
+                      value: value ?? Datum,
+                      child: Text(value.name ?? ''),
                     );
                   },
                 ).toList(),
-                onChanged: (value) {
-                  wfp.setSelectedItem(value);
-                },
-                onTap: wfp.populateCompaniesChild,
+                onChanged: (items != null) ? (_) {} : null,
                 validators: [
                   FormBuilderValidators.required(context),
                 ],

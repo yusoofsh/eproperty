@@ -1,6 +1,4 @@
 import 'package:action_mixin/action_mixin.dart';
-import 'package:eproperty/helper/event_helper.dart';
-import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/repository/filter_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
@@ -13,30 +11,32 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
   List<Datum> companiesActive = <Datum>[];
   List<Datum> companiesChild = <Datum>[];
 
-  int selectedItem;
-
-  void setSelectedItem(Datum item) {
-    selectedItem = item.id;
-
-    notifyListeners();
+  Future<String> getToken() async {
+    return 'Bearer ${await userRepository.store(
+      'get',
+      name: 'token',
+    )}';
   }
 
   Future<void> populateCompaniesActive() async {
-    final token = 'bearer ${userRepository.store('get', name: 'token')}';
+    final result = await filterRepository.requestCompaniesActive(
+      await getToken(),
+    );
 
-    final result = await filterRepository.requestCompaniesActive(token);
-
+    companiesActive.clear();
     companiesActive = result.data;
 
     notifyListeners();
   }
 
-  Future<void> populateCompaniesChild() async {
-    final token = 'bearer ${await userRepository.store('get', name: 'token')}';
+  Future<void> populateCompaniesChild(Datum item) async {
+    companiesChild.clear();
+
+    notifyListeners();
 
     final result = await filterRepository.requestCompaniesChild(
-      selectedItem,
-      token,
+      item.id,
+      await getToken(),
     );
 
     companiesChild = result.data;
@@ -44,7 +44,5 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
     notifyListeners();
   }
 
-  Future<void> requestFilter(Map<String, dynamic> credential) async {
-    callback(const Loading());
-  }
+  Future<void> requestFilter(Map<String, Datum> credential) async {}
 }
