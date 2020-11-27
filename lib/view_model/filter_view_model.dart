@@ -23,23 +23,18 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
       await getToken(),
     );
 
-    companiesActive.clear();
-    companiesActive = result.data;
+    companiesActive.addAll(result.data);
 
     notifyListeners();
   }
 
   Future<void> populateCompaniesChild(Datum item) async {
-    companiesChild.clear();
-
-    notifyListeners();
-
     final result = await filterRepository.requestCompaniesChild(
       item.id,
       await getToken(),
     );
 
-    companiesChild = result.data;
+    companiesChild.addAll(result.data);
 
     notifyListeners();
   }

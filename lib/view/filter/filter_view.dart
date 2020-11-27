@@ -139,8 +139,8 @@ class _BuildFormState extends State<BuildForm> {
                 items: items.map<DropdownMenuItem<Datum>>(
                   (value) {
                     return DropdownMenuItem<Datum>(
-                      value: value,
-                      child: Text(value.name),
+                      value: value ?? '',
+                      child: Text(value.name ?? ''),
                     );
                   },
                 ).toList(),
@@ -159,23 +159,27 @@ class _BuildFormState extends State<BuildForm> {
               // Listens to the value exposed by counterProvider
               final wfp = watch(filterProvider);
               final items = wfp.companiesChild;
-              return CustomDropdownField(
-                name: 'project',
-                hintText: Strings.PROJECT,
-                labelText: Strings.PROJECT,
-                items: items.map<DropdownMenuItem<Datum>>(
-                      (value) {
-                    return DropdownMenuItem<Datum>(
-                      value: value ?? Datum,
-                      child: Text(value.name ?? ''),
-                    );
-                  },
-                ).toList(),
-                onChanged: (items != null) ? (_) {} : null,
-                validators: [
-                  FormBuilderValidators.required(context),
-                ],
-              );
+              if (items.isEmpty) {
+                return const SizedBox();
+              } else {
+                return CustomDropdownField(
+                  name: 'project',
+                  hintText: Strings.PROJECT,
+                  labelText: Strings.PROJECT,
+                  items: items.map<DropdownMenuItem<Datum>>(
+                    (value) {
+                      return DropdownMenuItem<Datum>(
+                        value: value,
+                        child: Text(value.name),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (items != null) ? (_) {} : null,
+                  validators: [
+                    FormBuilderValidators.required(context),
+                  ],
+                );
+              }
             },
           ),
           const CustomSpaces(height: 12),
