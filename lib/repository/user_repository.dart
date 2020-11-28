@@ -1,64 +1,50 @@
-import 'dart:typed_data';
-
 import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/model/user_model.dart';
 import 'package:eproperty/service/api_service.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 
 class UserRepository {
-  dynamic payload;
+  final api = ApiService(dio);
 
-  Future<dynamic> request(String authentication) async {
-    await ApiService(dio)
-        .authToken(authentication)
-        .then((response) => payload = {
-              'is_logged_in': true,
-              'token': response.token,
-              'name': response.user.name,
-              'email': response.user.email,
-              'image': response.user.image,
-              'api_url': response.user.apiUrl,
-              'api_key': response.user.apiKey,
-            })
-        .catchError((error) => payload = error);
+  Future<UserModel> requestLogIn(String token) async {
+    final _response = await api.authToken(token);
 
-    return payload;
+    return _response;
   }
 
-  Future<dynamic> store(
-    String type, {
-    String name,
-    dynamic defaultValue,
-    Map<String, dynamic> data,
-  }) async {
-    final _helper = DatabaseHelper();
+  Future<Box> userBox() async {
+    final _database = DatabaseHelper();
 
-    final _secureBox = await _helper.open('secure');
-    if (!_helper.containsKey(_secureBox, 'key')) {
-      await _secureBox.put('key', _helper.generateSecureKey());
-    }
+    final _key = await _database.keyBox();
 
-    final _key = _secureBox.get('key') as Uint8List;
-    final _userBox = await _helper.open(
+    final _box = await _database.open(
       'user',
       key: _key,
     );
 
-    if (type == 'get') {
-      assert(
-        name != null,
-        'Fill the optional "name" parameter!',
-      );
+    return _box;
+  }
 
-      return _userBox.get(
-        name,
-        defaultValue: defaultValue,
-      );
-    } else if (type == 'put') {
-      assert(
-      data != null,
-      'Fill the optional "data" parameter!',
-      );
+  Future<void> storeData({
+    @required Map<String, dynamic> data,
+  }) async {
+    final _box = await userBox();
 
-      await _userBox.putAll(data);
-    }
+    await _box.putAll(data);
+  }
+
+  Future<dynamic> retrieveData({
+    @required String name,
+    dynamic value,
+  }) async {
+    final _box = await userBox();
+
+    final _data = _box.get(
+      name,
+      defaultValue: value,
+    );
+
+    return _data;
   }
 }

@@ -34,7 +34,10 @@ class _ForgotFinalViewState extends State<ForgotFinalView> {
             type: 'success',
           );
 
-          context.navigator.replace('/log-in-view');
+          context.navigator.pushAndRemoveUntil(
+            '/log-in-view',
+            (_) => false,
+          );
         },
       ),
       ActionEntry(
@@ -146,7 +149,6 @@ class _BuildFormState extends State<BuildForm> {
         children: [
           CustomTextField(
             name: 'code',
-            hintText: Strings.CODE,
             labelText: Strings.CODE,
             keyboardType: TextInputType.number,
             validators: FormBuilderValidators.required(context),
@@ -155,7 +157,6 @@ class _BuildFormState extends State<BuildForm> {
           CustomTextField(
             name: 'newPassword',
             obscureText: true,
-            hintText: Strings.NEW_PASSWORD,
             labelText: Strings.NEW_PASSWORD,
             validators: FormBuilderValidators.required(context),
           ),
@@ -163,7 +164,6 @@ class _BuildFormState extends State<BuildForm> {
           CustomTextField(
             name: 'confirmNewPassword',
             obscureText: true,
-            hintText: Strings.CONFIRM_NEW_PASSWORD,
             labelText: Strings.CONFIRM_NEW_PASSWORD,
             validators: FormBuilderValidators.required(context),
           ),

@@ -35,7 +35,10 @@ class _LogInViewState extends State<LogInView> {
             type: 'success',
           );
 
-          context.navigator.replace('/filter-view');
+          context.navigator.pushAndRemoveUntil(
+            '/filter-view',
+            (_) => false,
+          );
         },
       ),
       ActionEntry(
@@ -45,12 +48,6 @@ class _LogInViewState extends State<LogInView> {
             Strings.FAILURE,
             type: 'failure',
           );
-        },
-      ),
-      ActionEntry(
-        event: const Forgot(),
-        action: (_) {
-          context.navigator.push('/forgot-initial-view');
         },
       ),
     ];
@@ -151,7 +148,6 @@ class _BuildFormState extends State<BuildForm> {
         children: [
           CustomTextField(
             name: 'email',
-            hintText: Strings.EMAIL_ADDRESS,
             labelText: Strings.EMAIL_ADDRESS,
             validators: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
@@ -161,7 +157,6 @@ class _BuildFormState extends State<BuildForm> {
           const CustomSpaces(height: 8),
           CustomTextField(
             name: 'password',
-            hintText: Strings.PASSWORD,
             labelText: Strings.PASSWORD,
             obscureText: true,
             validators: FormBuilderValidators.compose([
@@ -178,7 +173,7 @@ class _BuildFormState extends State<BuildForm> {
             children: [
               InkWell(
                 onTap: () {
-                  context.read(viewModelProvider).goToForgot();
+                  context.navigator.push('/forgot-initial-view');
                 },
                 child: Text(
                   Strings.FORGOT_PASSWORD,
@@ -194,13 +189,10 @@ class _BuildFormState extends State<BuildForm> {
                 theme: theme,
                 onPressed: () {
                   FocusHelper(context).unfocus();
-
                   final formState = formKey.currentState;
-
+                  final crp = context.read(viewModelProvider);
                   if (formState.saveAndValidate()) {
-                    context
-                        .read(viewModelProvider)
-                        .requestAuthentication(formState.value);
+                    crp.requestAuthentication(formState.value);
                   }
                 },
               )

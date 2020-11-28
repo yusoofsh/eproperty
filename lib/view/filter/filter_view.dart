@@ -1,4 +1,5 @@
 import 'package:action_mixin/action_mixin.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/value/value.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final filterProvider = ChangeNotifierProvider<FilterViewModel>(
+final viewModelProvider = ChangeNotifierProvider<FilterViewModel>(
   (_) => FilterViewModel(),
 );
 
@@ -27,9 +28,9 @@ class _FilterViewState extends State<FilterView> {
         },
       ),
       ActionEntry(
-        event: const Dismiss(),
+        event: const Success(),
         action: (_) {
-          LoadingHelper().dismiss();
+          context.navigator.replace('/dashboard-view');
         },
       ),
     ];
@@ -39,8 +40,8 @@ class _FilterViewState extends State<FilterView> {
   void initState() {
     super.initState();
 
-    context.read(filterProvider).initActions(actions());
-    context.read(filterProvider).populateCompaniesActive();
+    context.read(viewModelProvider).initActions(actions());
+    context.read(viewModelProvider).populateCompaniesActive();
   }
 
   @override
@@ -130,23 +131,20 @@ class _BuildFormState extends State<BuildForm> {
           Consumer(
             builder: (context, watch, _) {
               // Listens to the value exposed by counterProvider
-              final wfp = watch(filterProvider);
-              final items = wfp.companiesActive;
+              final wp = watch(viewModelProvider);
+              final items = wp.companiesActive;
               return CustomDropdownField(
                 name: 'company',
-                hintText: Strings.COMPANY,
                 labelText: Strings.COMPANY,
                 items: items.map<DropdownMenuItem<Datum>>(
-                  (value) {
+                      (value) {
                     return DropdownMenuItem<Datum>(
                       value: value ?? '',
+                      onTap: () => wp.populateCompaniesChild(value.id),
                       child: Text(value.name ?? ''),
                     );
                   },
                 ).toList(),
-                onChanged: (value) {
-                  wfp.populateCompaniesChild(value);
-                },
                 validators: [
                   FormBuilderValidators.required(context),
                 ],
@@ -157,24 +155,22 @@ class _BuildFormState extends State<BuildForm> {
           Consumer(
             builder: (context, watch, _) {
               // Listens to the value exposed by counterProvider
-              final wfp = watch(filterProvider);
-              final items = wfp.companiesChild;
+              final wp = watch(viewModelProvider);
+              final items = wp.companiesChild;
               if (items.isEmpty) {
                 return const SizedBox();
               } else {
                 return CustomDropdownField(
                   name: 'project',
-                  hintText: Strings.PROJECT,
                   labelText: Strings.PROJECT,
                   items: items.map<DropdownMenuItem<Datum>>(
-                    (value) {
+                        (value) {
                       return DropdownMenuItem<Datum>(
                         value: value,
                         child: Text(value.name),
                       );
                     },
                   ).toList(),
-                  onChanged: (items != null) ? (_) {} : null,
                   validators: [
                     FormBuilderValidators.required(context),
                   ],
@@ -191,11 +187,11 @@ class _BuildFormState extends State<BuildForm> {
                 theme: theme,
                 onPressed: () {
                   FocusHelper(context).unfocus();
-
                   final formState = formKey.currentState;
-
                   if (formState.saveAndValidate()) {
-                    context.read(filterProvider).requestFilter(formState.value);
+                    context.read(viewModelProvider).storeSelectedCompanies(
+                      formState.value.cast(),
+                    );
                   }
                 },
               )

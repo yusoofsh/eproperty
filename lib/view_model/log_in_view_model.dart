@@ -10,25 +10,28 @@ class LogInViewModel with ActionMixin {
   Future<void> requestAuthentication(Map<String, dynamic> credential) async {
     callback(const Loading());
 
-    final authentication = 'Basic ${base64Encode(
+    final token = 'Basic ${base64Encode(
       utf8.encode('${credential['email']}:${credential['password']}'),
     )}';
 
-    await repository
-        .request(authentication)
-        .then((value) => storeResponse(value))
-        .catchError((error) => callback(Failure(error: error)));
+    await repository.requestLogIn(token).then((value) {
+      storeResponse({
+        'api_key': value.user.apiKey,
+        'api_url': value.user.apiUrl,
+        'email': value.user.email,
+        'image': value.user.image,
+        'is_logged_in': true,
+        'name': value.user.name,
+        'token': value.token,
+      });
+    }).catchError((error) {
+      callback(Failure(error: error));
+    });
   }
 
   Future<void> storeResponse(Map<String, dynamic> data) async {
-    callback(const Loading());
-
-    await repository
-        .store('put', data: data)
-        .then((_) => callback(const Success()));
-  }
-
-  void goToForgot() {
-    callback(const Forgot());
+    await repository.storeData(data: data).whenComplete(() {
+      callback(const Success());
+    });
   }
 }

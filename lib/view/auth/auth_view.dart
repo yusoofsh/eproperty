@@ -9,10 +9,9 @@ class AuthView extends StatefulWidget {
 
 class _AuthViewState extends State<AuthView> {
   Future<void> isUserLoggedIn() async {
-    final bool isLoggedIn = await UserRepository().store(
-      'get',
+    final bool isLoggedIn = await UserRepository().retrieveData(
       name: 'is_logged_in',
-      defaultValue: false,
+      value: false,
     );
 
     if (isLoggedIn) {

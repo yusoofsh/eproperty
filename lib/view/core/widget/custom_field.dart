@@ -5,10 +5,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
-    @required this.hintText,
     @required this.labelText,
     @required this.name,
     this.autovalidateMode,
+    this.hintText,
     this.inputFormatters,
     this.keyboardType,
     this.obscureText = false,
@@ -42,8 +42,8 @@ class CustomTextField extends StatelessWidget {
       style: textStyle,
       validator: validators,
       decoration: decoration(
-        hintText,
         labelText,
+        hintText: hintText,
         suffixIcon: suffixIcon,
       ),
     );
@@ -52,10 +52,10 @@ class CustomTextField extends StatelessWidget {
 
 class CustomDropdownField extends StatelessWidget {
   const CustomDropdownField({
-    @required this.hintText,
     @required this.items,
     @required this.labelText,
     @required this.name,
+    this.hintText,
     this.onChanged,
     this.onTap,
     this.suffixIcon,
@@ -83,9 +83,9 @@ class CustomDropdownField extends StatelessWidget {
       onTap: onTap,
       style: textStyle,
       decoration: decoration(
-        hintText,
         labelText,
         suffixIcon: suffixIcon,
+        hintText: hintText,
       ),
       validator: FormBuilderValidators.compose(
         validators,
@@ -95,8 +95,8 @@ class CustomDropdownField extends StatelessWidget {
 }
 
 InputDecoration decoration(
-  String hintText,
   String labelText, {
+  String hintText,
   Widget suffixIcon,
 }) {
   return InputDecoration(
