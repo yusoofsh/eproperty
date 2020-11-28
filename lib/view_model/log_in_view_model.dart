@@ -10,7 +10,7 @@ class LogInViewModel with ActionMixin {
   Future<void> requestAuthentication(Map<String, dynamic> credential) async {
     callback(const Loading());
 
-    final String authentication = 'Basic ${base64Encode(
+    final authentication = 'Basic ${base64Encode(
       utf8.encode('${credential['email']}:${credential['password']}'),
     )}';
 

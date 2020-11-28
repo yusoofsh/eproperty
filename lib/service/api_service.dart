@@ -31,4 +31,10 @@ abstract class ApiService {
   Future<CompaniesModel> companiesActive(
     @Header(HttpHeaders.authorizationHeader) String authentication,
   );
+
+  @GET('/companies/{id}/childs')
+  Future<CompaniesModel> companiesChild(
+    @Path() int id,
+    @Header(HttpHeaders.authorizationHeader) String authentication,
+  );
 }

@@ -35,7 +35,7 @@ class App extends StatelessWidget {
       builder: ExtendedNavigator.builder<Router>(
         router: Router(),
         initialRoute: Routes.authView,
-        builder: (context, navigator) => FlutterEasyLoading(child: navigator),
+        builder: (_, navigator) => FlutterEasyLoading(child: navigator),
       ),
     );
   }

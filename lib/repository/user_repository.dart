@@ -26,6 +26,7 @@ class UserRepository {
   Future<dynamic> store(
     String type, {
     String name,
+    dynamic defaultValue,
     Map<String, dynamic> data,
   }) async {
     final _helper = DatabaseHelper();
@@ -42,11 +43,20 @@ class UserRepository {
     );
 
     if (type == 'get') {
-      assert(name != null, 'Fill the optional "name" parameter!');
+      assert(
+        name != null,
+        'Fill the optional "name" parameter!',
+      );
 
-      return _userBox.get(name);
+      return _userBox.get(
+        name,
+        defaultValue: defaultValue,
+      );
     } else if (type == 'put') {
-      assert(data != null, 'Fill the optional "data" parameter!');
+      assert(
+      data != null,
+      'Fill the optional "data" parameter!',
+      );
 
       await _userBox.putAll(data);
     }
