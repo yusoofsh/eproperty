@@ -3,7 +3,7 @@ import 'package:flutter/material.dart' hide Colors;
 import 'package:google_fonts/google_fonts.dart';
 
 class Themes {
-  static final Color lightFillColor = Colors.black;
+  static const Color lightFillColor = Colors.black;
   static final Color lightFocusColor = Colors.black.withOpacity(0.12);
 
   static const FontWeight bold = FontWeight.w700;
@@ -12,19 +12,19 @@ class Themes {
   static const FontWeight regular = FontWeight.w400;
   static const FontWeight light = FontWeight.w300;
 
-  static ColorScheme lightColorScheme = ColorScheme(
-    primary: const Color(0xFFFF6673),
-    primaryVariant: const Color(0xFF117378),
-    secondary: const Color(0xFFEFF3F3),
-    secondaryVariant: const Color(0xFFFAFBFB),
-    background: const Color(0xFFE6EBEB),
-    surface: const Color(0xFFFAFBFB),
+  static const ColorScheme lightColorScheme = ColorScheme(
+    primary: Color(0xFFFF6673),
+    primaryVariant: Color(0xFF117378),
+    secondary: Color(0xFFEFF3F3),
+    secondaryVariant: Color(0xFFFAFBFB),
+    background: Color(0xFFE6EBEB),
+    surface: Color(0xFFFAFBFB),
     onBackground: Colors.white,
     error: lightFillColor,
     onError: lightFillColor,
     onPrimary: lightFillColor,
-    onSecondary: const Color(0xFF322942),
-    onSurface: const Color(0xFF241E30),
+    onSecondary: Color(0xFF322942),
+    onSurface: Color(0xFF241E30),
     brightness: Brightness.light,
   );
 
