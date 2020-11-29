@@ -35,10 +35,7 @@ class _LogInViewState extends State<LogInView> {
             type: 'success',
           );
 
-          context.navigator.pushAndRemoveUntil(
-            '/filter-view',
-            (_) => false,
-          );
+          context.navigator.replace('/filter-view');
         },
       ),
       ActionEntry(

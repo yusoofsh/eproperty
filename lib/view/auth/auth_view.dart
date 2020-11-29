@@ -10,33 +10,24 @@ class AuthView extends StatefulWidget {
 
 class _AuthViewState extends State<AuthView> {
   Future<void> configureDefaultRoute() async {
-    final bool isLoggedIn = await UserRepository().retrieveData(
+    final isLoggedIn = await UserRepository().retrieveData(
       name: 'is_logged_in',
       value: false,
-    );
+    ) as bool;
 
     if (isLoggedIn) {
-      final String company = await CompaniesRepository().retrieveData(
+      final hasCompany = await CompaniesRepository().retrieveData(
         name: 'company',
         value: '',
-      );
+      ) as String;
 
-      if (company.isNotEmpty) {
-        context.navigator.pushAndRemoveUntil(
-          '/dashboard-view',
-          (_) => false,
-        );
+      if (hasCompany.isNotEmpty) {
+        context.navigator.replace('/dashboard-view');
       } else {
-        context.navigator.pushAndRemoveUntil(
-          '/filter-view',
-          (_) => false,
-        );
+        context.navigator.replace('/filter-view');
       }
     } else {
-      context.navigator.pushAndRemoveUntil(
-        '/log-in-view',
-        (_) => false,
-      );
+      context.navigator.replace('/log-in-view');
     }
   }
 

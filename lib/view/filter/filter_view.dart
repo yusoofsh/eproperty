@@ -164,7 +164,7 @@ class _BuildFormState extends State<BuildForm> {
                       labelText: Strings.PROJECT,
                       name: 'project',
                       items: _items.map<DropdownMenuItem<String>>(
-                            (value) {
+                        (value) {
                           return DropdownMenuItem<String>(
                             onTap: () => _wp.configureDateInput(),
                             value: value.name,
@@ -195,7 +195,7 @@ class _BuildFormState extends State<BuildForm> {
                       labelText: Strings.YEAR,
                       name: 'year',
                       items: _years.map<DropdownMenuItem<int>>(
-                            (value) {
+                        (value) {
                           return DropdownMenuItem<int>(
                             value: value,
                             child: Text(value.toString()),
@@ -239,8 +239,8 @@ class _BuildFormState extends State<BuildForm> {
                   final formState = formKey.currentState;
                   if (formState.saveAndValidate()) {
                     context.read(viewModelProvider).storeCompaniesPreference(
-                      formState.value.cast(),
-                    );
+                          formState.value.cast(),
+                        );
                   }
                 },
               )
