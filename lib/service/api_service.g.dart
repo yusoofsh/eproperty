@@ -127,8 +127,7 @@ class _ApiService implements ApiService {
       r'month': month
     };
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/reservasi?project=SG&year=2020&month=3',
+    final _result = await _dio.request<Map<String, dynamic>>('/reservasi',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -137,6 +136,32 @@ class _ApiService implements ApiService {
             baseUrl: baseUrl),
         data: _data);
     final value = SalesReservationModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<SalesMailOrderModel> salesMailOrder(
+      authentication, project, year, month) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(project, 'project');
+    ArgumentError.checkNotNull(year, 'year');
+    ArgumentError.checkNotNull(month, 'month');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'project': project,
+      r'year': year,
+      r'month': month
+    };
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/suratpesanan',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SalesMailOrderModel.fromJson(_result.data);
     return value;
   }
 }

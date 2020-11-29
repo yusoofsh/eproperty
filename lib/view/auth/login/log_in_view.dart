@@ -1,10 +1,12 @@
 import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:build_context/build_context.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,26 +26,24 @@ class _LogInViewState extends State<LogInView> {
       ActionEntry(
         event: const Loading(),
         action: (_) {
-          LoadingHelper().show(Strings.PLEASE_WAIT);
+          EasyLoading.show(status: Strings.PLEASE_WAIT);
         },
       ),
       ActionEntry(
         event: const Success(),
         action: (_) {
-          LoadingHelper().show(
+          EasyLoading.showSuccess(
             Strings.SUCCESS,
-            type: 'success',
           );
 
-          context.navigator.replace('/filter-view');
+          context.navigator.replace('/filter');
         },
       ),
       ActionEntry(
         event: const Failure(),
         action: (_) {
-          LoadingHelper().show(
+          EasyLoading.showError(
             Strings.FAILURE,
-            type: 'failure',
           );
         },
       ),
@@ -61,67 +61,70 @@ class _LogInViewState extends State<LogInView> {
   Widget build(
     BuildContext context,
   ) {
-    final theme = Theme.of(context);
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final height = context.mediaQuerySize.height;
+    final width = context.mediaQuerySize.width;
 
-    return GestureDetector(
-      onTap: () {
-        FocusHelper(context).unfocus();
-      },
-      child: Stack(
-        children: <Widget>[
-          CustomClipShadow(
-            clipper: CustomClipperShape(),
-            shadow: const Shadow(
-              blurRadius: 24,
-              color: Colors.blue,
-            ),
-            child: Container(
-              height: height * 0.4,
-              width: width,
-              color: Colors.blue,
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          if (!context.focusScope.hasPrimaryFocus) {
+            context.focusScope.unfocus();
+          }
+        },
+        child: Stack(
+          children: <Widget>[
+            CustomClipShadow(
+              clipper: CustomClipperShape(),
+              shadow: const Shadow(
+                blurRadius: 24,
+                color: Colors.blue,
+              ),
               child: Container(
-                margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: height * 0.1,
-                    ),
-                    Text(
-                      Strings.WELCOME_BACK,
-                      style: theme.textTheme.headline6.copyWith(
-                        fontSize: Sizes.TEXT_SIZE_20,
-                        color: Colors.white,
+                height: height * 0.4,
+                width: width,
+                color: Colors.blue,
+                child: Container(
+                  margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: height * 0.1,
                       ),
-                    ),
-                    Text(
-                      Strings.LOG_IN,
-                      style: theme.textTheme.headline4.copyWith(
-                        color: Colors.white,
+                      Text(
+                        Strings.WELCOME_BACK,
+                        style: context.textTheme.headline6.copyWith(
+                          fontSize: Sizes.TEXT_SIZE_20,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                      Text(
+                        Strings.LOG_IN,
+                        style: context.textTheme.headline4.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          ListView(
-            padding: const EdgeInsets.all(Sizes.PADDING_0),
-            children: <Widget>[
-              SizedBox(
-                height: height * 0.45,
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: Sizes.MARGIN_20,
+            ListView(
+              padding: const EdgeInsets.all(Sizes.PADDING_0),
+              children: <Widget>[
+                SizedBox(
+                  height: height * 0.45,
                 ),
-                child: BuildForm(),
-              ),
-            ],
-          ),
-        ],
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: Sizes.MARGIN_20,
+                  ),
+                  child: BuildForm(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -137,8 +140,6 @@ class _BuildFormState extends State<BuildForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return FormBuilder(
       key: formKey,
       child: Column(
@@ -169,12 +170,12 @@ class _BuildFormState extends State<BuildForm> {
           Row(
             children: [
               InkWell(
-                onTap: () {
-                  context.navigator.push('/forgot-initial-view');
-                },
+                onTap: () => context.navigator.push(
+                  '/forgot',
+                ),
                 child: Text(
                   Strings.FORGOT_PASSWORD,
-                  style: theme.textTheme.subtitle2.copyWith(
+                  style: context.textTheme.subtitle2.copyWith(
                     color: Colors.black87,
                     fontSize: Sizes.TEXT_SIZE_14,
                   ),
@@ -183,9 +184,11 @@ class _BuildFormState extends State<BuildForm> {
               const Spacer(),
               CustomButton(
                 title: Strings.LOG_IN,
-                theme: theme,
+                theme: context.theme,
                 onPressed: () {
-                  FocusHelper(context).unfocus();
+                  if (!context.focusScope.hasPrimaryFocus) {
+                    context.focusScope.unfocus();
+                  }
                   final formState = formKey.currentState;
                   final crp = context.read(viewModelProvider);
                   if (formState.saveAndValidate()) {

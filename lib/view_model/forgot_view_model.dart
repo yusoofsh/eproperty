@@ -1,35 +1,59 @@
-import 'package:action_mixin/action_mixin.dart';
+import 'package:dio/dio.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/repository/forgot_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ForgotViewModel with ActionMixin {
+enum ForgotState {
+  initial,
+  loading,
+  dismiss,
+  failure,
+  success,
+}
+
+class ForgotViewModel extends StateNotifier<ForgotState> {
+  ForgotViewModel() : super(ForgotState.initial);
+
   final forgotRepository = ForgotRepository();
   final databaseHelper = DatabaseHelper();
 
-  Future<void> requestForgot(Map<String, dynamic> value) async {
-    callback(const Loading());
+  bool enableNextInput = false;
 
-    final _tempBox = await databaseHelper.open('temp');
-    _tempBox.put('email', value['email']);
+  String message;
 
-    await forgotRepository
-        .requestForgot(value)
-        .then((_) => callback(const Success()))
-        .catchError((error) => callback(Failure(error: error)));
+  Future<void> requestCode(
+    Map<String, String> value,
+  ) async {
+    state = ForgotState.loading;
+
+    try {
+      await forgotRepository.requestForgot(value);
+
+      enableNextInput = true;
+
+      state = ForgotState.dismiss;
+
+      state = ForgotState.initial;
+    } on DioError catch (error) {
+      message = error.response.data['message'] as String;
+
+      state = ForgotState.failure;
+    }
   }
 
-  Future<void> requestReset(Map<String, dynamic> value) async {
-    callback(const Loading());
+  Future<void> requestReset(
+    Map<String, dynamic> value,
+  ) async {
+    state = ForgotState.loading;
 
-    final _tempBox = databaseHelper.box('temp');
-    final _email = _tempBox.get('email');
-    value['email'] = _email;
+    try {
+      await forgotRepository.requestReset(value);
 
-    await forgotRepository
-        .requestReset(value)
-        .then((_) => _tempBox
-            .deleteFromDisk()
-            .whenComplete(() => callback(const Success())))
-        .catchError((error) => callback(Failure(error: error)));
+      state = ForgotState.success;
+    } on DioError catch (error) {
+      message = error.response.data;
+
+      state = ForgotState.failure;
+    }
   }
 }

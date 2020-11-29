@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 Future<void> initialization() async {
   await DatabaseHelper().initialize();
 
-  LoadingHelper().initialize();
+  const LoadingHelper().initialize();
 }
 
 Future<void> main() async {

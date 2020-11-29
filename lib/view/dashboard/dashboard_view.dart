@@ -1,30 +1,29 @@
+import 'package:eproperty/model/sales_model.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final viewModelProvider = Provider<DashboardViewModel>(
-  (_) => DashboardViewModel(),
+final viewModelProvider = FutureProvider<List<SalesModel>>(
+  (_) async {
+    final _response = DashboardViewModel().populateData();
+
+    return _response;
+  },
 );
 
-class DashboardView extends StatefulWidget {
+class DashboardView extends ConsumerWidget {
   @override
-  _DashboardViewState createState() => _DashboardViewState();
-}
+  Widget build(BuildContext context, ScopedReader watch) {
+    final sales = watch(viewModelProvider);
 
-class _DashboardViewState extends State<DashboardView> {
-  DashboardViewModel crp;
-
-  @override
-  void initState() {
-    super.initState();
-
-    crp = context.read(viewModelProvider);
-
-    // crp.populateData();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('test')));
+    return Scaffold(
+      body: Center(
+        child: sales.when(
+          data: (data) => Text(data.toString()),
+          loading: () => const CircularProgressIndicator(),
+          error: (err, stack) => Text('Error: $err'),
+        ),
+      ),
+    );
   }
 }

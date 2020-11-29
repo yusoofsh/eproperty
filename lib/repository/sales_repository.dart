@@ -29,4 +29,23 @@ class SalesRepository {
 
     return _response;
   }
+
+  Future<SalesMailOrderModel> requestSalesMailOrder({
+    @required String project,
+    @required int year,
+    @required int month,
+    @required String url,
+    @required String key,
+  }) async {
+    final _response = await api(
+      url: url,
+    ).salesMailOrder(
+      key,
+      project,
+      year,
+      month,
+    );
+
+    return _response;
+  }
 }

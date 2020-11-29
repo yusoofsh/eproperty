@@ -39,8 +39,16 @@ abstract class ApiService {
     @Header(HttpHeaders.authorizationHeader) String authentication,
   );
 
-  @GET('/reservasi?project=SG&year=2020&month=3')
+  @GET('/reservasi')
   Future<SalesReservationModel> salesReservation(
+    @Header('ApiKey') String authentication,
+    @Query('project') String project,
+    @Query('year') int year,
+    @Query('month') int month,
+  );
+
+  @GET('/suratpesanan')
+  Future<SalesMailOrderModel> salesMailOrder(
     @Header('ApiKey') String authentication,
     @Query('project') String project,
     @Query('year') int year,

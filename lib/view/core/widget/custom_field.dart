@@ -20,7 +20,6 @@ class CustomTextField extends StatelessWidget {
 
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<String> validator;
-  final Icon suffixIcon;
   final List<TextInputFormatter> inputFormatters;
   final String hintText;
   final String labelText;
@@ -28,6 +27,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextStyle textStyle;
   final ValueChanged<String> onChanged;
+  final Widget suffixIcon;
   final bool obscureText;
 
   @override
@@ -58,13 +58,12 @@ class CustomDropdownField extends StatelessWidget {
     this.hintText,
     this.onChanged,
     this.onTap,
-    this.suffixIcon,
+    this.suffix,
     this.textStyle,
     this.validator,
   });
 
   final FormFieldValidator validator;
-  final Icon suffixIcon;
   final List<DropdownMenuItem> items;
   final String hintText;
   final String labelText;
@@ -72,6 +71,7 @@ class CustomDropdownField extends StatelessWidget {
   final TextStyle textStyle;
   final ValueChanged onChanged;
   final VoidCallback onTap;
+  final Widget suffix;
 
   @override
   FormBuilderDropdown build(BuildContext context) {
@@ -85,7 +85,7 @@ class CustomDropdownField extends StatelessWidget {
       validator: validator,
       decoration: decoration(
         labelText,
-        suffixIcon: suffixIcon,
+        suffixIcon: suffix,
         hintText: hintText,
       ),
     );

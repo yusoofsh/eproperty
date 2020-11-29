@@ -29,7 +29,7 @@ class Themes {
   );
 
   static final TextTheme textTheme = TextTheme(
-    headline1: GoogleFonts.roboto(
+    headline1: GoogleFonts.poppins(
       fontSize: Sizes.TEXT_SIZE_96,
       color: Colors.black87,
       fontWeight: bold,
@@ -103,20 +103,35 @@ class Themes {
     ),
   );
 
+  static final elevatedButtonTheme = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      elevation: Sizes.ELEVATION_8,
+      primary: Colors.blue,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.PADDING_24,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.RADIUS_12),
+      ),
+    ),
+  );
+
   static ThemeData themeData(
     ColorScheme colorScheme,
     Color focusColor,
   ) {
     return ThemeData(
-      colorScheme: colorScheme,
-      textTheme: textTheme,
-      iconTheme: const IconThemeData(color: Colors.white),
-      canvasColor: colorScheme.background,
-      scaffoldBackgroundColor: colorScheme.background,
-      highlightColor: Colors.transparent,
       accentColor: colorScheme.primary,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
+      canvasColor: colorScheme.background,
+      colorScheme: colorScheme,
+      elevatedButtonTheme: elevatedButtonTheme,
+      buttonColor: Colors.blue,
       focusColor: Colors.primaryColor,
+      highlightColor: Colors.transparent,
+      iconTheme: const IconThemeData(color: Colors.white),
+      scaffoldBackgroundColor: colorScheme.background,
+      textTheme: textTheme,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
 

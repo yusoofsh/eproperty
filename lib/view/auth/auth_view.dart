@@ -22,12 +22,12 @@ class _AuthViewState extends State<AuthView> {
       ) as String;
 
       if (hasCompany.isNotEmpty) {
-        context.navigator.replace('/dashboard-view');
+        context.navigator.replace('/dashboard');
       } else {
-        context.navigator.replace('/filter-view');
+        context.navigator.replace('/filter');
       }
     } else {
-      context.navigator.replace('/log-in-view');
+      context.navigator.replace('/log-in');
     }
   }
 

@@ -1,10 +1,12 @@
 import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:build_context/build_context.dart';
 import 'package:eproperty/helper/helper.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,13 +25,13 @@ class _FilterViewState extends State<FilterView> {
       ActionEntry(
         event: const Loading(),
         action: (_) {
-          LoadingHelper().show(Strings.PLEASE_WAIT);
+          EasyLoading.show(status: Strings.PLEASE_WAIT);
         },
       ),
       ActionEntry(
         event: const Success(),
         action: (_) {
-          context.navigator.replace('/dashboard-view');
+          context.navigator.replace('/dashboard');
         },
       ),
     ];
@@ -45,14 +47,16 @@ class _FilterViewState extends State<FilterView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final height = context.mediaQuerySize.height;
+    final width = context.mediaQuerySize.width;
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       body: GestureDetector(
-        onTap: () => FocusHelper(context).unfocus(),
+        onTap: () {
+          if (!context.focusScope.hasPrimaryFocus) {
+            context.focusScope.unfocus();
+          }
+        },
         child: Stack(
           children: <Widget>[
             CustomClipShadow(
@@ -75,14 +79,14 @@ class _FilterViewState extends State<FilterView> {
                       ),
                       Text(
                         Strings.FILL_REQUIRED,
-                        style: theme.textTheme.headline6.copyWith(
+                        style: context.textTheme.headline6.copyWith(
                           fontSize: Sizes.TEXT_SIZE_20,
                           color: Colors.white,
                         ),
                       ),
                       Text(
                         Strings.FILTER,
-                        style: theme.textTheme.headline4.copyWith(
+                        style: context.textTheme.headline4.copyWith(
                           color: Colors.white,
                         ),
                       ),
@@ -122,8 +126,6 @@ class _BuildFormState extends State<BuildForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return FormBuilder(
       key: formKey,
       child: Column(
@@ -233,9 +235,11 @@ class _BuildFormState extends State<BuildForm> {
               const Spacer(),
               CustomButton(
                 title: Strings.DONE,
-                theme: theme,
+                theme: context.theme,
                 onPressed: () {
-                  FocusHelper(context).unfocus();
+                  if (!context.focusScope.hasPrimaryFocus) {
+                    context.focusScope.unfocus();
+                  }
                   final formState = formKey.currentState;
                   if (formState.saveAndValidate()) {
                     context.read(viewModelProvider).storeCompaniesPreference(

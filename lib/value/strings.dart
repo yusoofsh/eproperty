@@ -11,6 +11,7 @@ class Strings {
   static const String SUCCESS = 'Redirecting you now';
   static const String FAILURE = 'Please try again';
   static const String REQUEST_CODE = 'Request code';
+  static const String REQUEST_RESET = 'Request reset';
   static const String NEW_PASSWORD = 'New password';
   static const String CONFIRM_NEW_PASSWORD = 'Confirm new password';
   static const String CODE = 'Code';
