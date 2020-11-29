@@ -24,15 +24,6 @@ class CompaniesRepository {
     return _response;
   }
 
-  Future<CompaniesModel> requestSalesReservation(
-    int id,
-    String token,
-  ) async {
-    final _response = await api.companiesChild(id, token);
-
-    return _response;
-  }
-
   Future<Box> companiesBox() async {
     final _database = DatabaseHelper();
 
@@ -47,14 +38,14 @@ class CompaniesRepository {
   }
 
   Future<void> storeData({
-    @required List<String> data,
+    @required Map<String, dynamic> data,
   }) async {
     final _box = await companiesBox();
 
-    await _box.put('filter', data);
+    await _box.putAll(data);
   }
 
-  Future<List<String>> retrieveData({
+  Future<dynamic> retrieveData({
     @required String name,
     dynamic value,
   }) async {

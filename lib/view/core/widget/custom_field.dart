@@ -15,11 +15,11 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.suffixIcon,
     this.textStyle,
-    this.validators,
+    this.validator,
   });
 
   final AutovalidateMode autovalidateMode;
-  final FormFieldValidator<String> validators;
+  final FormFieldValidator<String> validator;
   final Icon suffixIcon;
   final List<TextInputFormatter> inputFormatters;
   final String hintText;
@@ -31,7 +31,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
 
   @override
-  Widget build(BuildContext context) {
+  FormBuilderTextField build(BuildContext context) {
     return FormBuilderTextField(
       autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
       inputFormatters: inputFormatters,
@@ -40,7 +40,7 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
       onChanged: onChanged,
       style: textStyle,
-      validator: validators,
+      validator: validator,
       decoration: decoration(
         labelText,
         hintText: hintText,
@@ -60,12 +60,12 @@ class CustomDropdownField extends StatelessWidget {
     this.onTap,
     this.suffixIcon,
     this.textStyle,
-    this.validators,
+    this.validator,
   });
 
+  final FormFieldValidator validator;
   final Icon suffixIcon;
-  final List<DropdownMenuItem<dynamic>> items;
-  final List<FormFieldValidator> validators;
+  final List<DropdownMenuItem> items;
   final String hintText;
   final String labelText;
   final String name;
@@ -82,13 +82,11 @@ class CustomDropdownField extends StatelessWidget {
       onChanged: onChanged,
       onTap: onTap,
       style: textStyle,
+      validator: validator,
       decoration: decoration(
         labelText,
         suffixIcon: suffixIcon,
         hintText: hintText,
-      ),
-      validator: FormBuilderValidators.compose(
-        validators,
       ),
     );
   }

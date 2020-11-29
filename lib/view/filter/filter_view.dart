@@ -1,7 +1,6 @@
 import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/helper.dart';
-import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/value/value.dart';
 import 'package:eproperty/view/core/widget/widget.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
@@ -50,63 +49,64 @@ class _FilterViewState extends State<FilterView> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return GestureDetector(
-      onTap: () {
-        FocusHelper(context).unfocus();
-      },
-      child: Stack(
-        children: <Widget>[
-          CustomClipShadow(
-            clipper: CustomClipperShape(),
-            shadow: const Shadow(
-              blurRadius: 24,
-              color: Colors.blue,
-            ),
-            child: Container(
-              height: height * 0.4,
-              width: width,
-              color: Colors.blue,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: GestureDetector(
+        onTap: () => FocusHelper(context).unfocus(),
+        child: Stack(
+          children: <Widget>[
+            CustomClipShadow(
+              clipper: CustomClipperShape(),
+              shadow: const Shadow(
+                blurRadius: 24,
+                color: Colors.blue,
+              ),
               child: Container(
-                margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: height * 0.1,
-                    ),
-                    Text(
-                      Strings.FILL_REQUIRED,
-                      style: theme.textTheme.headline6.copyWith(
-                        fontSize: Sizes.TEXT_SIZE_20,
-                        color: Colors.white,
+                height: height * 0.4,
+                width: width,
+                color: Colors.blue,
+                child: Container(
+                  margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: height * 0.1,
                       ),
-                    ),
-                    Text(
-                      Strings.FILTER,
-                      style: theme.textTheme.headline4.copyWith(
-                        color: Colors.white,
+                      Text(
+                        Strings.FILL_REQUIRED,
+                        style: theme.textTheme.headline6.copyWith(
+                          fontSize: Sizes.TEXT_SIZE_20,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                      Text(
+                        Strings.FILTER,
+                        style: theme.textTheme.headline4.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          ListView(
-            padding: const EdgeInsets.all(Sizes.PADDING_0),
-            children: <Widget>[
-              SizedBox(
-                height: height * 0.45,
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: Sizes.MARGIN_20,
+            ListView(
+              padding: const EdgeInsets.all(Sizes.PADDING_0),
+              children: <Widget>[
+                SizedBox(
+                  height: height * 0.45,
                 ),
-                child: BuildForm(),
-              ),
-            ],
-          ),
-        ],
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: Sizes.MARGIN_20,
+                  ),
+                  child: BuildForm(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -130,49 +130,98 @@ class _BuildFormState extends State<BuildForm> {
         children: [
           Consumer(
             builder: (context, watch, _) {
-              // Listens to the value exposed by counterProvider
-              final wp = watch(viewModelProvider);
-              final items = wp.companiesActive;
+              final _wp = watch(viewModelProvider);
+              final _items = _wp.companiesActive;
               return CustomDropdownField(
-                name: 'company',
                 labelText: Strings.COMPANY,
-                items: items.map<DropdownMenuItem<Datum>>(
-                      (value) {
-                    return DropdownMenuItem<Datum>(
-                      value: value ?? '',
-                      onTap: () => wp.populateCompaniesChild(value.id),
-                      child: Text(value.name ?? ''),
+                name: 'company',
+                items: _items.map<DropdownMenuItem<String>>(
+                  (value) {
+                    return DropdownMenuItem<String>(
+                      value: value.name,
+                      onTap: () {
+                        _wp.populateCompaniesChild(value.id);
+                      },
+                      child: Text(value.name),
                     );
                   },
                 ).toList(),
-                validators: [
-                  FormBuilderValidators.required(context),
-                ],
+                validator: FormBuilderValidators.required(context),
               );
             },
           ),
-          const CustomSpaces(height: 8),
           Consumer(
             builder: (context, watch, _) {
-              // Listens to the value exposed by counterProvider
-              final wp = watch(viewModelProvider);
-              final items = wp.companiesChild;
-              if (items.isEmpty) {
+              final _wp = watch(viewModelProvider);
+              final _items = _wp.companiesChild;
+              if (_items.isEmpty) {
                 return const SizedBox();
               } else {
-                return CustomDropdownField(
-                  name: 'project',
-                  labelText: Strings.PROJECT,
-                  items: items.map<DropdownMenuItem<Datum>>(
-                        (value) {
-                      return DropdownMenuItem<Datum>(
-                        value: value,
-                        child: Text(value.name),
-                      );
-                    },
-                  ).toList(),
-                  validators: [
-                    FormBuilderValidators.required(context),
+                return Column(
+                  children: [
+                    const CustomSpaces(height: 12),
+                    CustomDropdownField(
+                      labelText: Strings.PROJECT,
+                      name: 'project',
+                      items: _items.map<DropdownMenuItem<String>>(
+                            (value) {
+                          return DropdownMenuItem<String>(
+                            onTap: () => _wp.configureDateInput(),
+                            value: value.name,
+                            child: Text(value.name),
+                          );
+                        },
+                      ).toList(),
+                      validator: FormBuilderValidators.required(context),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+          Consumer(
+            builder: (context, watch, _) {
+              final _wp = watch(viewModelProvider);
+              final _enableDateInput = _wp.enableDateInput;
+              final _months = _wp.months;
+              final _years = _wp.years;
+              if (!_enableDateInput) {
+                return const SizedBox();
+              } else {
+                return Column(
+                  children: [
+                    const CustomSpaces(height: 12),
+                    CustomDropdownField(
+                      labelText: Strings.YEAR,
+                      name: 'year',
+                      items: _years.map<DropdownMenuItem<int>>(
+                            (value) {
+                          return DropdownMenuItem<int>(
+                            value: value,
+                            child: Text(value.toString()),
+                          );
+                        },
+                      ).toList(),
+                      validator: FormBuilderValidators.required(context),
+                    ),
+                    const CustomSpaces(height: 12),
+                    CustomDropdownField(
+                      labelText: Strings.MONTH,
+                      name: 'month',
+                      items: _months
+                          .map((id, name) {
+                            return MapEntry(
+                              id,
+                              DropdownMenuItem<int>(
+                                value: id,
+                                child: Text(name),
+                              ),
+                            );
+                          })
+                          .values
+                          .toList(),
+                      validator: FormBuilderValidators.required(context),
+                    ),
                   ],
                 );
               }
@@ -189,7 +238,7 @@ class _BuildFormState extends State<BuildForm> {
                   FocusHelper(context).unfocus();
                   final formState = formKey.currentState;
                   if (formState.saveAndValidate()) {
-                    context.read(viewModelProvider).storeSelectedCompanies(
+                    context.read(viewModelProvider).storeCompaniesPreference(
                       formState.value.cast(),
                     );
                   }

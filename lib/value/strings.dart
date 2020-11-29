@@ -22,4 +22,6 @@ class Strings {
   static const String COMPANY = 'Company';
   static const String PROJECT = 'Project';
   static const String DONE = 'Done';
+  static const String MONTH = 'Month';
+  static const String YEAR = 'Year';
 }

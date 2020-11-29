@@ -149,17 +149,17 @@ class _BuildFormState extends State<BuildForm> {
           CustomTextField(
             name: 'email',
             labelText: Strings.EMAIL_ADDRESS,
-            validators: FormBuilderValidators.compose([
+            validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context),
             ]),
           ),
-          const CustomSpaces(height: 8),
+          const CustomSpaces(height: 12),
           CustomTextField(
             name: 'password',
             labelText: Strings.PASSWORD,
             obscureText: true,
-            validators: FormBuilderValidators.compose([
+            validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.maxLength(context, 24),
             ]),

@@ -16,12 +16,11 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     crp = context.read(viewModelProvider);
 
-    crp.populateData();
+    // crp.populateData();
   }
 
   @override

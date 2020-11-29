@@ -147,7 +147,7 @@ class _BuildFormState extends State<BuildForm> {
           CustomTextField(
             name: 'email',
             labelText: Strings.EMAIL_ADDRESS,
-            validators: FormBuilderValidators.compose([
+            validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context),
             ]),

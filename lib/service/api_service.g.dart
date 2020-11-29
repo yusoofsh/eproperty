@@ -112,4 +112,31 @@ class _ApiService implements ApiService {
     final value = CompaniesModel.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<SalesReservationModel> salesReservation(
+      authentication, project, year, month) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(project, 'project');
+    ArgumentError.checkNotNull(year, 'year');
+    ArgumentError.checkNotNull(month, 'month');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'project': project,
+      r'year': year,
+      r'month': month
+    };
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/reservasi?project=SG&year=2020&month=3',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SalesReservationModel.fromJson(_result.data);
+    return value;
+  }
 }

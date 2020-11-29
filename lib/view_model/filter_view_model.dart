@@ -9,8 +9,12 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
   final companiesRepository = CompaniesRepository();
   final userRepository = UserRepository();
 
-  List<Datum> companiesActive = <Datum>[];
-  List<Datum> companiesChild = <Datum>[];
+  List<Datum> companiesChild = [];
+  List<Datum> companiesActive = [];
+  List<int> years = [];
+  Map<int, String> months = {};
+
+  bool enableDateInput = false;
 
   Future<String> token() async {
     final _token = 'Bearer ${await userRepository.retrieveData(
@@ -25,7 +29,7 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
       await token(),
     );
 
-    companiesActive.addAll(_response.data);
+    companiesActive = _response.data;
 
     notifyListeners();
   }
@@ -36,21 +40,40 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
       await token(),
     );
 
-    companiesChild.addAll(_response.data);
+    companiesChild = _response.data;
 
     notifyListeners();
   }
 
-  Future<void> storeSelectedCompanies(
-    Map<String, Datum> data,
-  ) async {
-    final _name = <String>[];
-
-    for (final _datum in data.values) {
-      _name.add(_datum.name);
+  void configureDateInput() {
+    for (int year = 2010; year <= DateTime.now().year; year++) {
+      years.add(year);
     }
 
-    await companiesRepository.storeData(data: _name).whenComplete(() {
+    months = {
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December',
+    };
+
+    enableDateInput = true;
+
+    notifyListeners();
+  }
+
+  Future<void> storeCompaniesPreference(
+    Map<String, dynamic> data,
+  ) async {
+    await companiesRepository.storeData(data: data).whenComplete(() {
       callback(const Success());
     });
   }
