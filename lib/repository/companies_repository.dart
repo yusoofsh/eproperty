@@ -1,16 +1,17 @@
-import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/helper/dio_helper.dart';
+import 'package:eproperty/helper/hive_helper.dart';
 import 'package:eproperty/model/companies_model.dart';
-import 'package:eproperty/service/api_service.dart';
+import 'package:eproperty/service/rest_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 class CompaniesRepository {
-  final api = ApiService(dio);
+  final rest = RestService(dio);
 
   Future<CompaniesModel> requestCompaniesActive(
     String token,
   ) async {
-    final _response = await api.companiesActive(token);
+    final _response = await rest.companiesActive(token);
 
     return _response;
   }
@@ -19,13 +20,13 @@ class CompaniesRepository {
     int id,
     String token,
   ) async {
-    final _response = await api.companiesChild(id, token);
+    final _response = await rest.companiesChild(id, token);
 
     return _response;
   }
 
   Future<Box> companiesBox() async {
-    final _database = DatabaseHelper();
+    final _database = HiveHelper();
 
     final _key = await _database.keyBox();
 
@@ -45,7 +46,7 @@ class CompaniesRepository {
     await _box.putAll(data);
   }
 
-  Future<dynamic> retrieveData({
+  Future<T> retrieveData<T>({
     @required String name,
     dynamic value,
   }) async {
@@ -54,7 +55,7 @@ class CompaniesRepository {
     final _data = _box.get(
       name,
       defaultValue: value,
-    );
+    ) as T;
 
     return _data;
   }

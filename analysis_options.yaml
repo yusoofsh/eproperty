@@ -6,3 +6,9 @@ analyzer:
     - "**/*.gr.dart"
     - "lib/generated*.dart"
     - "lib/model/*.dart"
+
+linter:
+  rules:
+    - sort_constructors_first
+    - prefer_single_quotes
+    - lines_longer_than_80_chars

@@ -1,59 +1,61 @@
 import 'package:dio/dio.dart';
-import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/helper/hive_helper.dart';
 import 'package:eproperty/repository/forgot_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ForgotState {
-  initial,
-  loading,
-  dismiss,
   failure,
+  loading,
+  next,
   success,
 }
 
-class ForgotViewModel extends StateNotifier<ForgotState> {
-  ForgotViewModel() : super(ForgotState.initial);
-
+class ForgotViewModel extends ChangeNotifier {
   final forgotRepository = ForgotRepository();
-  final databaseHelper = DatabaseHelper();
+  final databaseHelper = HiveHelper();
 
-  bool enableNextInput = false;
+  ForgotState state = ForgotState.loading;
 
   String message;
 
   Future<void> requestCode(
     Map<String, String> value,
   ) async {
-    state = ForgotState.loading;
-
     try {
       await forgotRepository.requestForgot(value);
 
-      enableNextInput = true;
+      state = ForgotState.next;
 
-      state = ForgotState.dismiss;
-
-      state = ForgotState.initial;
+      notifyListeners();
     } on DioError catch (error) {
       message = error.response.data['message'] as String;
 
       state = ForgotState.failure;
+
+      notifyListeners();
     }
   }
 
   Future<void> requestReset(
     Map<String, dynamic> value,
   ) async {
-    state = ForgotState.loading;
-
     try {
       await forgotRepository.requestReset(value);
 
       state = ForgotState.success;
+
+      notifyListeners();
     } on DioError catch (error) {
-      message = error.response.data;
+      message = error.response.data['message'] as String;
 
       state = ForgotState.failure;
+
+      notifyListeners();
     }
   }
 }
+
+final forgotViewModelProvider = ChangeNotifierProvider(
+  (_) => ForgotViewModel(),
+);

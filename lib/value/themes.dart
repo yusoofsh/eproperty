@@ -1,4 +1,5 @@
-import 'package:eproperty/value/value.dart';
+import 'package:eproperty/value/colors.dart';
+import 'package:eproperty/value/sizes.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:google_fonts/google_fonts.dart';
 
@@ -30,73 +31,73 @@ class Themes {
 
   static final TextTheme textTheme = TextTheme(
     headline1: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_96,
+      fontSize: Sizes.textSize96,
       color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline2: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_60,
+      fontSize: Sizes.textSize60,
       color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline3: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_48,
+      fontSize: Sizes.textSize48,
       color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline4: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_34,
+      fontSize: Sizes.textSize34,
       color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline5: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_24,
+      fontSize: Sizes.textSize24,
       color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     headline6: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_20,
+      fontSize: Sizes.textSize20,
       color: Colors.black87,
       fontWeight: bold,
       fontStyle: FontStyle.normal,
     ),
     subtitle1: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_16,
+      fontSize: Sizes.textSize16,
       color: Colors.black87,
       fontWeight: semiBold,
       fontStyle: FontStyle.normal,
     ),
     subtitle2: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_14,
+      fontSize: Sizes.textSize14,
       color: Colors.black87,
       fontWeight: semiBold,
       fontStyle: FontStyle.normal,
     ),
     bodyText1: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_16,
+      fontSize: Sizes.textSize16,
       color: Colors.black87,
       fontWeight: light,
       fontStyle: FontStyle.normal,
     ),
     bodyText2: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_14,
+      fontSize: Sizes.textSize14,
       color: Colors.black87,
       fontWeight: light,
       fontStyle: FontStyle.normal,
     ),
     button: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_14,
+      fontSize: Sizes.textSize14,
       color: Colors.black87,
       fontStyle: FontStyle.normal,
       fontWeight: medium,
     ),
     caption: GoogleFonts.poppins(
-      fontSize: Sizes.TEXT_SIZE_12,
+      fontSize: Sizes.textSize12,
       color: Colors.white,
       fontWeight: regular,
       fontStyle: FontStyle.normal,
@@ -105,13 +106,13 @@ class Themes {
 
   static final elevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      elevation: Sizes.ELEVATION_8,
+      elevation: Sizes.elevation8,
       primary: Colors.blue,
       padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.PADDING_24,
+        horizontal: Sizes.padding24,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Sizes.RADIUS_12),
+        borderRadius: BorderRadius.circular(Sizes.radius12),
       ),
     ),
   );

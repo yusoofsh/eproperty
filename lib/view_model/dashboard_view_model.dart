@@ -2,6 +2,7 @@ import 'package:eproperty/model/sales_model.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DashboardViewModel {
   final companiesRepository = CompaniesRepository();
@@ -9,15 +10,15 @@ class DashboardViewModel {
   final userRepository = UserRepository();
 
   Future<Map<String, String>> api() async {
-    final _apiUrl = await userRepository.retrieveData(
+    final _apiUrl = await userRepository.retrieveData<String>(
       name: 'api_url',
       value: '',
-    ) as String;
+    );
 
-    final _apiKey = await userRepository.retrieveData(
+    final _apiKey = await userRepository.retrieveData<String>(
       name: 'api_key',
       value: '',
-    ) as String;
+    );
 
     final _result = {
       'url': _apiUrl,
@@ -28,17 +29,17 @@ class DashboardViewModel {
   }
 
   Future<Map<String, dynamic>> companies() async {
-    final _project = await companiesRepository.retrieveData(
+    final _project = await companiesRepository.retrieveData<String>(
       name: 'project',
-    ) as String;
+    );
 
-    final _year = await companiesRepository.retrieveData(
+    final _year = await companiesRepository.retrieveData<int>(
       name: 'year',
-    ) as int;
+    );
 
-    final _month = await companiesRepository.retrieveData(
+    final _month = await companiesRepository.retrieveData<int>(
       name: 'month',
-    ) as int;
+    );
 
     final _result = {
       'project': _project,
@@ -52,16 +53,12 @@ class DashboardViewModel {
   Future<SalesReservationModel> populateSalesReservation({
     String apiUrl,
     String apiKey,
-    String project,
-    int year,
-    int month,
+    Map<String, dynamic> data,
   }) async {
     final _response = await salesRepository.requestSalesReservation(
       url: apiUrl,
       key: apiKey,
-      project: project,
-      year: year,
-      month: month,
+      data: data,
     );
 
     return _response;
@@ -70,49 +67,45 @@ class DashboardViewModel {
   Future<SalesMailOrderModel> populateSalesMailOrder({
     String apiUrl,
     String apiKey,
-    String project,
-    int year,
-    int month,
+    Map<String, dynamic> data,
   }) async {
     final _response = await salesRepository.requestSalesMailOrder(
       url: apiUrl,
       key: apiKey,
-      project: project,
-      year: year,
-      month: month,
+      data: data,
     );
 
     return _response;
   }
 
-  Future<List<SalesModel>> populateData() async {
+  Future<List<SalesModel>> fetchData() async {
     final _api = await api();
     final _data = await companies();
 
     final _apiUrl = _api['url'];
     final _apiKey = _api['key'];
 
-    final _project = _data['project'] as String;
-    final _year = _data['year'] as int;
-    final _month = _data['month'] as int;
-
     final _response = await Future.wait([
       populateSalesReservation(
         apiUrl: _apiUrl,
         apiKey: _apiKey,
-        project: _project,
-        year: _year,
-        month: _month,
+        data: _data,
       ),
       populateSalesMailOrder(
         apiUrl: _apiUrl,
         apiKey: _apiKey,
-        project: _project,
-        year: _year,
-        month: _month,
+        data: _data,
       ),
     ]);
 
     return _response;
   }
 }
+
+final dashboardViewModelProvider = FutureProvider<List<SalesModel>>(
+  (_) async {
+    final _response = DashboardViewModel().fetchData();
+
+    return _response;
+  },
+);

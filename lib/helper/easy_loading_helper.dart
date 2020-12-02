@@ -1,8 +1,8 @@
-import 'package:eproperty/value/value.dart';
+import 'package:eproperty/value/colors.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class LoadingHelper {
-  const LoadingHelper();
+class EasyLoadingHelper {
+  const EasyLoadingHelper();
 
   void initialize() {
     EasyLoading.instance

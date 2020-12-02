@@ -1,116 +1,131 @@
-import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:build_context/build_context.dart';
-import 'package:eproperty/helper/helper.dart';
-import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:eproperty/route/router.gr.dart';
+import 'package:eproperty/value/colors.dart';
+import 'package:eproperty/value/sizes.dart';
+import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view/core/widget/custom_button.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
+import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_field.dart';
+import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final viewModelProvider = ChangeNotifierProvider<FilterViewModel>(
-  (_) => FilterViewModel(),
-);
-
-class FilterView extends StatefulWidget {
+class FilterView extends StatelessWidget {
   @override
-  _FilterViewState createState() => _FilterViewState();
+  Widget build(BuildContext context) {
+    context.read(filterViewModelProvider).populateCompaniesActive();
+
+    return ProviderListener<FilterViewModel>(
+      provider: filterViewModelProvider,
+      onChange: (context, value) {
+        final _state = value.state;
+
+        switch (_state) {
+          case FilterState.loading:
+            EasyLoading.show(status: Strings.pleaseWait);
+
+            break;
+          case FilterState.dismiss:
+            EasyLoading.dismiss();
+
+            break;
+          case FilterState.next:
+            EasyLoading.dismiss();
+
+            break;
+          case FilterState.failure:
+            final _message = value.message;
+
+            EasyLoading.showError(_message);
+
+            break;
+          case FilterState.success:
+            context.navigator.replace(Routes.dashboardView);
+
+            break;
+        }
+      },
+      child: const Scaffold(
+        body: BuildBody(),
+      ),
+    );
+  }
 }
 
-class _FilterViewState extends State<FilterView> {
-  List<ActionEntry> actions() {
-    return [
-      ActionEntry(
-        event: const Loading(),
-        action: (_) {
-          EasyLoading.show(status: Strings.PLEASE_WAIT);
-        },
-      ),
-      ActionEntry(
-        event: const Success(),
-        action: (_) {
-          context.navigator.replace('/dashboard');
-        },
-      ),
-    ];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    context.read(viewModelProvider).initActions(actions());
-    context.read(viewModelProvider).populateCompaniesActive();
-  }
+class BuildBody extends StatelessWidget {
+  const BuildBody({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final height = context.mediaQuerySize.height;
     final width = context.mediaQuerySize.width;
 
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          if (!context.focusScope.hasPrimaryFocus) {
-            context.focusScope.unfocus();
-          }
-        },
-        child: Stack(
-          children: <Widget>[
-            CustomClipShadow(
-              clipper: CustomClipperShape(),
-              shadow: const Shadow(
-                blurRadius: 24,
-                color: Colors.blue,
-              ),
+    return GestureDetector(
+      onTap: () {
+        if (!context.focusScope.hasPrimaryFocus) {
+          context.focusScope.unfocus();
+        }
+      },
+      child: Stack(
+        children: [
+          CustomClipShadow(
+            clipper: CustomClipperShape(),
+            shadow: const Shadow(
+              blurRadius: 24,
+              color: Colors.blue,
+            ),
+            child: Container(
+              height: height * 0.4,
+              width: width,
+              color: Colors.blue,
               child: Container(
-                height: height * 0.4,
-                width: width,
-                color: Colors.blue,
-                child: Container(
-                  margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: height * 0.1,
+                margin: const EdgeInsets.only(left: Sizes.margin24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: height * 0.1,
+                    ),
+                    Text(
+                      Strings.fillRequired,
+                      style: context.textTheme.headline6.copyWith(
+                        fontSize: Sizes.textSize20,
+                        color: Colors.white,
                       ),
-                      Text(
-                        Strings.FILL_REQUIRED,
-                        style: context.textTheme.headline6.copyWith(
-                          fontSize: Sizes.TEXT_SIZE_20,
-                          color: Colors.white,
-                        ),
+                    ),
+                    Text(
+                      Strings.filter,
+                      style: context.textTheme.headline4.copyWith(
+                        color: Colors.white,
                       ),
-                      Text(
-                        Strings.FILTER,
-                        style: context.textTheme.headline4.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            ListView(
-              padding: const EdgeInsets.all(Sizes.PADDING_0),
-              children: <Widget>[
-                SizedBox(
-                  height: height * 0.45,
+          ),
+          ListView(
+            padding: const EdgeInsets.all(Sizes.padding0),
+            children: [
+              SizedBox(
+                height: height * 0.45,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: Sizes.margin20,
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: Sizes.MARGIN_20,
-                  ),
-                  child: BuildForm(),
-                ),
-              ],
-            ),
-          ],
-        ),
+                child: BuildForm(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -132,18 +147,18 @@ class _BuildFormState extends State<BuildForm> {
         children: [
           Consumer(
             builder: (context, watch, _) {
-              final _wp = watch(viewModelProvider);
-              final _items = _wp.companiesActive;
+              final _wp = watch(filterViewModelProvider);
+
+              final _companiesActive = _wp.companiesActive;
               return CustomDropdownField(
-                labelText: Strings.COMPANY,
                 name: 'company',
-                items: _items.map<DropdownMenuItem<String>>(
+                labelText: Strings.company,
+                autovalidateMode: AutovalidateMode.disabled,
+                items: _companiesActive.map<DropdownMenuItem<String>>(
                   (value) {
                     return DropdownMenuItem<String>(
                       value: value.name,
-                      onTap: () {
-                        _wp.populateCompaniesChild(value.id);
-                      },
+                      onTap: () => _wp.populateCompaniesChild(value.id),
                       child: Text(value.name),
                     );
                   },
@@ -154,22 +169,23 @@ class _BuildFormState extends State<BuildForm> {
           ),
           Consumer(
             builder: (context, watch, _) {
-              final _wp = watch(viewModelProvider);
-              final _items = _wp.companiesChild;
-              if (_items.isEmpty) {
+              final _wp = watch(filterViewModelProvider);
+              final _companiesChild = _wp.companiesChild;
+
+              if (_companiesChild.isEmpty) {
                 return const SizedBox();
               } else {
                 return Column(
                   children: [
                     const CustomSpaces(height: 12),
                     CustomDropdownField(
-                      labelText: Strings.PROJECT,
+                      labelText: Strings.project,
                       name: 'project',
-                      items: _items.map<DropdownMenuItem<String>>(
-                        (value) {
+                      items: _companiesChild.map<DropdownMenuItem<String>>(
+                            (value) {
                           return DropdownMenuItem<String>(
-                            onTap: () => _wp.configureDateInput(),
                             value: value.name,
+                            onTap: () => _wp.configureDateInput(),
                             child: Text(value.name),
                           );
                         },
@@ -183,21 +199,21 @@ class _BuildFormState extends State<BuildForm> {
           ),
           Consumer(
             builder: (context, watch, _) {
-              final _wp = watch(viewModelProvider);
-              final _enableDateInput = _wp.enableDateInput;
+              final _wp = watch(filterViewModelProvider);
+              final _state = _wp.state;
               final _months = _wp.months;
               final _years = _wp.years;
-              if (!_enableDateInput) {
+              if (_state != FilterState.next) {
                 return const SizedBox();
               } else {
                 return Column(
                   children: [
                     const CustomSpaces(height: 12),
                     CustomDropdownField(
-                      labelText: Strings.YEAR,
+                      labelText: Strings.year,
                       name: 'year',
                       items: _years.map<DropdownMenuItem<int>>(
-                        (value) {
+                            (value) {
                           return DropdownMenuItem<int>(
                             value: value,
                             child: Text(value.toString()),
@@ -208,18 +224,20 @@ class _BuildFormState extends State<BuildForm> {
                     ),
                     const CustomSpaces(height: 12),
                     CustomDropdownField(
-                      labelText: Strings.MONTH,
+                      labelText: Strings.month,
                       name: 'month',
                       items: _months
-                          .map((id, name) {
-                            return MapEntry(
-                              id,
-                              DropdownMenuItem<int>(
-                                value: id,
-                                child: Text(name),
-                              ),
-                            );
-                          })
+                          .map(
+                            (id, name) {
+                          return MapEntry(
+                            id,
+                            DropdownMenuItem<int>(
+                              value: id,
+                              child: Text(name),
+                            ),
+                          );
+                        },
+                      )
                           .values
                           .toList(),
                       validator: FormBuilderValidators.required(context),
@@ -233,18 +251,17 @@ class _BuildFormState extends State<BuildForm> {
           Row(
             children: [
               const Spacer(),
-              CustomButton(
-                title: Strings.DONE,
-                theme: context.theme,
+              CustomElevatedButton(
+                title: Strings.done,
                 onPressed: () {
                   if (!context.focusScope.hasPrimaryFocus) {
                     context.focusScope.unfocus();
                   }
                   final formState = formKey.currentState;
                   if (formState.saveAndValidate()) {
-                    context.read(viewModelProvider).storeCompaniesPreference(
-                          formState.value.cast(),
-                        );
+                    context
+                        .read(filterViewModelProvider)
+                        .storeCompaniesPreference(formState.value.cast());
                   }
                 },
               )

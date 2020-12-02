@@ -1,20 +1,21 @@
-import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/helper/dio_helper.dart';
+import 'package:eproperty/helper/hive_helper.dart';
 import 'package:eproperty/model/user_model.dart';
-import 'package:eproperty/service/api_service.dart';
+import 'package:eproperty/service/rest_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 class UserRepository {
-  final api = ApiService(dio);
+  final rest = RestService(dio);
 
   Future<UserModel> requestLogIn(String token) async {
-    final _response = await api.authToken(token);
+    final _response = await rest.authToken(token);
 
     return _response;
   }
 
   Future<Box> userBox() async {
-    final _database = DatabaseHelper();
+    final _database = HiveHelper();
 
     final _key = await _database.keyBox();
 
@@ -34,7 +35,7 @@ class UserRepository {
     await _box.putAll(data);
   }
 
-  Future<dynamic> retrieveData({
+  Future<T> retrieveData<T>({
     @required String name,
     dynamic value,
   }) async {
@@ -43,7 +44,7 @@ class UserRepository {
     final _data = _box.get(
       name,
       defaultValue: value,
-    );
+    ) as T;
 
     return _data;
   }

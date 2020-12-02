@@ -7,11 +7,11 @@ import 'package:eproperty/model/sales_model.dart';
 import 'package:eproperty/model/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'api_service.g.dart';
+part 'rest_service.g.dart';
 
 @RestApi(baseUrl: 'http://34.101.219.118/eproperty-admin/api/admin/v1')
-abstract class ApiService {
-  factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
+abstract class RestService {
+  factory RestService(Dio dio, {String baseUrl}) = _RestService;
 
   @POST('/auth/token')
   Future<UserModel> authToken(
@@ -42,16 +42,12 @@ abstract class ApiService {
   @GET('/reservasi')
   Future<SalesReservationModel> salesReservation(
     @Header('ApiKey') String authentication,
-    @Query('project') String project,
-    @Query('year') int year,
-    @Query('month') int month,
+    @Queries() Map<String, dynamic> queries,
   );
 
   @GET('/suratpesanan')
   Future<SalesMailOrderModel> salesMailOrder(
     @Header('ApiKey') String authentication,
-    @Query('project') String project,
-    @Query('year') int year,
-    @Query('month') int month,
+    @Queries() Map<String, dynamic> queries,
   );
 }

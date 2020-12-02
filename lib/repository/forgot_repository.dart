@@ -1,14 +1,14 @@
-import 'package:eproperty/helper/api_helper.dart';
+import 'package:eproperty/helper/dio_helper.dart';
 import 'package:eproperty/model/base_model.dart';
-import 'package:eproperty/service/api_service.dart';
+import 'package:eproperty/service/rest_service.dart';
 
 class ForgotRepository {
-  final api = ApiService(dio);
+  final rest = RestService(dio);
 
   Future<BaseModel> requestForgot(
     Map<String, String> body,
   ) async {
-    final _response = await api.authForgot(
+    final _response = await rest.authForgot(
       body,
     );
 
@@ -18,7 +18,7 @@ class ForgotRepository {
   Future<BaseModel> requestReset(
     Map<String, dynamic> body,
   ) async {
-    final _response = await api.authReset(
+    final _response = await rest.authReset(
       body,
     );
 

@@ -1,9 +1,14 @@
-import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:build_context/build_context.dart';
-import 'package:eproperty/helper/helper.dart';
-import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:eproperty/route/router.gr.dart';
+import 'package:eproperty/value/colors.dart';
+import 'package:eproperty/value/sizes.dart';
+import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view/core/widget/custom_button.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
+import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_field.dart';
+import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,120 +16,114 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final viewModelProvider = Provider<LogInViewModel>(
-  (_) => LogInViewModel(),
-);
-
-class LogInView extends StatefulWidget {
+class LogInView extends StatelessWidget {
   @override
-  _LogInViewState createState() => _LogInViewState();
+  Widget build(BuildContext context) {
+    return ProviderListener<LogInViewModel>(
+      provider: logInViewModelProvider,
+      onChange: (context, value) {
+        final _state = value.state;
+
+        switch (_state) {
+          case LogInState.loading:
+            EasyLoading.show(status: Strings.pleaseWait);
+
+            break;
+          case LogInState.failure:
+            final _message = value.message;
+
+            EasyLoading.showError(_message);
+
+            break;
+          case LogInState.success:
+            EasyLoading.showSuccess(
+              Strings.success,
+            );
+
+            context.navigator.pushAndRemoveUntil(
+              Routes.filterView,
+              (_) => false,
+            );
+
+            break;
+        }
+      },
+      child: const Scaffold(
+        body: BuildBody(),
+      ),
+    );
+  }
 }
 
-class _LogInViewState extends State<LogInView> {
-  List<ActionEntry> actions() {
-    return [
-      ActionEntry(
-        event: const Loading(),
-        action: (_) {
-          EasyLoading.show(status: Strings.PLEASE_WAIT);
-        },
-      ),
-      ActionEntry(
-        event: const Success(),
-        action: (_) {
-          EasyLoading.showSuccess(
-            Strings.SUCCESS,
-          );
-
-          context.navigator.replace('/filter');
-        },
-      ),
-      ActionEntry(
-        event: const Failure(),
-        action: (_) {
-          EasyLoading.showError(
-            Strings.FAILURE,
-          );
-        },
-      ),
-    ];
-  }
+class BuildBody extends StatelessWidget {
+  const BuildBody({
+    Key key,
+  }) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-
-    context.read(viewModelProvider).initActions(actions());
-  }
-
-  @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     final height = context.mediaQuerySize.height;
     final width = context.mediaQuerySize.width;
 
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          if (!context.focusScope.hasPrimaryFocus) {
-            context.focusScope.unfocus();
-          }
-        },
-        child: Stack(
-          children: <Widget>[
-            CustomClipShadow(
-              clipper: CustomClipperShape(),
-              shadow: const Shadow(
-                blurRadius: 24,
-                color: Colors.blue,
-              ),
+    return GestureDetector(
+      onTap: () {
+        if (!context.focusScope.hasPrimaryFocus) {
+          context.focusScope.unfocus();
+        }
+      },
+      child: Stack(
+        children: [
+          CustomClipShadow(
+            clipper: CustomClipperShape(),
+            shadow: const Shadow(
+              blurRadius: 24,
+              color: Colors.blue,
+            ),
+            child: Container(
+              height: height * 0.4,
+              width: width,
+              color: Colors.blue,
               child: Container(
-                height: height * 0.4,
-                width: width,
-                color: Colors.blue,
-                child: Container(
-                  margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: height * 0.1,
+                margin: const EdgeInsets.only(left: Sizes.margin24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: height * 0.1,
+                    ),
+                    Text(
+                      Strings.welcome,
+                      style: context.textTheme.headline6.copyWith(
+                        fontSize: Sizes.textSize20,
+                        color: Colors.white,
                       ),
-                      Text(
-                        Strings.WELCOME_BACK,
-                        style: context.textTheme.headline6.copyWith(
-                          fontSize: Sizes.TEXT_SIZE_20,
-                          color: Colors.white,
-                        ),
+                    ),
+                    Text(
+                      Strings.logIn,
+                      style: context.textTheme.headline4.copyWith(
+                        color: Colors.white,
                       ),
-                      Text(
-                        Strings.LOG_IN,
-                        style: context.textTheme.headline4.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            ListView(
-              padding: const EdgeInsets.all(Sizes.PADDING_0),
-              children: <Widget>[
-                SizedBox(
-                  height: height * 0.45,
+          ),
+          ListView(
+            padding: const EdgeInsets.all(Sizes.padding0),
+            children: [
+              SizedBox(
+                height: height * 0.45,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: Sizes.margin20,
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: Sizes.MARGIN_20,
-                  ),
-                  child: BuildForm(),
-                ),
-              ],
-            ),
-          ],
-        ),
+                child: BuildForm(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -146,7 +145,7 @@ class _BuildFormState extends State<BuildForm> {
         children: [
           CustomTextField(
             name: 'email',
-            labelText: Strings.EMAIL_ADDRESS,
+            labelText: Strings.email,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context),
@@ -155,7 +154,7 @@ class _BuildFormState extends State<BuildForm> {
           const CustomSpaces(height: 12),
           CustomTextField(
             name: 'password',
-            labelText: Strings.PASSWORD,
+            labelText: Strings.password,
             obscureText: true,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
@@ -170,27 +169,24 @@ class _BuildFormState extends State<BuildForm> {
           Row(
             children: [
               InkWell(
-                onTap: () => context.navigator.push(
-                  '/forgot',
-                ),
+                onTap: () => context.navigator.push(Routes.forgotView),
                 child: Text(
-                  Strings.FORGOT_PASSWORD,
+                  Strings.forgot,
                   style: context.textTheme.subtitle2.copyWith(
                     color: Colors.black87,
-                    fontSize: Sizes.TEXT_SIZE_14,
+                    fontSize: Sizes.textSize14,
                   ),
                 ),
               ),
               const Spacer(),
-              CustomButton(
-                title: Strings.LOG_IN,
-                theme: context.theme,
+              CustomElevatedButton(
+                title: Strings.logIn,
                 onPressed: () {
                   if (!context.focusScope.hasPrimaryFocus) {
                     context.focusScope.unfocus();
                   }
                   final formState = formKey.currentState;
-                  final crp = context.read(viewModelProvider);
+                  final crp = context.read(logInViewModelProvider);
                   if (formState.saveAndValidate()) {
                     crp.requestAuthentication(formState.value);
                   }

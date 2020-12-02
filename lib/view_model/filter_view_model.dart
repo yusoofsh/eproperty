@@ -1,48 +1,86 @@
-import 'package:action_mixin/action_mixin.dart';
-import 'package:eproperty/helper/event_helper.dart';
+import 'package:dio/dio.dart';
 import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FilterViewModel extends ChangeNotifier with ActionMixin {
+enum FilterState {
+  dismiss,
+  failure,
+  loading,
+  next,
+  success,
+}
+
+class FilterViewModel extends ChangeNotifier {
   final companiesRepository = CompaniesRepository();
   final userRepository = UserRepository();
 
-  List<Datum> companiesChild = [];
+  FilterState state = FilterState.loading;
   List<Datum> companiesActive = [];
-  List<int> years = [];
-  Map<int, String> months = {};
+  List<Datum> companiesChild = [];
 
-  bool enableDateInput = false;
+  List<int> years;
+  Map<int, String> months;
+  String message;
 
   Future<String> token() async {
-    final _token = 'Bearer ${await userRepository.retrieveData(
+    final _token = 'Bearer ${await userRepository.retrieveData<String>(
       name: 'token',
+      value: '',
     )}';
 
     return _token;
   }
 
   Future<void> populateCompaniesActive() async {
-    final _response = await companiesRepository.requestCompaniesActive(
-      await token(),
-    );
+    try {
+      final _response = await companiesRepository.requestCompaniesActive(
+        await token(),
+      );
 
-    companiesActive = _response.data;
+      if (_response.data.isNotEmpty) {
+        companiesActive = _response.data;
+      }
 
-    notifyListeners();
+      state = FilterState.dismiss;
+
+      notifyListeners();
+    } on DioError catch (error) {
+      message = error.response.data['message'] as String;
+
+      state = FilterState.failure;
+
+      notifyListeners();
+    }
   }
 
   Future<void> populateCompaniesChild(int item) async {
-    final _response = await companiesRepository.requestCompaniesChild(
-      item,
-      await token(),
-    );
+    try {
+      final _response = await companiesRepository.requestCompaniesChild(
+        item,
+        await token(),
+      );
 
-    companiesChild = _response.data;
+      if (companiesChild != null) {
+        companiesChild.clear();
+      }
 
-    notifyListeners();
+      if (_response.data.isNotEmpty) {
+        companiesChild.addAll(_response.data);
+      }
+
+      state = FilterState.dismiss;
+
+      notifyListeners();
+    } on DioError catch (error) {
+      message = error.response.data['message'] as String;
+
+      state = FilterState.failure;
+
+      notifyListeners();
+    }
   }
 
   void configureDateInput() {
@@ -65,7 +103,7 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
       12: 'December',
     };
 
-    enableDateInput = true;
+    state = FilterState.next;
 
     notifyListeners();
   }
@@ -73,8 +111,21 @@ class FilterViewModel extends ChangeNotifier with ActionMixin {
   Future<void> storeCompaniesPreference(
     Map<String, dynamic> data,
   ) async {
-    await companiesRepository.storeData(data: data).whenComplete(() {
-      callback(const Success());
-    });
+    try {
+      await companiesRepository.storeData(data: data);
+
+      state = FilterState.success;
+
+      notifyListeners();
+    } catch (error) {
+      message = error as String;
+      state = FilterState.failure;
+
+      notifyListeners();
+    }
   }
 }
+
+final filterViewModelProvider = ChangeNotifierProvider(
+  (_) => FilterViewModel(),
+);

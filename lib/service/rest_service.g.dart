@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'api_service.dart';
+part of 'rest_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-class _ApiService implements ApiService {
-  _ApiService(this._dio, {this.baseUrl}) {
+class _RestService implements RestService {
+  _RestService(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
     baseUrl ??= 'http://34.101.219.118/eproperty-admin/api/admin/v1';
   }
@@ -115,17 +115,12 @@ class _ApiService implements ApiService {
 
   @override
   Future<SalesReservationModel> salesReservation(
-      authentication, project, year, month) async {
+      authentication, queries) async {
     ArgumentError.checkNotNull(authentication, 'authentication');
-    ArgumentError.checkNotNull(project, 'project');
-    ArgumentError.checkNotNull(year, 'year');
-    ArgumentError.checkNotNull(month, 'month');
+    ArgumentError.checkNotNull(queries, 'queries');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'project': project,
-      r'year': year,
-      r'month': month
-    };
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>('/reservasi',
         queryParameters: queryParameters,
@@ -140,18 +135,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<SalesMailOrderModel> salesMailOrder(
-      authentication, project, year, month) async {
+  Future<SalesMailOrderModel> salesMailOrder(authentication, queries) async {
     ArgumentError.checkNotNull(authentication, 'authentication');
-    ArgumentError.checkNotNull(project, 'project');
-    ArgumentError.checkNotNull(year, 'year');
-    ArgumentError.checkNotNull(month, 'month');
+    ArgumentError.checkNotNull(queries, 'queries');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'project': project,
-      r'year': year,
-      r'month': month
-    };
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>('/suratpesanan',
         queryParameters: queryParameters,

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class DatabaseHelper {
+class HiveHelper {
   final HiveInterface _hive = Hive;
 
   Future<void> initialize() async => _hive.initFlutter('database');

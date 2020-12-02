@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
+import 'package:eproperty/route/router.gr.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class AuthView extends StatefulWidget {
@@ -10,24 +11,24 @@ class AuthView extends StatefulWidget {
 
 class _AuthViewState extends State<AuthView> {
   Future<void> configureDefaultRoute() async {
-    final isLoggedIn = await UserRepository().retrieveData(
+    final isLoggedIn = await UserRepository().retrieveData<bool>(
       name: 'is_logged_in',
       value: false,
-    ) as bool;
+    );
 
     if (isLoggedIn) {
-      final hasCompany = await CompaniesRepository().retrieveData(
+      final hasCompany = await CompaniesRepository().retrieveData<String>(
         name: 'company',
         value: '',
-      ) as String;
+      );
 
       if (hasCompany.isNotEmpty) {
-        context.navigator.replace('/dashboard');
+        context.navigator.replace(Routes.dashboardView);
       } else {
-        context.navigator.replace('/filter');
+        context.navigator.replace(Routes.filterView);
       }
     } else {
-      context.navigator.replace('/log-in');
+      context.navigator.replace(Routes.logInView);
     }
   }
 
@@ -39,7 +40,7 @@ class _AuthViewState extends State<AuthView> {
   }
 
   @override
-  Widget build(_) {
+  Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: FlutterLogo(size: 240),
