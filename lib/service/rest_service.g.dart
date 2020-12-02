@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'api_service.dart';
+part of 'rest_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-class _ApiService implements ApiService {
-  _ApiService(this._dio, {this.baseUrl}) {
+class _RestService implements RestService {
+  _RestService(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
     baseUrl ??= 'http://34.101.219.118/eproperty-admin/api/admin/v1';
   }
@@ -110,6 +110,47 @@ class _ApiService implements ApiService {
             baseUrl: baseUrl),
         data: _data);
     final value = CompaniesModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<SalesReservationModel> salesReservation(
+      authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/reservasi',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SalesReservationModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<SalesMailOrderModel> salesMailOrder(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/suratpesanan',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SalesMailOrderModel.fromJson(_result.data);
     return value;
   }
 }

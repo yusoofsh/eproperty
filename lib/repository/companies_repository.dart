@@ -1,26 +1,37 @@
 import 'package:eproperty/helper/dio_helper.dart';
 import 'package:eproperty/helper/hive_helper.dart';
-import 'package:eproperty/model/user_model.dart';
+import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/service/rest_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-class UserRepository {
+class CompaniesRepository {
   final rest = RestService(dio);
 
-  Future<UserModel> requestLogIn(String token) async {
-    final _response = await rest.authToken(token);
+  Future<CompaniesModel> requestCompaniesActive(
+    String token,
+  ) async {
+    final _response = await rest.companiesActive(token);
 
     return _response;
   }
 
-  Future<Box> userBox() async {
+  Future<CompaniesModel> requestCompaniesChild(
+    int id,
+    String token,
+  ) async {
+    final _response = await rest.companiesChild(id, token);
+
+    return _response;
+  }
+
+  Future<Box> companiesBox() async {
     final _database = HiveHelper();
 
     final _key = await _database.keyBox();
 
     final _box = await _database.open(
-      'user',
+      'companies',
       key: _key,
     );
 
@@ -30,7 +41,7 @@ class UserRepository {
   Future<void> storeData({
     @required Map<String, dynamic> data,
   }) async {
-    final _box = await userBox();
+    final _box = await companiesBox();
 
     await _box.putAll(data);
   }
@@ -39,7 +50,7 @@ class UserRepository {
     @required String name,
     dynamic value,
   }) async {
-    final _box = await userBox();
+    final _box = await companiesBox();
 
     final _data = _box.get(
       name,

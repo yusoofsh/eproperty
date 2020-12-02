@@ -1,35 +1,61 @@
-import 'package:action_mixin/action_mixin.dart';
-import 'package:eproperty/helper/helper.dart';
+import 'package:dio/dio.dart';
+import 'package:eproperty/helper/hive_helper.dart';
 import 'package:eproperty/repository/forgot_repository.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ForgotViewModel with ActionMixin {
+enum ForgotState {
+  failure,
+  loading,
+  next,
+  success,
+}
+
+class ForgotViewModel extends ChangeNotifier {
   final forgotRepository = ForgotRepository();
-  final databaseHelper = DatabaseHelper();
+  final databaseHelper = HiveHelper();
 
-  Future<void> requestForgot(Map<String, dynamic> value) async {
-    callback(const Loading());
+  ForgotState state = ForgotState.loading;
 
-    final _tempBox = await databaseHelper.open('temp');
-    _tempBox.put('email', value['email']);
+  String message;
 
-    await forgotRepository
-        .requestForgot(value)
-        .then((_) => callback(const Success()))
-        .catchError((error) => callback(Failure(error: error)));
+  Future<void> requestCode(
+    Map<String, String> value,
+  ) async {
+    try {
+      await forgotRepository.requestForgot(value);
+
+      state = ForgotState.next;
+
+      notifyListeners();
+    } on DioError catch (error) {
+      message = error.response.data['message'] as String;
+
+      state = ForgotState.failure;
+
+      notifyListeners();
+    }
   }
 
-  Future<void> requestReset(Map<String, dynamic> value) async {
-    callback(const Loading());
+  Future<void> requestReset(
+    Map<String, dynamic> value,
+  ) async {
+    try {
+      await forgotRepository.requestReset(value);
 
-    final _tempBox = databaseHelper.box('temp');
-    final _email = _tempBox.get('email');
-    value['email'] = _email;
+      state = ForgotState.success;
 
-    await forgotRepository
-        .requestReset(value)
-        .then((_) => _tempBox
-            .deleteFromDisk()
-            .whenComplete(() => callback(const Success())))
-        .catchError((error) => callback(Failure(error: error)));
+      notifyListeners();
+    } on DioError catch (error) {
+      message = error.response.data['message'] as String;
+
+      state = ForgotState.failure;
+
+      notifyListeners();
+    }
   }
 }
+
+final forgotViewModelProvider = ChangeNotifierProvider(
+  (_) => ForgotViewModel(),
+);

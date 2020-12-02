@@ -1,25 +1,28 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:eproperty/helper/helper.dart';
+import 'package:eproperty/helper/easy_loading_helper.dart';
+import 'package:eproperty/helper/hive_helper.dart';
+import 'package:eproperty/helper/provider_helper.dart';
 import 'package:eproperty/route/router.gr.dart';
-import 'package:eproperty/value/value.dart';
+import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/value/themes.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> initialization() async {
-  await DatabaseHelper().initialize();
+  await HiveHelper().initialize();
 
-  LoadingHelper().initialize();
+  const EasyLoadingHelper().initialize();
 }
 
 Future<void> main() async {
   await initialization();
 
   runApp(
-    // For widgets to be able to read providers, we need to wrap the entire
-    // application in a "ProviderScope" widget.
-    // This is where the state of our providers will be stored.
     ProviderScope(
+      observers: [
+        ObserveProvider(),
+      ],
       child: App(),
     ),
   );
@@ -27,9 +30,9 @@ Future<void> main() async {
 
 class App extends StatelessWidget {
   @override
-  Widget build(_) {
+  Widget build(BuildContext context) {
     return MaterialApp(
-      title: Strings.APP_NAME,
+      title: Strings.appName,
       theme: Themes().lightThemeData,
       onGenerateRoute: Router(),
       builder: ExtendedNavigator.builder<Router>(

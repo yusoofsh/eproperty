@@ -10,6 +10,7 @@ final dio = Dio()
           connectTimeout: 5000,
           receiveTimeout: 3000,
         );
+
         // Continue.
         return options;
       },
@@ -17,6 +18,7 @@ final dio = Dio()
         // Do something with response error.
         // We print error message;
         logger.e(error);
+
         // Continue.
         return error;
       },

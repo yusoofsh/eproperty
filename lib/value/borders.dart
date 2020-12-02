@@ -1,4 +1,5 @@
-import 'package:eproperty/value/value.dart';
+import 'package:eproperty/value/colors.dart';
+import 'package:eproperty/value/sizes.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class Borders {
@@ -12,7 +13,7 @@ class Borders {
 
   static BorderSide customBorder({
     Color color = Colors.black12,
-    double width = Sizes.WIDTH_1,
+    double width = Sizes.width1,
     BorderStyle style = BorderStyle.solid,
   }) {
     return BorderSide(
@@ -22,8 +23,10 @@ class Borders {
     );
   }
 
-  static const BorderSide defaultPrimaryBorder =
-      BorderSide(width: Sizes.WIDTH_0, style: BorderStyle.none);
+  static const BorderSide defaultPrimaryBorder = BorderSide(
+    width: Sizes.width0,
+    style: BorderStyle.none,
+  );
 
   static const UnderlineInputBorder noBorder = UnderlineInputBorder(
     borderSide: BorderSide(
@@ -32,9 +35,9 @@ class Borders {
   );
 
   static OutlineInputBorder customOutlineInputBorder({
-    double borderRadius = Sizes.RADIUS_12,
+    double borderRadius = Sizes.radius12,
     Color color = Colors.primaryColor,
-    double width = Sizes.WIDTH_1,
+    double width = Sizes.width1,
     BorderStyle style = BorderStyle.solid,
   }) {
     return OutlineInputBorder(
@@ -49,7 +52,7 @@ class Borders {
 
   static UnderlineInputBorder customUnderlineInputBorder({
     Color color = Colors.primaryColor,
-    double width = Sizes.WIDTH_1,
+    double width = Sizes.width1,
     BorderStyle style = BorderStyle.solid,
   }) {
     return UnderlineInputBorder(
@@ -82,7 +85,7 @@ class Borders {
   static const UnderlineInputBorder focusedBorder = UnderlineInputBorder(
     borderSide: BorderSide(
       color: Colors.black54,
-      width: Sizes.WIDTH_2,
+      width: Sizes.width2,
     ),
   );
 }

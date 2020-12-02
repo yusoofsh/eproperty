@@ -1,82 +1,78 @@
-import 'package:action_mixin/action_mixin.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:eproperty/helper/helper.dart';
-import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:build_context/build_context.dart';
+import 'package:eproperty/route/router.gr.dart';
+import 'package:eproperty/value/colors.dart';
+import 'package:eproperty/value/sizes.dart';
+import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view/core/widget/custom_button.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
+import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_field.dart';
+import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final viewModelProvider = Provider<LogInViewModel>(
-  (_) => LogInViewModel(),
-);
-
-class LogInView extends StatefulWidget {
+class LogInView extends StatelessWidget {
   @override
-  _LogInViewState createState() => _LogInViewState();
+  Widget build(BuildContext context) {
+    return ProviderListener<LogInViewModel>(
+      provider: logInViewModelProvider,
+      onChange: (context, value) {
+        final _state = value.state;
+
+        switch (_state) {
+          case LogInState.loading:
+            EasyLoading.show(status: Strings.pleaseWait);
+
+            break;
+          case LogInState.failure:
+            final _message = value.message;
+
+            EasyLoading.showError(_message);
+
+            break;
+          case LogInState.success:
+            EasyLoading.showSuccess(
+              Strings.success,
+            );
+
+            context.navigator.pushAndRemoveUntil(
+              Routes.filterView,
+              (_) => false,
+            );
+
+            break;
+        }
+      },
+      child: const Scaffold(
+        body: BuildBody(),
+      ),
+    );
+  }
 }
 
-class _LogInViewState extends State<LogInView> {
-  List<ActionEntry> actions() {
-    return [
-      ActionEntry(
-        event: const Loading(),
-        action: (_) {
-          LoadingHelper().show(Strings.PLEASE_WAIT);
-        },
-      ),
-      ActionEntry(
-        event: const Success(),
-        action: (_) {
-          LoadingHelper().show(
-            Strings.SUCCESS,
-            type: 'success',
-          );
-
-          context.navigator.replace('/filter-view');
-        },
-      ),
-      ActionEntry(
-        event: const Failure(),
-        action: (_) {
-          LoadingHelper().show(
-            Strings.FAILURE,
-            type: 'failure',
-          );
-        },
-      ),
-      ActionEntry(
-        event: const Forgot(),
-        action: (_) {
-          context.navigator.push('/forgot-initial-view');
-        },
-      ),
-    ];
-  }
+class BuildBody extends StatelessWidget {
+  const BuildBody({
+    Key key,
+  }) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-
-    context.read(viewModelProvider).initActions(actions());
-  }
-
-  @override
-  Widget build(
-    BuildContext context,
-  ) {
-    final theme = Theme.of(context);
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+  Widget build(BuildContext context) {
+    final height = context.mediaQuerySize.height;
+    final width = context.mediaQuerySize.width;
 
     return GestureDetector(
       onTap: () {
-        FocusHelper(context).unfocus();
+        if (!context.focusScope.hasPrimaryFocus) {
+          context.focusScope.unfocus();
+        }
       },
       child: Stack(
-        children: <Widget>[
+        children: [
           CustomClipShadow(
             clipper: CustomClipperShape(),
             shadow: const Shadow(
@@ -88,23 +84,23 @@ class _LogInViewState extends State<LogInView> {
               width: width,
               color: Colors.blue,
               child: Container(
-                margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
+                margin: const EdgeInsets.only(left: Sizes.margin24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     SizedBox(
                       height: height * 0.1,
                     ),
                     Text(
-                      Strings.WELCOME_BACK,
-                      style: theme.textTheme.headline6.copyWith(
-                        fontSize: Sizes.TEXT_SIZE_20,
+                      Strings.welcome,
+                      style: context.textTheme.headline6.copyWith(
+                        fontSize: Sizes.textSize20,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      Strings.LOG_IN,
-                      style: theme.textTheme.headline4.copyWith(
+                      Strings.logIn,
+                      style: context.textTheme.headline4.copyWith(
                         color: Colors.white,
                       ),
                     ),
@@ -114,14 +110,14 @@ class _LogInViewState extends State<LogInView> {
             ),
           ),
           ListView(
-            padding: const EdgeInsets.all(Sizes.PADDING_0),
-            children: <Widget>[
+            padding: const EdgeInsets.all(Sizes.padding0),
+            children: [
               SizedBox(
                 height: height * 0.45,
               ),
               Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: Sizes.MARGIN_20,
+                  horizontal: Sizes.margin20,
                 ),
                 child: BuildForm(),
               ),
@@ -143,28 +139,24 @@ class _BuildFormState extends State<BuildForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return FormBuilder(
       key: formKey,
       child: Column(
         children: [
           CustomTextField(
             name: 'email',
-            hintText: Strings.EMAIL_ADDRESS,
-            labelText: Strings.EMAIL_ADDRESS,
-            validators: FormBuilderValidators.compose([
+            labelText: Strings.email,
+            validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context),
             ]),
           ),
-          const CustomSpaces(height: 8),
+          const CustomSpaces(height: 12),
           CustomTextField(
             name: 'password',
-            hintText: Strings.PASSWORD,
-            labelText: Strings.PASSWORD,
+            labelText: Strings.password,
             obscureText: true,
-            validators: FormBuilderValidators.compose([
+            validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.maxLength(context, 24),
             ]),
@@ -177,30 +169,26 @@ class _BuildFormState extends State<BuildForm> {
           Row(
             children: [
               InkWell(
-                onTap: () {
-                  context.read(viewModelProvider).goToForgot();
-                },
+                onTap: () => context.navigator.push(Routes.forgotView),
                 child: Text(
-                  Strings.FORGOT_PASSWORD,
-                  style: theme.textTheme.subtitle2.copyWith(
+                  Strings.forgot,
+                  style: context.textTheme.subtitle2.copyWith(
                     color: Colors.black87,
-                    fontSize: Sizes.TEXT_SIZE_14,
+                    fontSize: Sizes.textSize14,
                   ),
                 ),
               ),
               const Spacer(),
-              CustomButton(
-                title: Strings.LOG_IN,
-                theme: theme,
+              CustomElevatedButton(
+                title: Strings.logIn,
                 onPressed: () {
-                  FocusHelper(context).unfocus();
-
+                  if (!context.focusScope.hasPrimaryFocus) {
+                    context.focusScope.unfocus();
+                  }
                   final formState = formKey.currentState;
-
+                  final crp = context.read(logInViewModelProvider);
                   if (formState.saveAndValidate()) {
-                    context
-                        .read(viewModelProvider)
-                        .requestAuthentication(formState.value);
+                    crp.requestAuthentication(formState.value);
                   }
                 },
               )

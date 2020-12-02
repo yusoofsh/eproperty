@@ -1,43 +1,131 @@
-import 'package:action_mixin/action_mixin.dart';
+import 'package:dio/dio.dart';
 import 'package:eproperty/model/companies_model.dart';
-import 'package:eproperty/repository/filter_repository.dart';
+import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FilterViewModel extends ChangeNotifier with ActionMixin {
-  final filterRepository = FilterRepository();
+enum FilterState {
+  dismiss,
+  failure,
+  loading,
+  next,
+  success,
+}
+
+class FilterViewModel extends ChangeNotifier {
+  final companiesRepository = CompaniesRepository();
   final userRepository = UserRepository();
 
-  List<Datum> companiesActive = <Datum>[];
-  List<Datum> companiesChild = <Datum>[];
+  FilterState state = FilterState.loading;
+  List<Datum> companiesActive = [];
+  List<Datum> companiesChild = [];
 
-  Future<String> getToken() async {
-    return 'Bearer ${await userRepository.store(
-      'get',
+  List<int> years;
+  Map<int, String> months;
+  String message;
+
+  Future<String> token() async {
+    final _token = 'Bearer ${await userRepository.retrieveData<String>(
       name: 'token',
+      value: '',
     )}';
+
+    return _token;
   }
 
   Future<void> populateCompaniesActive() async {
-    final result = await filterRepository.requestCompaniesActive(
-      await getToken(),
-    );
+    try {
+      final _response = await companiesRepository.requestCompaniesActive(
+        await token(),
+      );
 
-    companiesActive.addAll(result.data);
+      if (_response.data.isNotEmpty) {
+        companiesActive = _response.data;
+      }
+
+      state = FilterState.dismiss;
+
+      notifyListeners();
+    } on DioError catch (error) {
+      message = error.response.data['message'] as String;
+
+      state = FilterState.failure;
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> populateCompaniesChild(int item) async {
+    try {
+      final _response = await companiesRepository.requestCompaniesChild(
+        item,
+        await token(),
+      );
+
+      if (companiesChild != null) {
+        companiesChild.clear();
+      }
+
+      if (_response.data.isNotEmpty) {
+        companiesChild.addAll(_response.data);
+      }
+
+      state = FilterState.dismiss;
+
+      notifyListeners();
+    } on DioError catch (error) {
+      message = error.response.data['message'] as String;
+
+      state = FilterState.failure;
+
+      notifyListeners();
+    }
+  }
+
+  void configureDateInput() {
+    for (int year = 2010; year <= DateTime.now().year; year++) {
+      years.add(year);
+    }
+
+    months = {
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December',
+    };
+
+    state = FilterState.next;
 
     notifyListeners();
   }
 
-  Future<void> populateCompaniesChild(Datum item) async {
-    final result = await filterRepository.requestCompaniesChild(
-      item.id,
-      await getToken(),
-    );
+  Future<void> storeCompaniesPreference(
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      await companiesRepository.storeData(data: data);
 
-    companiesChild.addAll(result.data);
+      state = FilterState.success;
 
-    notifyListeners();
+      notifyListeners();
+    } catch (error) {
+      message = error as String;
+      state = FilterState.failure;
+
+      notifyListeners();
+    }
   }
-
-  Future<void> requestFilter(Map<String, Datum> credential) async {}
 }
+
+final filterViewModelProvider = ChangeNotifierProvider(
+  (_) => FilterViewModel(),
+);
