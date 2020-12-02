@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:eproperty/model/base_model.dart';
 import 'package:eproperty/model/companies_model.dart';
+import 'package:eproperty/model/sales_model.dart';
 import 'package:eproperty/model/user_model.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'api_service.g.dart';
+part 'rest_service.g.dart';
 
 @RestApi(baseUrl: 'http://34.101.219.118/eproperty-admin/api/admin/v1')
-abstract class ApiService {
-  factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
+abstract class RestService {
+  factory RestService(Dio dio, {String baseUrl}) = _RestService;
 
   @POST('/auth/token')
   Future<UserModel> authToken(
@@ -36,5 +37,17 @@ abstract class ApiService {
   Future<CompaniesModel> companiesChild(
     @Path() int id,
     @Header(HttpHeaders.authorizationHeader) String authentication,
+  );
+
+  @GET('/reservasi')
+  Future<SalesReservationModel> salesReservation(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/suratpesanan')
+  Future<SalesMailOrderModel> salesMailOrder(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
   );
 }

@@ -1,26 +1,27 @@
-import 'package:eproperty/value/value.dart';
+import 'package:eproperty/value/borders.dart';
+import 'package:eproperty/value/styles.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
-    @required this.hintText,
     @required this.labelText,
     @required this.name,
     this.autovalidateMode,
+    this.hintText,
     this.inputFormatters,
     this.keyboardType,
     this.obscureText = false,
     this.onChanged,
+    this.suffix,
     this.suffixIcon,
     this.textStyle,
-    this.validators,
+    this.validator,
   });
 
   final AutovalidateMode autovalidateMode;
-  final FormFieldValidator<String> validators;
-  final Icon suffixIcon;
+  final FormFieldValidator<String> validator;
   final List<TextInputFormatter> inputFormatters;
   final String hintText;
   final String labelText;
@@ -28,10 +29,12 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextStyle textStyle;
   final ValueChanged<String> onChanged;
+  final Widget suffix;
+  final Widget suffixIcon;
   final bool obscureText;
 
   @override
-  Widget build(BuildContext context) {
+  FormBuilderTextField build(BuildContext context) {
     return FormBuilderTextField(
       autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
       inputFormatters: inputFormatters,
@@ -40,10 +43,11 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
       onChanged: onChanged,
       style: textStyle,
-      validator: validators,
+      validator: validator,
       decoration: decoration(
-        hintText,
-        labelText,
+        labelText: labelText,
+        hintText: hintText,
+        suffix: suffix,
         suffixIcon: suffixIcon,
       ),
     );
@@ -52,60 +56,65 @@ class CustomTextField extends StatelessWidget {
 
 class CustomDropdownField extends StatelessWidget {
   const CustomDropdownField({
-    @required this.hintText,
     @required this.items,
     @required this.labelText,
     @required this.name,
+    this.autovalidateMode,
+    this.hintText,
     this.onChanged,
     this.onTap,
+    this.suffix,
     this.suffixIcon,
     this.textStyle,
-    this.validators,
+    this.validator,
   });
 
-  final Icon suffixIcon;
-  final List<DropdownMenuItem<dynamic>> items;
-  final List<FormFieldValidator> validators;
+  final AutovalidateMode autovalidateMode;
+  final FormFieldValidator validator;
+  final List<DropdownMenuItem> items;
   final String hintText;
   final String labelText;
   final String name;
   final TextStyle textStyle;
   final ValueChanged onChanged;
   final VoidCallback onTap;
+  final Widget suffix;
+  final Widget suffixIcon;
 
   @override
   FormBuilderDropdown build(BuildContext context) {
     return FormBuilderDropdown(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: autovalidateMode ?? AutovalidateMode.onUserInteraction,
       items: items,
       name: name,
       onChanged: onChanged,
       onTap: onTap,
       style: textStyle,
+      validator: validator,
       decoration: decoration(
-        hintText,
-        labelText,
+        labelText: labelText,
+        suffix: suffix,
         suffixIcon: suffixIcon,
-      ),
-      validator: FormBuilderValidators.compose(
-        validators,
+        hintText: hintText,
       ),
     );
   }
 }
 
-InputDecoration decoration(
+InputDecoration decoration({
+  @required String labelText,
   String hintText,
-  String labelText, {
+  Widget suffix,
   Widget suffixIcon,
 }) {
   return InputDecoration(
     border: Borders.customOutlineInputBorder(),
     enabledBorder: Borders.customOutlineInputBorder(),
     hintStyle: Styles.customTextStyle(),
-    labelStyle: Styles.customTextStyle(),
     hintText: hintText,
+    labelStyle: Styles.customTextStyle(),
     labelText: labelText,
+    suffix: suffix,
     suffixIcon: suffixIcon,
   );
 }

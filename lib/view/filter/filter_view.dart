@@ -1,60 +1,80 @@
-import 'package:action_mixin/action_mixin.dart';
-import 'package:eproperty/helper/helper.dart';
-import 'package:eproperty/model/companies_model.dart';
-import 'package:eproperty/value/value.dart';
-import 'package:eproperty/view/core/widget/widget.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:build_context/build_context.dart';
+import 'package:eproperty/route/router.gr.dart';
+import 'package:eproperty/value/colors.dart';
+import 'package:eproperty/value/sizes.dart';
+import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view/core/widget/custom_button.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
+import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_field.dart';
+import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final filterProvider = ChangeNotifierProvider<FilterViewModel>(
-  (_) => FilterViewModel(),
-);
-
-class FilterView extends StatefulWidget {
+class FilterView extends StatelessWidget {
   @override
-  _FilterViewState createState() => _FilterViewState();
+  Widget build(BuildContext context) {
+    context.read(filterViewModelProvider).populateCompaniesActive();
+
+    return ProviderListener<FilterViewModel>(
+      provider: filterViewModelProvider,
+      onChange: (context, value) {
+        final _state = value.state;
+
+        switch (_state) {
+          case FilterState.loading:
+            EasyLoading.show(status: Strings.pleaseWait);
+
+            break;
+          case FilterState.dismiss:
+            EasyLoading.dismiss();
+
+            break;
+          case FilterState.next:
+            EasyLoading.dismiss();
+
+            break;
+          case FilterState.failure:
+            final _message = value.message;
+
+            EasyLoading.showError(_message);
+
+            break;
+          case FilterState.success:
+            context.navigator.replace(Routes.dashboardView);
+
+            break;
+        }
+      },
+      child: const Scaffold(
+        body: BuildBody(),
+      ),
+    );
+  }
 }
 
-class _FilterViewState extends State<FilterView> {
-  List<ActionEntry> actions() {
-    return [
-      ActionEntry(
-        event: const Loading(),
-        action: (_) {
-          LoadingHelper().show(Strings.PLEASE_WAIT);
-        },
-      ),
-      ActionEntry(
-        event: const Dismiss(),
-        action: (_) {
-          LoadingHelper().dismiss();
-        },
-      ),
-    ];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    context.read(filterProvider).initActions(actions());
-    context.read(filterProvider).populateCompaniesActive();
-  }
+class BuildBody extends StatelessWidget {
+  const BuildBody({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final height = context.mediaQuerySize.height;
+    final width = context.mediaQuerySize.width;
 
     return GestureDetector(
       onTap: () {
-        FocusHelper(context).unfocus();
+        if (!context.focusScope.hasPrimaryFocus) {
+          context.focusScope.unfocus();
+        }
       },
       child: Stack(
-        children: <Widget>[
+        children: [
           CustomClipShadow(
             clipper: CustomClipperShape(),
             shadow: const Shadow(
@@ -66,23 +86,23 @@ class _FilterViewState extends State<FilterView> {
               width: width,
               color: Colors.blue,
               child: Container(
-                margin: const EdgeInsets.only(left: Sizes.MARGIN_24),
+                margin: const EdgeInsets.only(left: Sizes.margin24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     SizedBox(
                       height: height * 0.1,
                     ),
                     Text(
-                      Strings.FILL_REQUIRED,
-                      style: theme.textTheme.headline6.copyWith(
-                        fontSize: Sizes.TEXT_SIZE_20,
+                      Strings.fillRequired,
+                      style: context.textTheme.headline6.copyWith(
+                        fontSize: Sizes.textSize20,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      Strings.FILTER,
-                      style: theme.textTheme.headline4.copyWith(
+                      Strings.filter,
+                      style: context.textTheme.headline4.copyWith(
                         color: Colors.white,
                       ),
                     ),
@@ -92,14 +112,14 @@ class _FilterViewState extends State<FilterView> {
             ),
           ),
           ListView(
-            padding: const EdgeInsets.all(Sizes.PADDING_0),
-            children: <Widget>[
+            padding: const EdgeInsets.all(Sizes.padding0),
+            children: [
               SizedBox(
                 height: height * 0.45,
               ),
               Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: Sizes.MARGIN_20,
+                  horizontal: Sizes.margin20,
                 ),
                 child: BuildForm(),
               ),
@@ -121,62 +141,107 @@ class _BuildFormState extends State<BuildForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return FormBuilder(
       key: formKey,
       child: Column(
         children: [
           Consumer(
             builder: (context, watch, _) {
-              // Listens to the value exposed by counterProvider
-              final wfp = watch(filterProvider);
-              final items = wfp.companiesActive;
+              final _wp = watch(filterViewModelProvider);
+
+              final _companiesActive = _wp.companiesActive;
               return CustomDropdownField(
                 name: 'company',
-                hintText: Strings.COMPANY,
-                labelText: Strings.COMPANY,
-                items: items.map<DropdownMenuItem<Datum>>(
+                labelText: Strings.company,
+                autovalidateMode: AutovalidateMode.disabled,
+                items: _companiesActive.map<DropdownMenuItem<String>>(
                   (value) {
-                    return DropdownMenuItem<Datum>(
-                      value: value ?? '',
-                      child: Text(value.name ?? ''),
+                    return DropdownMenuItem<String>(
+                      value: value.name,
+                      onTap: () => _wp.populateCompaniesChild(value.id),
+                      child: Text(value.name),
                     );
                   },
                 ).toList(),
-                onChanged: (value) {
-                  wfp.populateCompaniesChild(value);
-                },
-                validators: [
-                  FormBuilderValidators.required(context),
-                ],
+                validator: FormBuilderValidators.required(context),
               );
             },
           ),
-          const CustomSpaces(height: 8),
           Consumer(
             builder: (context, watch, _) {
-              // Listens to the value exposed by counterProvider
-              final wfp = watch(filterProvider);
-              final items = wfp.companiesChild;
-              if (items.isEmpty) {
+              final _wp = watch(filterViewModelProvider);
+              final _companiesChild = _wp.companiesChild;
+
+              if (_companiesChild.isEmpty) {
                 return const SizedBox();
               } else {
-                return CustomDropdownField(
-                  name: 'project',
-                  hintText: Strings.PROJECT,
-                  labelText: Strings.PROJECT,
-                  items: items.map<DropdownMenuItem<Datum>>(
-                    (value) {
-                      return DropdownMenuItem<Datum>(
-                        value: value,
-                        child: Text(value.name),
-                      );
-                    },
-                  ).toList(),
-                  onChanged: (items != null) ? (_) {} : null,
-                  validators: [
-                    FormBuilderValidators.required(context),
+                return Column(
+                  children: [
+                    const CustomSpaces(height: 12),
+                    CustomDropdownField(
+                      labelText: Strings.project,
+                      name: 'project',
+                      items: _companiesChild.map<DropdownMenuItem<String>>(
+                            (value) {
+                          return DropdownMenuItem<String>(
+                            value: value.name,
+                            onTap: () => _wp.configureDateInput(),
+                            child: Text(value.name),
+                          );
+                        },
+                      ).toList(),
+                      validator: FormBuilderValidators.required(context),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+          Consumer(
+            builder: (context, watch, _) {
+              final _wp = watch(filterViewModelProvider);
+              final _state = _wp.state;
+              final _months = _wp.months;
+              final _years = _wp.years;
+              if (_state != FilterState.next) {
+                return const SizedBox();
+              } else {
+                return Column(
+                  children: [
+                    const CustomSpaces(height: 12),
+                    CustomDropdownField(
+                      labelText: Strings.year,
+                      name: 'year',
+                      items: _years.map<DropdownMenuItem<int>>(
+                            (value) {
+                          return DropdownMenuItem<int>(
+                            value: value,
+                            child: Text(value.toString()),
+                          );
+                        },
+                      ).toList(),
+                      validator: FormBuilderValidators.required(context),
+                    ),
+                    const CustomSpaces(height: 12),
+                    CustomDropdownField(
+                      labelText: Strings.month,
+                      name: 'month',
+                      items: _months
+                          .map(
+                            (id, name) {
+                          return MapEntry(
+                            id,
+                            DropdownMenuItem<int>(
+                              value: id,
+                              child: Text(name),
+                            ),
+                          );
+                        },
+                      )
+                          .values
+                          .toList(),
+                      validator: FormBuilderValidators.required(context),
+                    ),
                   ],
                 );
               }
@@ -186,16 +251,17 @@ class _BuildFormState extends State<BuildForm> {
           Row(
             children: [
               const Spacer(),
-              CustomButton(
-                title: Strings.DONE,
-                theme: theme,
+              CustomElevatedButton(
+                title: Strings.done,
                 onPressed: () {
-                  FocusHelper(context).unfocus();
-
+                  if (!context.focusScope.hasPrimaryFocus) {
+                    context.focusScope.unfocus();
+                  }
                   final formState = formKey.currentState;
-
                   if (formState.saveAndValidate()) {
-                    context.read(filterProvider).requestFilter(formState.value);
+                    context
+                        .read(filterViewModelProvider)
+                        .storeCompaniesPreference(formState.value.cast());
                   }
                 },
               )
