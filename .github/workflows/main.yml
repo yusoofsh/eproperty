@@ -1,4 +1,4 @@
-name: E-Property
+name: main
 
 on:
   push:
@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '8.x'
     - uses: subosito/flutter-action@v1
       with:
         flutter-version: '1.23.x'
@@ -22,7 +19,7 @@ jobs:
       run: flutter pub get
     - name: Build Web
       run: flutter build web
-    - name: Deploy
+    - name: Deploy Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.TOKEN }}
