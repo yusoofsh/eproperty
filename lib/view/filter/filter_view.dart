@@ -6,7 +6,7 @@ import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
-import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
 import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
@@ -64,8 +64,8 @@ class BuildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = context.mediaQuerySize.height;
-    final width = context.mediaQuerySize.width;
+    final _height = context.mediaQuerySize.height;
+    final _width = context.mediaQuerySize.width;
 
     return GestureDetector(
       onTap: () {
@@ -82,8 +82,8 @@ class BuildBody extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Container(
-              height: height * 0.4,
-              width: width,
+              height: _height * 0.4,
+              width: _width,
               color: Colors.blue,
               child: Container(
                 margin: const EdgeInsets.only(left: Sizes.margin24),
@@ -91,7 +91,7 @@ class BuildBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: height * 0.1,
+                      height: _height * 0.1,
                     ),
                     Text(
                       Strings.fillRequired,
@@ -114,9 +114,7 @@ class BuildBody extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.all(Sizes.padding0),
             children: [
-              SizedBox(
-                height: height * 0.45,
-              ),
+              SizedBox(height: _height * 0.45),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: Sizes.margin20,
@@ -229,15 +227,15 @@ class _BuildFormState extends State<BuildForm> {
                       items: _months
                           .map(
                             (id, name) {
-                          return MapEntry(
-                            id,
-                            DropdownMenuItem<int>(
-                              value: id,
-                              child: Text(name),
-                            ),
-                          );
-                        },
-                      )
+                              return MapEntry(
+                                id,
+                                DropdownMenuItem<int>(
+                                  value: id,
+                                  child: Text(name),
+                                ),
+                              );
+                            },
+                          )
                           .values
                           .toList(),
                       validator: FormBuilderValidators.required(context),

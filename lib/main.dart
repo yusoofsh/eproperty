@@ -37,7 +37,7 @@ class App extends StatelessWidget {
       onGenerateRoute: Router(),
       builder: ExtendedNavigator.builder<Router>(
         router: Router(),
-        initialRoute: Routes.authView,
+        initialRoute: Routes.splashView,
         builder: (_, navigator) => FlutterEasyLoading(child: navigator),
       ),
     );

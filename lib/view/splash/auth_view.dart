@@ -4,12 +4,12 @@ import 'package:eproperty/repository/user_repository.dart';
 import 'package:eproperty/route/router.gr.dart';
 import 'package:flutter/material.dart' hide Colors;
 
-class AuthView extends StatefulWidget {
+class SplashView extends StatefulWidget {
   @override
-  _AuthViewState createState() => _AuthViewState();
+  _SplashViewState createState() => _SplashViewState();
 }
 
-class _AuthViewState extends State<AuthView> {
+class _SplashViewState extends State<SplashView> {
   Future<void> configureDefaultRoute() async {
     final isLoggedIn = await UserRepository().retrieveData<bool>(
       name: 'is_logged_in',

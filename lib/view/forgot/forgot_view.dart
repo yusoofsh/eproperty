@@ -6,7 +6,7 @@ import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
-import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
 import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/forgot_view_model.dart';
@@ -116,8 +116,7 @@ class BuildBody extends StatelessWidget {
             padding: const EdgeInsets.all(Sizes.padding0),
             children: [
               SizedBox(
-                height: _height * 0.45,
-              ),
+                  height: _height * 0.45),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: Sizes.margin20,
