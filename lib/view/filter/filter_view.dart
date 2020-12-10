@@ -151,7 +151,8 @@ class _BuildFormState extends State<BuildForm> {
               return CustomDropdownField(
                 name: 'company',
                 labelText: Strings.company,
-                autovalidateMode: AutovalidateMode.disabled,
+                onChanged: (_) => _wp.resetFormValue(formKey, 'project'),
+                validator: FormBuilderValidators.required(context),
                 items: _companiesActive.map<DropdownMenuItem<String>>(
                   (value) {
                     return DropdownMenuItem<String>(
@@ -161,7 +162,6 @@ class _BuildFormState extends State<BuildForm> {
                     );
                   },
                 ).toList(),
-                validator: FormBuilderValidators.required(context),
               );
             },
           ),
@@ -177,10 +177,11 @@ class _BuildFormState extends State<BuildForm> {
                   children: [
                     const CustomSpaces(height: 12),
                     CustomDropdownField(
-                      labelText: Strings.project,
                       name: 'project',
+                      labelText: Strings.project,
+                      validator: FormBuilderValidators.required(context),
                       items: _companiesChild.map<DropdownMenuItem<String>>(
-                            (value) {
+                        (value) {
                           return DropdownMenuItem<String>(
                             value: value.name,
                             onTap: () => _wp.configureDateInput(),
@@ -188,7 +189,6 @@ class _BuildFormState extends State<BuildForm> {
                           );
                         },
                       ).toList(),
-                      validator: FormBuilderValidators.required(context),
                     ),
                   ],
                 );
@@ -201,6 +201,7 @@ class _BuildFormState extends State<BuildForm> {
               final _state = _wp.state;
               final _months = _wp.months;
               final _years = _wp.years;
+
               if (_state != FilterState.next) {
                 return const SizedBox();
               } else {
@@ -210,20 +211,21 @@ class _BuildFormState extends State<BuildForm> {
                     CustomDropdownField(
                       labelText: Strings.year,
                       name: 'year',
+                      validator: FormBuilderValidators.required(context),
                       items: _years.map<DropdownMenuItem<int>>(
-                            (value) {
+                        (value) {
                           return DropdownMenuItem<int>(
                             value: value,
                             child: Text(value.toString()),
                           );
                         },
                       ).toList(),
-                      validator: FormBuilderValidators.required(context),
                     ),
                     const CustomSpaces(height: 12),
                     CustomDropdownField(
-                      labelText: Strings.month,
                       name: 'month',
+                      labelText: Strings.month,
+                      validator: FormBuilderValidators.required(context),
                       items: _months
                           .map(
                             (id, name) {
@@ -238,7 +240,6 @@ class _BuildFormState extends State<BuildForm> {
                           )
                           .values
                           .toList(),
-                      validator: FormBuilderValidators.required(context),
                     ),
                   ],
                 );
@@ -259,7 +260,7 @@ class _BuildFormState extends State<BuildForm> {
                   if (formState.saveAndValidate()) {
                     context
                         .read(filterViewModelProvider)
-                        .storeCompaniesPreference(formState.value.cast());
+                        .storePreferences(formState.value.cast());
                   }
                 },
               )
