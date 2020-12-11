@@ -114,8 +114,7 @@ class _RestService implements RestService {
   }
 
   @override
-  Future<SalesReservationModel> salesReservation(
-      authentication, queries) async {
+  Future<Reservation> salesReservation(authentication, queries) async {
     ArgumentError.checkNotNull(authentication, 'authentication');
     ArgumentError.checkNotNull(queries, 'queries');
     const _extra = <String, dynamic>{};
@@ -130,12 +129,12 @@ class _RestService implements RestService {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = SalesReservationModel.fromJson(_result.data);
+    final value = Reservation.fromJson(_result.data);
     return value;
   }
 
   @override
-  Future<SalesMailOrderModel> salesMailOrder(authentication, queries) async {
+  Future<MailOrder> salesMailOrder(authentication, queries) async {
     ArgumentError.checkNotNull(authentication, 'authentication');
     ArgumentError.checkNotNull(queries, 'queries');
     const _extra = <String, dynamic>{};
@@ -150,7 +149,229 @@ class _RestService implements RestService {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = SalesMailOrderModel.fromJson(_result.data);
+    final value = MailOrder.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<UnitStatus> unitStatus(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/statusunit',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UnitStatus.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<CancelStatus> cancelStatus(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/statusbatal',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CancelStatus.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TopSales> topSales(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/topsales',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TopSales.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<Sales> sales(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/penjualan',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Sales.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<SalesAsOf> salesAsOf(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/penjualanasof',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SalesAsOf.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<SalesByPayment> salesByPayment(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/penjualanbypayment',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SalesByPayment.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<CancelReason> cancelReason(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/alasanbatal',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CancelReason.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<AgingReservation> agingReservation(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/agingreservasi',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = AgingReservation.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<UnitStockPerType> unitStockPerType(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/stockunitpertype',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UnitStockPerType.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<KprStatus> kprStatus(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/statuskpr',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = KprStatus.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<LegalUnitStatus> legalUnitStatus(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/statuslegalunit',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = LegalUnitStatus.fromJson(_result.data);
     return value;
   }
 }

@@ -1,4 +1,3 @@
-import 'package:eproperty/model/sales_model.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
@@ -50,62 +49,82 @@ class DashboardViewModel {
     return _result;
   }
 
-  Future<SalesReservationModel> populateSalesReservation({
-    String apiUrl,
-    String apiKey,
-    Map<String, dynamic> data,
-  }) async {
-    final _response = await salesRepository.requestSalesReservation(
-      url: apiUrl,
-      key: apiKey,
-      data: data,
-    );
-
-    return _response;
-  }
-
-  Future<SalesMailOrderModel> populateSalesMailOrder({
-    String apiUrl,
-    String apiKey,
-    Map<String, dynamic> data,
-  }) async {
-    final _response = await salesRepository.requestSalesMailOrder(
-      url: apiUrl,
-      key: apiKey,
-      data: data,
-    );
-
-    return _response;
-  }
-
-  Future<List<SalesModel>> fetchData() async {
+  Future<List<dynamic>> fetchData() async {
     final _api = await api();
     final _data = await companies();
 
     final _apiUrl = _api['url'];
     final _apiKey = _api['key'];
 
-    final _response = await Future.wait([
-      populateSalesReservation(
-        apiUrl: _apiUrl,
-        apiKey: _apiKey,
-        data: _data,
-      ),
-      populateSalesMailOrder(
-        apiUrl: _apiUrl,
-        apiKey: _apiKey,
-        data: _data,
-      ),
-    ]);
+    final _response = await Future.wait<dynamic>(
+      [
+        salesRepository.requestSalesReservation(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestSalesMailOrder(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestUnitStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestCancelStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestTopSales(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestSalesAsOf(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestSalesByPayment(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestCancelReason(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestAgingReservation(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestUnitStockPerType(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestKprStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.requestLegalUnitStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+      ],
+    );
 
     return _response;
   }
 }
 
-final dashboardViewModelProvider = FutureProvider<List<SalesModel>>(
-  (_) async {
-    final _response = DashboardViewModel().fetchData();
-
-    return _response;
-  },
+final dataProvider = FutureProvider<List<dynamic>>(
+  (_) => DashboardViewModel().fetchData(),
 );

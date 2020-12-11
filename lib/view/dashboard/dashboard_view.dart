@@ -2,21 +2,39 @@ import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DashboardView extends ConsumerWidget {
+class DashboardView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Body(),
+    );
+  }
+}
+
+class Body extends ConsumerWidget {
+  const Body();
+
   @override
   Widget build(
     BuildContext context,
     ScopedReader watch,
   ) {
-    final sales = watch(dashboardViewModelProvider);
+    final sales = watch(dataProvider);
 
-    return Scaffold(
-      body: Center(
-        child: sales.when(
-          data: (data) => Text(data.toString()),
-          loading: () => const CircularProgressIndicator(),
-          error: (err, stack) => Text('Error: $err'),
-        ),
+    return SafeArea(
+      child: Column(
+        children: [
+          sales.map(
+            data: (data) => Text('$data'),
+            loading: (_) => const CircularProgressIndicator(),
+            error: (error) => Text('$error'),
+          ),
+          sales.when(
+            data: (data) => Text('$data'),
+            loading: () => const CircularProgressIndicator(),
+            error: (error, stackTrace) => Text('$error $stackTrace'),
+          ),
+        ],
       ),
     );
   }
