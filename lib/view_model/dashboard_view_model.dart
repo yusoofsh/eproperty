@@ -58,12 +58,12 @@ class DashboardViewModel {
 
     final _response = await Future.wait<dynamic>(
       [
-        salesRepository.requestSalesReservation(
+        salesRepository.requestReservation(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestSalesMailOrder(
+        salesRepository.requestMailOrder(
           url: _apiUrl,
           key: _apiKey,
           data: _data,

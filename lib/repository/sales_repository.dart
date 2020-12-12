@@ -22,7 +22,7 @@ class SalesRepository {
     );
   }
 
-  Future<Reservation> requestSalesReservation({
+  Future<Reservation> requestReservation({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -35,7 +35,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<MailOrder> requestSalesMailOrder({
+  Future<MailOrder> requestMailOrder({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,

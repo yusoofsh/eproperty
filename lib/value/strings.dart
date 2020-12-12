@@ -23,4 +23,8 @@ class Strings {
   static const String success = 'Redirecting you now';
   static const String welcome = 'Welcome back,';
   static const String year = 'Year';
+  static const String reservation = 'Reservasi';
+  static const String active = 'Aktif';
+  static const String thisMonth = 'Bulan Ini';
+  static const String cancelTotal = 'Total Batal';
 }
