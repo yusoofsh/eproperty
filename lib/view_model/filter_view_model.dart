@@ -116,7 +116,7 @@ class FilterViewModel extends ChangeNotifier {
     GlobalKey<FormBuilderState> formKey,
     String name,
   ) {
-    formKey.currentState.fields[name].didChange(null);
+    formKey.currentState.fields[name]?.didChange(null);
   }
 
   Future<void> storePreferences(Map<String, dynamic> data) async {
