@@ -8,6 +8,7 @@ import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -91,53 +92,97 @@ class Success extends StatelessWidget {
     // final _kprStatus = data[10] as KprStatus;
     // final _legalUnitStatus = data[11] as LegalUnitStatus;
 
+    return Column(
+      children: [
+        SalesSummary(
+          reservation: _reservation,
+          mailOrder: _mailOrder,
+          unitStatus: _unitStatus,
+          cancelStatus: _cancelStatus,
+        ),
+        const CustomSpaces(height: 4),
+        Card(
+          child: Container(
+            color: Colors.blue,
+            height: 500,
+            margin: const EdgeInsets.symmetric(horizontal: Sizes.margin16),
+            child: Text(
+              'asaSAKSOASA',
+              style: context.textTheme.headline1.copyWith(color: Colors.red),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SalesSummary extends StatelessWidget {
+  const SalesSummary({
+    @required this.reservation,
+    @required this.mailOrder,
+    @required this.unitStatus,
+    @required this.cancelStatus,
+  });
+
+  final Reservation reservation;
+  final MailOrder mailOrder;
+  final UnitStatus unitStatus;
+  final CancelStatus cancelStatus;
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
       child: Container(
-        margin: const EdgeInsets.all(Sizes.margin16),
+        margin: const EdgeInsets.symmetric(horizontal: Sizes.margin16),
         child: FittedBox(
           fit: BoxFit.fill,
           alignment: Alignment.topCenter,
           child: Row(
             children: [
-              SalesSummary(
+              summaryCard(
+                context: context,
                 color: Colors.blue,
                 title: Strings.reservation,
-                titleNumber: _reservation.data.asOf,
+                titleNumber: reservation.data.asOf,
                 firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: _reservation.data.bulanIni,
+                firstSubtitleNumber: reservation.data.bulanIni,
                 secondSubtitle: Strings.cancelTotal,
-                secondSubtitleNumber: _reservation.data.batal,
+                secondSubtitleNumber: reservation.data.batal,
               ),
-              SalesSummary(
+              summaryCard(
+                context: context,
                 color: Colors.green,
                 title: Strings.mailOrder,
-                titleNumber: _mailOrder.data.asOf,
+                titleNumber: mailOrder.data.asOf,
                 firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: _mailOrder.data.bulanIni,
+                firstSubtitleNumber: mailOrder.data.bulanIni,
                 secondSubtitle: Strings.lastMonth,
-                secondSubtitleNumber: _mailOrder.data.bulanLalu,
+                secondSubtitleNumber: mailOrder.data.bulanLalu,
               ),
-              SalesSummary(
+              summaryCard(
+                context: context,
                 color: Colors.orange,
                 title: Strings.stock,
-                titleNumber: _unitStatus.data.statusAll,
+                titleNumber: unitStatus.data.statusAll,
                 firstSubtitle: Strings.available,
-                firstSubtitleNumber: _unitStatus.data.statusA,
+                firstSubtitleNumber: unitStatus.data.statusA,
                 secondSubtitle: Strings.sold,
-                secondSubtitleNumber: _unitStatus.data.statusB,
+                secondSubtitleNumber: unitStatus.data.statusB,
                 thirdSubtitle: Strings.hold,
-                thirdSubtitleNumber: _unitStatus.data.statusH,
+                thirdSubtitleNumber: unitStatus.data.statusH,
               ),
-              SalesSummary(
+              summaryCard(
+                context: context,
                 color: Colors.red,
                 title: Strings.cancel,
-                titleNumber: _cancelStatus.data.asOf,
+                titleNumber: cancelStatus.data.asOf,
                 firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: _cancelStatus.data.bulanIni,
+                firstSubtitleNumber: cancelStatus.data.bulanIni,
                 secondSubtitle: Strings.lastMonth,
-                secondSubtitleNumber: _cancelStatus.data.bulanLalu,
+                secondSubtitleNumber: cancelStatus.data.bulanLalu,
               ),
             ],
           ),
@@ -145,33 +190,19 @@ class Success extends StatelessWidget {
       ),
     );
   }
-}
 
-class SalesSummary extends StatelessWidget {
-  const SalesSummary({
-    @required this.color,
-    @required this.title,
-    @required this.titleNumber,
-    @required this.firstSubtitle,
-    @required this.firstSubtitleNumber,
-    @required this.secondSubtitle,
-    @required this.secondSubtitleNumber,
-    this.thirdSubtitle,
-    this.thirdSubtitleNumber,
-  });
-
-  final Color color;
-  final String title;
-  final String firstSubtitle;
-  final String secondSubtitle;
-  final String thirdSubtitle;
-  final int titleNumber;
-  final int firstSubtitleNumber;
-  final int secondSubtitleNumber;
-  final int thirdSubtitleNumber;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget summaryCard({
+    @required BuildContext context,
+    @required Color color,
+    @required String title,
+    @required int titleNumber,
+    @required String firstSubtitle,
+    @required int firstSubtitleNumber,
+    @required String secondSubtitle,
+    @required int secondSubtitleNumber,
+    String thirdSubtitle,
+    int thirdSubtitleNumber,
+  }) {
     return SizedBox(
       width: context.mediaQuerySize.width * 0.6,
       height: context.mediaQuerySize.height * 0.15,
