@@ -1,26 +1,29 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:build_context/build_context.dart';
 import 'package:eproperty/model/sales/cancel_status.dart';
 import 'package:eproperty/model/sales/mail_order.dart';
 import 'package:eproperty/model/sales/reservation.dart';
 import 'package:eproperty/model/sales/unit_status.dart';
+import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Body(),
+      body: BuildBody(),
     );
   }
 }
 
-class Body extends ConsumerWidget {
-  const Body();
+class BuildBody extends ConsumerWidget {
+  const BuildBody();
 
   @override
   Widget build(
@@ -63,58 +66,93 @@ class Success extends StatelessWidget {
     // final _kprStatus = data[10] as KprStatus;
     // final _legalUnitStatus = data[11] as LegalUnitStatus;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        margin: const EdgeInsets.all(Sizes.margin16),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          alignment: Alignment.topCenter,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.all(Sizes.margin16),
           child: Row(
             children: [
-              SalesSummary(
-                color: Colors.blue,
-                title: Strings.reservation,
-                titleNumber: _reservation.data.asOf,
-                firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: _reservation.data.bulanIni,
-                secondSubtitle: Strings.cancelTotal,
-                secondSubtitleNumber: _reservation.data.batal,
+              Consumer(
+                builder: (_, watch, __) {
+                  final _company = watch(headerTextProvider);
+
+                  return _company.when(
+                    data: (data) => Text(
+                      data,
+                      style: context.textTheme.headline3,
+                    ),
+                    loading: () => const CircularProgressIndicator(),
+                    error: (error, _) => Text('$error'),
+                  );
+                },
               ),
-              SalesSummary(
-                color: Colors.green,
-                title: Strings.mailOrder,
-                titleNumber: _mailOrder.data.asOf,
-                firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: _mailOrder.data.bulanIni,
-                secondSubtitle: Strings.lastMonth,
-                secondSubtitleNumber: _mailOrder.data.bulanLalu,
-              ),
-              SalesSummary(
-                color: Colors.orange,
-                title: Strings.stock,
-                titleNumber: _unitStatus.data.statusAll,
-                firstSubtitle: Strings.available,
-                firstSubtitleNumber: _unitStatus.data.statusA,
-                secondSubtitle: Strings.sold,
-                secondSubtitleNumber: _unitStatus.data.statusB,
-                thirdSubtitle: Strings.hold,
-                thirdSubtitleNumber: _unitStatus.data.statusH,
-              ),
-              SalesSummary(
-                color: Colors.red,
-                title: Strings.cancel,
-                titleNumber: _cancelStatus.data.asOf,
-                firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: _cancelStatus.data.bulanIni,
-                secondSubtitle: Strings.lastMonth,
-                secondSubtitleNumber: _cancelStatus.data.bulanLalu,
+              const Spacer(),
+              IconButton(
+                icon: const Icon(
+                  FeatherIcons.filter,
+                  size: Sizes.size32,
+                  color: Colors.black,
+                ),
+                onPressed: () => context.navigator.push(Routes.filterView),
               ),
             ],
           ),
         ),
-      ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Container(
+            margin: const EdgeInsets.all(Sizes.margin16),
+            child: FittedBox(
+              fit: BoxFit.fill,
+              alignment: Alignment.topCenter,
+              child: Row(
+                children: [
+                  SalesSummary(
+                    color: Colors.blue,
+                    title: Strings.reservation,
+                    titleNumber: _reservation.data.asOf,
+                    firstSubtitle: Strings.thisMonth,
+                    firstSubtitleNumber: _reservation.data.bulanIni,
+                    secondSubtitle: Strings.cancelTotal,
+                    secondSubtitleNumber: _reservation.data.batal,
+                  ),
+                  SalesSummary(
+                    color: Colors.green,
+                    title: Strings.mailOrder,
+                    titleNumber: _mailOrder.data.asOf,
+                    firstSubtitle: Strings.thisMonth,
+                    firstSubtitleNumber: _mailOrder.data.bulanIni,
+                    secondSubtitle: Strings.lastMonth,
+                    secondSubtitleNumber: _mailOrder.data.bulanLalu,
+                  ),
+                  SalesSummary(
+                    color: Colors.orange,
+                    title: Strings.stock,
+                    titleNumber: _unitStatus.data.statusAll,
+                    firstSubtitle: Strings.available,
+                    firstSubtitleNumber: _unitStatus.data.statusA,
+                    secondSubtitle: Strings.sold,
+                    secondSubtitleNumber: _unitStatus.data.statusB,
+                    thirdSubtitle: Strings.hold,
+                    thirdSubtitleNumber: _unitStatus.data.statusH,
+                  ),
+                  SalesSummary(
+                    color: Colors.red,
+                    title: Strings.cancel,
+                    titleNumber: _cancelStatus.data.asOf,
+                    firstSubtitle: Strings.thisMonth,
+                    firstSubtitleNumber: _cancelStatus.data.bulanIni,
+                    secondSubtitle: Strings.lastMonth,
+                    secondSubtitleNumber: _cancelStatus.data.bulanLalu,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

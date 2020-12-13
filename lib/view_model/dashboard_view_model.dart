@@ -28,6 +28,10 @@ class DashboardViewModel {
   }
 
   Future<Map<String, dynamic>> companies() async {
+    final _company = await companiesRepository.retrieveData<String>(
+      name: 'company',
+    );
+
     final _project = await companiesRepository.retrieveData<String>(
       name: 'project',
     );
@@ -41,6 +45,7 @@ class DashboardViewModel {
     );
 
     final _result = {
+      'company': _company,
       'project': _project,
       'year': _year,
       'month': _month,
@@ -123,8 +128,18 @@ class DashboardViewModel {
 
     return _response;
   }
+
+  Future<String> company() async {
+    final _companies = await companies();
+
+    return _companies['company'] as String;
+  }
 }
 
 final dataProvider = FutureProvider<List<dynamic>>(
   (_) => DashboardViewModel().fetchData(),
+);
+
+final headerTextProvider = FutureProvider<String>(
+  (_) => DashboardViewModel().company(),
 );
