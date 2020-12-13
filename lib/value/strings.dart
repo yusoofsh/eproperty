@@ -24,7 +24,14 @@ class Strings {
   static const String welcome = 'Welcome back,';
   static const String year = 'Year';
   static const String reservation = 'Reservasi';
-  static const String active = 'Aktif';
+  static const String active = '(Aktif)';
   static const String thisMonth = 'Bulan Ini';
+  static const String lastMonth = 'Bulan Lalu';
   static const String cancelTotal = 'Total Batal';
+  static const String mailOrder = 'Surat Pesanan';
+  static const String stock = 'Stok';
+  static const String available = 'Available';
+  static const String sold = 'Sold';
+  static const String hold = 'Hold';
+  static const String cancel = 'Batal';
 }
