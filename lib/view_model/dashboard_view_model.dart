@@ -136,10 +136,10 @@ class DashboardViewModel {
   }
 }
 
-final dataProvider = FutureProvider<List<dynamic>>(
+final dataProvider = FutureProvider.autoDispose<List<dynamic>>(
   (_) => DashboardViewModel().fetchData(),
 );
 
-final headerTextProvider = FutureProvider<String>(
+final companyProvider = FutureProvider.autoDispose<String>(
   (_) => DashboardViewModel().company(),
 );
