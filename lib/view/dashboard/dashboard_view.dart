@@ -16,6 +16,7 @@ import 'package:eproperty/model/sales/unit_stock_per_type.dart';
 import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
+import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view/dashboard/widget/aging_reservation.dart';
 import 'package:eproperty/view/dashboard/widget/cancel_reason.dart';
@@ -31,18 +32,50 @@ import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      extendBody: true,
       body: BuildBody(),
+      bottomNavigationBar: BuildBottomNavigationBar(),
     );
   }
 }
 
-class BuildBody extends ConsumerWidget {
+class BuildBody extends StatelessWidget {
   const BuildBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Consumer(
+        builder: (_, watch, __) {
+          final selectedIndex = watch(selectedIndexProvider).state;
+
+          switch (selectedIndex) {
+            case 0:
+              return const BuildSalesBody();
+              break;
+            case 1:
+              return const Center(child: Text('1'));
+              break;
+            case 2:
+              return const Center(child: Text('2'));
+              break;
+            default:
+              return const Text('oops');
+          }
+        },
+      ),
+    );
+  }
+}
+
+class BuildSalesBody extends ConsumerWidget {
+  const BuildSalesBody({Key key}) : super(key: key);
 
   @override
   Widget build(
@@ -52,46 +85,44 @@ class BuildBody extends ConsumerWidget {
     final sales = watch(dataProvider);
     final company = watch(companyProvider);
 
-    return SafeArea(
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(Sizes.margin16),
-            child: Row(
-              children: [
-                company.when(
-                  data: (data) => Text(
-                    data,
-                    style: context.textTheme.headline3,
-                  ),
-                  loading: () => const CircularProgressIndicator(),
-                  error: (error, _) => Text('$error'),
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.all(Sizes.margin16),
+          child: Row(
+            children: [
+              company.when(
+                data: (data) => Text(
+                  data,
+                  style: context.textTheme.headline3,
                 ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(
-                    FeatherIcons.filter,
-                    size: Sizes.size32,
-                    color: Colors.black,
-                  ),
-                  onPressed: () => context.navigator.push(Routes.filterView),
+                loading: () => const CircularProgressIndicator(),
+                error: (error, _) => Text('$error'),
+              ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(
+                  FeatherIcons.filter,
+                  size: Sizes.size32,
+                  color: Colors.black,
                 ),
-              ],
-            ),
+                onPressed: () => context.navigator.push(Routes.filterView),
+              ),
+            ],
           ),
-          sales.when(
-            data: (data) => Success(data),
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => Text('$error $stackTrace'),
-          ),
-        ],
-      ),
+        ),
+        sales.when(
+          data: (data) => SalesWithData(data),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stackTrace) => Text('$error $stackTrace'),
+        ),
+      ],
     );
   }
 }
 
-class Success extends StatelessWidget {
-  const Success(this.data);
+class SalesWithData extends StatelessWidget {
+  const SalesWithData(this.data);
 
   final List<dynamic> data;
 
@@ -153,6 +184,83 @@ class Success extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BuildBottomNavigationBar extends StatelessWidget {
+  const BuildBottomNavigationBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            blurRadius: Sizes.size24,
+            color: Colors.black.withOpacity(.1),
+          )
+        ],
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.padding16,
+            vertical: Sizes.padding8,
+          ),
+          child: Consumer(
+            builder: (_, watch, __) {
+              final selectedIndex = watch(selectedIndexProvider).state;
+
+              return GNav(
+                selectedIndex: selectedIndex,
+                curve: Curves.easeOutExpo,
+                gap: Sizes.size8,
+                iconSize: Sizes.size24,
+                duration: const Duration(milliseconds: 500),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 5,
+                ),
+                tabs: [
+                  GButton(
+                    text: Strings.sales,
+                    textColor: Colors.blue,
+                    icon: FeatherIcons.barChart,
+                    iconColor: Colors.black,
+                    iconActiveColor: Colors.blue,
+                    backgroundColor: Colors.blue.withOpacity(.2),
+                  ),
+                  GButton(
+                    text: Strings.finance,
+                    textColor: Colors.orange,
+                    icon: FeatherIcons.dollarSign,
+                    iconColor: Colors.black,
+                    iconActiveColor: Colors.orange,
+                    backgroundColor: Colors.orange.withOpacity(.2),
+                  ),
+                  GButton(
+                    text: Strings.accounting,
+                    textColor: Colors.green,
+                    icon: FeatherIcons.search,
+                    iconColor: Colors.black,
+                    iconActiveColor: Colors.green,
+                    backgroundColor: Colors.green.withOpacity(.2),
+                  ),
+                ],
+                onTabChange: (int index) {
+                  if (selectedIndex <= index) {
+                    context.read(selectedIndexProvider).state++;
+                  } else {
+                    context.read(selectedIndexProvider).state--;
+                  }
+                },
+              );
+            },
+          ),
         ),
       ),
     );

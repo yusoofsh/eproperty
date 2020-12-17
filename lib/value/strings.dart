@@ -51,4 +51,6 @@ class Strings {
   static const String kpr = 'KPR';
   static const String legalUnitStatus = 'Legal Unit Status';
   static const String unknown = 'TIDAK DIKETAHUI';
+  static const String finance = 'Keuangan';
+  static const String accounting = 'Akuntasi';
 }

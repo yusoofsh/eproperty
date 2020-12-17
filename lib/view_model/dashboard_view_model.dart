@@ -158,3 +158,5 @@ final companyProvider = FutureProvider<String>(
 final yearProvider = FutureProvider<int>(
   (_) => DashboardViewModel().year(),
 );
+
+final selectedIndexProvider = StateProvider<int>((_) => 0);
