@@ -8,12 +8,12 @@ import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
-class BuildSalesByPayment extends StatelessWidget {
-  const BuildSalesByPayment({
-    @required this.salesByPayment,
+class BuildSalesByMonth extends StatelessWidget {
+  const BuildSalesByMonth({
+    @required this.salesByMonth,
   });
 
-  final SalesByPayment salesByPayment;
+  final SalesByPayment salesByMonth;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class BuildSalesByPayment extends StatelessWidget {
       return [
         charts.Series<Datum, String>(
           id: 'Sales By Payment',
-          data: salesByPayment.data,
+          data: salesByMonth.data,
           measureFn: (sales, _) => sales.value,
           domainFn: (sales, _) => sales.name,
           labelAccessorFn: (row, _) => '${row.unit}',

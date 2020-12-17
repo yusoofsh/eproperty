@@ -18,16 +18,16 @@ import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_spaces.dart';
-import 'package:eproperty/view/dashboard/widget/aging_reservation.dart';
-import 'package:eproperty/view/dashboard/widget/cancel_reason.dart';
-import 'package:eproperty/view/dashboard/widget/kpr_status.dart';
-import 'package:eproperty/view/dashboard/widget/legal_unit_status.dart';
-import 'package:eproperty/view/dashboard/widget/sales.dart';
-import 'package:eproperty/view/dashboard/widget/sales_as_of.dart';
-import 'package:eproperty/view/dashboard/widget/sales_by_payment.dart';
-import 'package:eproperty/view/dashboard/widget/sales_summary.dart';
-import 'package:eproperty/view/dashboard/widget/top_sales.dart';
-import 'package:eproperty/view/dashboard/widget/unit_stock_per_type.dart';
+import 'package:eproperty/view/dashboard/sales/aging_reservation.dart';
+import 'package:eproperty/view/dashboard/sales/cancel_reason.dart';
+import 'package:eproperty/view/dashboard/sales/kpr_status.dart';
+import 'package:eproperty/view/dashboard/sales/legal_unit_status.dart';
+import 'package:eproperty/view/dashboard/sales/sales_as_of.dart';
+import 'package:eproperty/view/dashboard/sales/sales_by_month.dart';
+import 'package:eproperty/view/dashboard/sales/sales_by_year.dart';
+import 'package:eproperty/view/dashboard/sales/sales_summary.dart';
+import 'package:eproperty/view/dashboard/sales/top_sales.dart';
+import 'package:eproperty/view/dashboard/sales/unit_stock_per_type.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -46,96 +46,105 @@ class DashboardView extends StatelessWidget {
 }
 
 class BuildBody extends StatelessWidget {
-  const BuildBody();
+  const BuildBody({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Consumer(
-        builder: (_, watch, __) {
+        builder: (context, watch, __) {
+          final company = watch(companyProvider);
           final selectedIndex = watch(selectedIndexProvider).state;
 
-          switch (selectedIndex) {
-            case 0:
-              return const BuildSalesBody();
-              break;
-            case 1:
-              return const Center(child: Text('1'));
-              break;
-            case 2:
-              return const Center(child: Text('2'));
-              break;
-            default:
-              return const Text('oops');
-          }
+          return Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(Sizes.margin16),
+                child: Row(
+                  children: [
+                    company.when(
+                      data: (data) => Text(
+                        data,
+                        style: context.textTheme.headline3,
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, _) => Text('$error'),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(
+                        FeatherIcons.filter,
+                        size: Sizes.size32,
+                        color: Colors.black,
+                      ),
+                      onPressed: () =>
+                          context.navigator.push(Routes.filterView),
+                    ),
+                  ],
+                ),
+              ),
+              Builder(
+                builder: (_) {
+                  switch (selectedIndex) {
+                    case 0:
+                      return const BuildSalesBody();
+                      break;
+                    case 1:
+                      return const Center(child: Text('1'));
+                      break;
+                    case 2:
+                      return const Center(child: Text('2'));
+                      break;
+                    default:
+                      return const Text('oops');
+                  }
+                },
+              ),
+            ],
+          );
         },
       ),
     );
   }
 }
 
-class BuildSalesBody extends ConsumerWidget {
+class BuildSalesBody extends StatelessWidget {
   const BuildSalesBody({Key key}) : super(key: key);
 
   @override
-  Widget build(
-    BuildContext context,
-    ScopedReader watch,
-  ) {
-    final sales = watch(dataProvider);
-    final company = watch(companyProvider);
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Consumer(
+        builder: (_, watch, __) {
+          final sales = watch(dataProvider);
 
-    return Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.all(Sizes.margin16),
-          child: Row(
+          return Column(
             children: [
-              company.when(
-                data: (data) => Text(
-                  data,
-                  style: context.textTheme.headline3,
-                ),
-                loading: () => const CircularProgressIndicator(),
-                error: (error, _) => Text('$error'),
-              ),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(
-                  FeatherIcons.filter,
-                  size: Sizes.size32,
-                  color: Colors.black,
-                ),
-                onPressed: () => context.navigator.push(Routes.filterView),
+              sales.when(
+                data: (data) => success(data),
+                loading: () => loading(),
+                error: (error, __) => failure(error),
               ),
             ],
-          ),
-        ),
-        sales.when(
-          data: (data) => SalesWithData(data),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stackTrace) => Text('$error $stackTrace'),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
-}
 
-class SalesWithData extends StatelessWidget {
-  const SalesWithData(this.data);
+  Widget failure(Object error) => Center(child: Text('$error'));
 
-  final List<dynamic> data;
+  Widget loading() => const Center(child: CircularProgressIndicator());
 
-  @override
-  Widget build(BuildContext context) {
+  Widget success(List<dynamic> data) {
     final _reservation = data[0] as Reservation;
     final _mailOrder = data[1] as MailOrder;
     final _unitStatus = data[2] as UnitStatus;
     final _cancelStatus = data[3] as CancelStatus;
     final _topSales = data[4] as TopSales;
-    final _sales = data[5] as Sales;
+    final _salesByYear = data[5] as Sales;
     final _salesAsOf = data[6] as SalesAsOf;
-    final _salesByPayment = data[7] as SalesByPayment;
+    final _salesByMonth = data[7] as SalesByPayment;
     final _cancelReason = data[8] as CancelReason;
     final _agingReservation = data[9] as AgingReservation;
     final _unitStockPerType = data[10] as UnitStockPerType;
@@ -165,11 +174,11 @@ class SalesWithData extends StatelessWidget {
                 children: [
                   BuildTopSales(topSales: _topSales),
                   const CustomSpaces(height: Sizes.height4),
-                  BuildSales(sales: _sales),
+                  BuildSalesByYear(salesByYear: _salesByYear),
                   const CustomSpaces(height: Sizes.height4),
                   BuildSalesAsOf(salesAsOf: _salesAsOf),
                   const CustomSpaces(height: Sizes.height4),
-                  BuildSalesByPayment(salesByPayment: _salesByPayment),
+                  BuildSalesByMonth(salesByMonth: _salesByMonth),
                   const CustomSpaces(height: Sizes.height4),
                   BuildCancelReason(cancelReason: _cancelReason),
                   const CustomSpaces(height: Sizes.height4),
@@ -191,7 +200,7 @@ class SalesWithData extends StatelessWidget {
 }
 
 class BuildBottomNavigationBar extends StatelessWidget {
-  const BuildBottomNavigationBar();
+  const BuildBottomNavigationBar({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -252,9 +261,9 @@ class BuildBottomNavigationBar extends StatelessWidget {
                   ),
                 ],
                 onTabChange: (int index) {
-                  if (selectedIndex <= index) {
+                  if (selectedIndex < index) {
                     context.read(selectedIndexProvider).state++;
-                  } else {
+                  } else if (selectedIndex > index) {
                     context.read(selectedIndexProvider).state--;
                   }
                 },

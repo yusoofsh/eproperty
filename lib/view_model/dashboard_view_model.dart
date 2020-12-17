@@ -147,7 +147,7 @@ class DashboardViewModel {
   }
 }
 
-final dataProvider = FutureProvider.autoDispose<List<dynamic>>(
+final dataProvider = FutureProvider<List<dynamic>>(
   (_) => DashboardViewModel().fetchData(),
 );
 

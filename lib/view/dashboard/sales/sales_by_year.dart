@@ -9,12 +9,12 @@ import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BuildSales extends StatelessWidget {
-  const BuildSales({
-    @required this.sales,
+class BuildSalesByYear extends StatelessWidget {
+  const BuildSalesByYear({
+    @required this.salesByYear,
   });
 
-  final Sales sales;
+  final Sales salesByYear;
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +22,21 @@ class BuildSales extends StatelessWidget {
       return [
         charts.Series<Datum, String>(
           id: 'Target',
-          data: sales.data,
+          data: salesByYear.data,
           measureFn: (sales, _) => sales.targetValue,
           domainFn: (sales, _) => '${sales.month}',
           colorFn: (_, index) => charts.ColorUtil.fromDartColor(Colors.blue),
         ),
         charts.Series<Datum, String>(
           id: 'Realisasi',
-          data: sales.data,
+          data: salesByYear.data,
           measureFn: (sales, _) => sales.realisasiValue,
           domainFn: (sales, _) => '${sales.month}',
           colorFn: (_, index) => charts.ColorUtil.fromDartColor(Colors.orange),
         ),
         charts.Series<Datum, String>(
           id: 'Persen',
-          data: sales.data,
+          data: salesByYear.data,
           measureFn: (sales, _) => sales.percentValue,
           domainFn: (sales, _) => '${sales.month}',
           colorFn: (_, index) => charts.ColorUtil.fromDartColor(Colors.green),
@@ -48,21 +48,21 @@ class BuildSales extends StatelessWidget {
       return [
         charts.Series<Datum, int>(
           id: 'Target',
-          data: sales.data,
+          data: salesByYear.data,
           measureFn: (sales, _) => sales.targetQty,
           domainFn: (sales, _) => sales.month,
           colorFn: (_, index) => charts.ColorUtil.fromDartColor(Colors.blue),
         ),
         charts.Series<Datum, int>(
           id: 'Realisasi',
-          data: sales.data,
+          data: salesByYear.data,
           measureFn: (sales, _) => sales.realisasiQty,
           domainFn: (sales, _) => sales.month,
           colorFn: (_, index) => charts.ColorUtil.fromDartColor(Colors.orange),
         ),
         charts.Series<Datum, int>(
           id: 'Persen',
-          data: sales.data,
+          data: salesByYear.data,
           measureFn: (sales, _) => sales.percentQty,
           domainFn: (sales, _) => sales.month,
           colorFn: (_, index) => charts.ColorUtil.fromDartColor(Colors.green),
