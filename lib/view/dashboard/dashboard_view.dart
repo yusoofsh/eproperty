@@ -1,14 +1,32 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:build_context/build_context.dart';
+import 'package:eproperty/model/sales/aging_reservation.dart';
+import 'package:eproperty/model/sales/cancel_reason.dart';
 import 'package:eproperty/model/sales/cancel_status.dart';
+import 'package:eproperty/model/sales/kpr_status.dart';
+import 'package:eproperty/model/sales/legal_unit_status.dart';
 import 'package:eproperty/model/sales/mail_order.dart';
 import 'package:eproperty/model/sales/reservation.dart';
+import 'package:eproperty/model/sales/sales.dart';
+import 'package:eproperty/model/sales/sales_as_of.dart';
+import 'package:eproperty/model/sales/sales_by_payment.dart';
+import 'package:eproperty/model/sales/top_sales.dart';
 import 'package:eproperty/model/sales/unit_status.dart';
+import 'package:eproperty/model/sales/unit_stock_per_type.dart';
 import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
-import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_spaces.dart';
+import 'package:eproperty/view/dashboard/widget/aging_reservation.dart';
+import 'package:eproperty/view/dashboard/widget/cancel_reason.dart';
+import 'package:eproperty/view/dashboard/widget/kpr_status.dart';
+import 'package:eproperty/view/dashboard/widget/legal_unit_status.dart';
+import 'package:eproperty/view/dashboard/widget/sales.dart';
+import 'package:eproperty/view/dashboard/widget/sales_as_of.dart';
+import 'package:eproperty/view/dashboard/widget/sales_by_payment.dart';
+import 'package:eproperty/view/dashboard/widget/sales_summary.dart';
+import 'package:eproperty/view/dashboard/widget/top_sales.dart';
+import 'package:eproperty/view/dashboard/widget/unit_stock_per_type.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -83,216 +101,58 @@ class Success extends StatelessWidget {
     final _mailOrder = data[1] as MailOrder;
     final _unitStatus = data[2] as UnitStatus;
     final _cancelStatus = data[3] as CancelStatus;
-    // final _topSales = data[4] as TopSales;
-    // final _salesAsOf = data[5] as SalesAsOf;
-    // final _salesByPayment = data[6] as SalesByPayment;
-    // final _cancelReason = data[7] as CancelReason;
-    // final _agingReservation = data[8] as AgingReservation;
-    // final _unitStockPerType = data[9] as UnitStockPerType;
-    // final _kprStatus = data[10] as KprStatus;
-    // final _legalUnitStatus = data[11] as LegalUnitStatus;
+    final _topSales = data[4] as TopSales;
+    final _sales = data[5] as Sales;
+    final _salesAsOf = data[6] as SalesAsOf;
+    final _salesByPayment = data[7] as SalesByPayment;
+    final _cancelReason = data[8] as CancelReason;
+    final _agingReservation = data[9] as AgingReservation;
+    final _unitStockPerType = data[10] as UnitStockPerType;
+    final _kprStatus = data[11] as KprStatus;
+    final _legalUnitStatus = data[12] as LegalUnitStatus;
 
-    return Column(
-      children: [
-        SalesSummary(
-          reservation: _reservation,
-          mailOrder: _mailOrder,
-          unitStatus: _unitStatus,
-          cancelStatus: _cancelStatus,
-        ),
-        const CustomSpaces(height: 4),
-        Card(
-          child: Container(
-            color: Colors.blue,
-            height: 500,
-            margin: const EdgeInsets.symmetric(horizontal: Sizes.margin16),
-            child: Text(
-              'asaSAKSOASA',
-              style: context.textTheme.headline1.copyWith(color: Colors.red),
+    return Expanded(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BuildSalesSummary(
+              reservation: _reservation,
+              mailOrder: _mailOrder,
+              unitStatus: _unitStatus,
+              cancelStatus: _cancelStatus,
             ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class SalesSummary extends StatelessWidget {
-  const SalesSummary({
-    @required this.reservation,
-    @required this.mailOrder,
-    @required this.unitStatus,
-    @required this.cancelStatus,
-  });
-
-  final Reservation reservation;
-  final MailOrder mailOrder;
-  final UnitStatus unitStatus;
-  final CancelStatus cancelStatus;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: Sizes.margin16),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          alignment: Alignment.topCenter,
-          child: Row(
-            children: [
-              summaryCard(
-                context: context,
-                color: Colors.blue,
-                title: Strings.reservation,
-                titleNumber: reservation.data.asOf,
-                firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: reservation.data.bulanIni,
-                secondSubtitle: Strings.cancelTotal,
-                secondSubtitleNumber: reservation.data.batal,
+            const CustomSpaces(height: Sizes.height4),
+            Container(
+              margin: const EdgeInsets.only(
+                right: Sizes.margin16,
+                left: Sizes.margin16,
+                bottom: Sizes.margin16,
               ),
-              summaryCard(
-                context: context,
-                color: Colors.green,
-                title: Strings.mailOrder,
-                titleNumber: mailOrder.data.asOf,
-                firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: mailOrder.data.bulanIni,
-                secondSubtitle: Strings.lastMonth,
-                secondSubtitleNumber: mailOrder.data.bulanLalu,
-              ),
-              summaryCard(
-                context: context,
-                color: Colors.orange,
-                title: Strings.stock,
-                titleNumber: unitStatus.data.statusAll,
-                firstSubtitle: Strings.available,
-                firstSubtitleNumber: unitStatus.data.statusA,
-                secondSubtitle: Strings.sold,
-                secondSubtitleNumber: unitStatus.data.statusB,
-                thirdSubtitle: Strings.hold,
-                thirdSubtitleNumber: unitStatus.data.statusH,
-              ),
-              summaryCard(
-                context: context,
-                color: Colors.red,
-                title: Strings.cancel,
-                titleNumber: cancelStatus.data.asOf,
-                firstSubtitle: Strings.thisMonth,
-                firstSubtitleNumber: cancelStatus.data.bulanIni,
-                secondSubtitle: Strings.lastMonth,
-                secondSubtitleNumber: cancelStatus.data.bulanLalu,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget summaryCard({
-    @required BuildContext context,
-    @required Color color,
-    @required String title,
-    @required int titleNumber,
-    @required String firstSubtitle,
-    @required int firstSubtitleNumber,
-    @required String secondSubtitle,
-    @required int secondSubtitleNumber,
-    String thirdSubtitle,
-    int thirdSubtitleNumber,
-  }) {
-    return SizedBox(
-      width: context.mediaQuerySize.width * 0.6,
-      height: context.mediaQuerySize.height * 0.15,
-      child: Card(
-        color: color,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.padding8,
-            horizontal: Sizes.padding24,
-          ),
-          child: Column(
-            children: [
-              Column(
+              child: Column(
                 children: [
-                  Text(
-                    title,
-                    style: context.textTheme.headline6.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    '$titleNumber',
-                    style: context.textTheme.subtitle2.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
+                  BuildTopSales(topSales: _topSales),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildSales(sales: _sales),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildSalesAsOf(salesAsOf: _salesAsOf),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildSalesByPayment(salesByPayment: _salesByPayment),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildCancelReason(cancelReason: _cancelReason),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildAgingReservation(agingReservation: _agingReservation),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildUnitStockPerType(unitStockPerType: _unitStockPerType),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildKprStatus(kprStatus: _kprStatus),
+                  const CustomSpaces(height: Sizes.height4),
+                  BuildLegalUnitStatus(legalUnitStatus: _legalUnitStatus),
                 ],
               ),
-              const Spacer(),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        firstSubtitle,
-                        style: context.textTheme.bodyText1.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '$firstSubtitleNumber',
-                        style: context.textTheme.bodyText2.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        secondSubtitle,
-                        style: context.textTheme.bodyText1.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '$secondSubtitleNumber',
-                        style: context.textTheme.bodyText2.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (thirdSubtitle != null) const Spacer(),
-                  if (thirdSubtitleNumber != null)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          thirdSubtitle,
-                          style: context.textTheme.bodyText1.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          '$thirdSubtitleNumber',
-                          style: context.textTheme.bodyText2.copyWith(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

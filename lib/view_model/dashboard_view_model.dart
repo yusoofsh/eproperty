@@ -88,6 +88,11 @@ class DashboardViewModel {
           key: _apiKey,
           data: _data,
         ),
+        salesRepository.requestSales(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
         salesRepository.requestSalesAsOf(
           url: _apiUrl,
           key: _apiKey,
@@ -134,12 +139,22 @@ class DashboardViewModel {
 
     return _companies['company'] as String;
   }
+
+  Future<int> year() async {
+    final _companies = await companies();
+
+    return _companies['year'] as int;
+  }
 }
 
 final dataProvider = FutureProvider.autoDispose<List<dynamic>>(
   (_) => DashboardViewModel().fetchData(),
 );
 
-final companyProvider = FutureProvider.autoDispose<String>(
+final companyProvider = FutureProvider<String>(
   (_) => DashboardViewModel().company(),
+);
+
+final yearProvider = FutureProvider<int>(
+  (_) => DashboardViewModel().year(),
 );

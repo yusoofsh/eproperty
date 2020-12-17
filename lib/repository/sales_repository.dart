@@ -6,6 +6,7 @@ import 'package:eproperty/model/sales/kpr_status.dart';
 import 'package:eproperty/model/sales/legal_unit_status.dart';
 import 'package:eproperty/model/sales/mail_order.dart';
 import 'package:eproperty/model/sales/reservation.dart';
+import 'package:eproperty/model/sales/sales.dart';
 import 'package:eproperty/model/sales/sales_as_of.dart';
 import 'package:eproperty/model/sales/sales_by_payment.dart';
 import 'package:eproperty/model/sales/top_sales.dart';
@@ -80,6 +81,19 @@ class SalesRepository {
     @required Map<String, dynamic> data,
   }) async {
     final _response = await rest(url: url).topSales(
+      key,
+      data,
+    );
+
+    return _response;
+  }
+
+  Future<Sales> requestSales({
+    @required String url,
+    @required String key,
+    @required Map<String, dynamic> data,
+  }) async {
+    final _response = await rest(url: url).sales(
       key,
       data,
     );

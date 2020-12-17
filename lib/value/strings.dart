@@ -34,4 +34,21 @@ class Strings {
   static const String sold = 'Sold';
   static const String hold = 'Hold';
   static const String cancel = 'Batal';
+  static const String topSales = 'Top Sales (Unit)';
+  static const String sales = 'Penjualan';
+  static const String by = 'by';
+  static const String unit = 'Unit';
+  static const String idr = 'IDR';
+  static const String salesByThisMonth = 'Penjualan Sampai $thisMonth';
+  static const String contractValue = 'Nilai Kontrak (Rp)';
+  static const String paymentMethod = 'Cara Bayar';
+  static const String cancelReason = 'Alasan $cancel';
+  static const String agingReservation = 'Tenggang Reservasi\nKe $mailOrder';
+  static const String unitStockPerType = 'Stok $unit Per type';
+  static const String unitStock = 'Stok\n($unit)';
+  static const String unitSold = 'Terjual\n($unit)';
+  static const String unitRemain = 'Sisa\n($unit)';
+  static const String kpr = 'KPR';
+  static const String legalUnitStatus = 'Legal Unit Status';
+  static const String unknown = 'TIDAK DIKETAHUI';
 }
