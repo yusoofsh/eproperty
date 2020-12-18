@@ -27,13 +27,13 @@ class LogInViewModel extends ChangeNotifier {
       final _response = await userRepository.logIn(token);
 
       final _data = {
+        'is_logged_in': true,
+        'token': _response.token,
         'api_key': _response.user.apiKey,
         'api_url': _response.user.apiUrl,
+        'name': _response.user.name,
         'email': _response.user.email,
         'image': _response.user.image,
-        'is_logged_in': true,
-        'name': _response.user.name,
-        'token': _response.token,
       };
 
       await storeResponse(_data);

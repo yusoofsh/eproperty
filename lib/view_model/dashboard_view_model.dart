@@ -256,6 +256,27 @@ class DashboardViewModel {
     return _response;
   }
 
+  Future<List<String>> fetchUserData() async {
+    final _result = await Future.wait<String>(
+      [
+        userRepository.retrieveData<String>(
+          name: 'email',
+          value: '',
+        ),
+        userRepository.retrieveData<String>(
+          name: 'name',
+          value: '',
+        ),
+        userRepository.retrieveData<String>(
+          name: 'image',
+          value: '',
+        ),
+      ],
+    );
+
+    return _result;
+  }
+
   String formatToIdr(num value) {
     final _parsed = NumberFormat.currency(
       locale: 'id',
@@ -281,6 +302,10 @@ final financeDataProvider = FutureProvider<List<dynamic>>(
 
 final accountingDataProvider = FutureProvider<List<dynamic>>(
   (_) => DashboardViewModel().fetchAccountingData(),
+);
+
+final userDataProvider = FutureProvider<List<String>>(
+  (_) => DashboardViewModel().fetchUserData(),
 );
 
 final currentCompanyProvider = FutureProvider<String>(

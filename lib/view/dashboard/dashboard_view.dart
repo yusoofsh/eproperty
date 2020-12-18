@@ -7,6 +7,7 @@ import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/dashboard/accounting/accounting.dart';
 import 'package:eproperty/view/dashboard/finance/finance.dart';
 import 'package:eproperty/view/dashboard/sales/sales.dart';
+import 'package:eproperty/view/dashboard/user/user.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -37,35 +38,39 @@ class BuildBody extends StatelessWidget {
           final sales = watch(salesDataProvider);
           final finance = watch(financeDataProvider);
           final accounting = watch(accountingDataProvider);
+          final user = watch(userDataProvider);
 
           return Column(
             children: [
-              Container(
-                margin: const EdgeInsets.all(Sizes.margin16),
-                child: Row(
-                  children: [
-                    company.when(
-                      data: (data) => Text(
-                        data,
-                        style: context.textTheme.headline3,
+              if (index == 3)
+                const SizedBox()
+              else
+                Container(
+                  margin: const EdgeInsets.all(Sizes.margin16),
+                  child: Row(
+                    children: [
+                      company.when(
+                        data: (data) => Text(
+                          data,
+                          style: context.textTheme.headline3,
+                        ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (error, _) => Text('$error'),
                       ),
-                      loading: () => const CircularProgressIndicator(),
-                      error: (error, _) => Text('$error'),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: const Icon(
-                        FeatherIcons.filter,
-                        size: Sizes.size32,
-                        color: Colors.black,
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(
+                          FeatherIcons.filter,
+                          size: Sizes.size32,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          context.navigator.push(Routes.filterView);
+                        },
                       ),
-                      onPressed: () {
-                        context.navigator.push(Routes.filterView);
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
               Builder(
                 builder: (_) {
                   switch (index) {
@@ -77,6 +82,8 @@ class BuildBody extends StatelessWidget {
                       break;
                     case 2:
                       return BuildAccounting(accounting);
+                    case 3:
+                      return BuildUser(user);
                       break;
                     default:
                       return Text('oops $index');
@@ -138,19 +145,27 @@ class BuildBottomNavigationBar extends StatelessWidget {
                   ),
                   GButton(
                     text: Strings.finance,
-                    textColor: Colors.orange,
+                    textColor: Colors.green,
                     icon: FeatherIcons.dollarSign,
+                    iconColor: Colors.black,
+                    iconActiveColor: Colors.green,
+                    backgroundColor: Colors.green.withOpacity(.1),
+                  ),
+                  GButton(
+                    text: Strings.accounting,
+                    textColor: Colors.orange,
+                    icon: FeatherIcons.pieChart,
                     iconColor: Colors.black,
                     iconActiveColor: Colors.orange,
                     backgroundColor: Colors.orange.withOpacity(.1),
                   ),
                   GButton(
-                    text: Strings.accounting,
-                    textColor: Colors.green,
-                    icon: FeatherIcons.pieChart,
+                    text: Strings.user,
+                    textColor: Colors.red,
+                    icon: FeatherIcons.user,
                     iconColor: Colors.black,
-                    iconActiveColor: Colors.green,
-                    backgroundColor: Colors.green.withOpacity(.1),
+                    iconActiveColor: Colors.red,
+                    backgroundColor: Colors.red.withOpacity(.1),
                   ),
                 ],
                 onTabChange: (int index) {

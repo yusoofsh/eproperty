@@ -76,4 +76,5 @@ class Strings {
   static const String thisYear = '$year Ini\n(Rp)';
   static const String lastYear = '$year Lalu\n(Rp)';
   static const String cashFlow = 'Cash Flow';
+  static const String user = 'Pengguna';
 }

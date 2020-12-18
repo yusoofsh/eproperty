@@ -16,7 +16,7 @@ class BuildKprStatus extends StatelessWidget {
       child: SizedBox(
         width: context.mediaQuerySize.width,
         child: DataTable(
-          headingRowHeight: 0,
+          headingRowHeight: 0.0,
           columns: const [
             DataColumn(label: SizedBox()),
             DataColumn(label: SizedBox()),

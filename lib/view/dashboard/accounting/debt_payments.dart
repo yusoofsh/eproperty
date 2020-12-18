@@ -20,6 +20,7 @@ class BuildDebtPayments extends StatelessWidget {
       child: SizedBox(
         width: context.mediaQuerySize.width,
         child: DataTable(
+          headingRowHeight: 0.0,
           columnSpacing: Sizes.size12,
           columns: const [
             DataColumn(label: SizedBox()),
@@ -40,6 +41,7 @@ class BuildDebtPayments extends StatelessWidget {
                   ),
                   DataCell(
                     Align(
+                      alignment: Alignment.centerRight,
                       child: Text('${data.value}'),
                     ),
                   ),
