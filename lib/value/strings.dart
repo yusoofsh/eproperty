@@ -67,4 +67,9 @@ class Strings {
   static const String day = 'Hari';
   static const String debtAcceptance = 'Penerimaan Piutang';
   static const String kprReception = 'Penerimaan KPR';
+  static const String ratio = 'Rasio';
+  static const String cashRatio = '$ratio Keuangan';
+  static const String liquidityRatio = '$ratio Likuiditas';
+  static const String profitabilityRatio = '$ratio Profitabilitas';
+  static const String debtRatio = '$ratio Hutang';
 }

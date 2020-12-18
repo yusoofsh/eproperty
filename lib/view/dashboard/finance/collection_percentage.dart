@@ -85,25 +85,21 @@ class BuildCollectionPercentage extends StatelessWidget {
             children: [
               BuildCircularPercentage(
                 percent: percent(0),
-                center: percent(0).toString(),
                 footer: name(0),
               ),
               const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
                 percent: percent(1),
-                center: percent(1).toString(),
                 footer: name(1),
               ),
               const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
                 percent: percent(2),
-                center: percent(2).toString(),
                 footer: name(2),
               ),
               const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
                 percent: percent(3),
-                center: percent(3).toString(),
                 footer: name(3),
               ),
             ],
@@ -150,7 +146,7 @@ class BuildCircularPercentage extends StatelessWidget {
       lineWidth: Sizes.size12,
       animation: true,
       percent: percent,
-      center: Text('$center%'),
+      center: Text('${percent.toInt()}%'),
       footer: Text(footer),
       circularStrokeCap: CircularStrokeCap.round,
       progressColor: Colors.orange,
