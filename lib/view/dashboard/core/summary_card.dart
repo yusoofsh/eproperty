@@ -82,6 +82,7 @@ class SummaryCard extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: context.textTheme.bodyText2.copyWith(
                             color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -103,6 +104,7 @@ class SummaryCard extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: context.textTheme.bodyText2.copyWith(
                               color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -124,6 +126,7 @@ class SummaryCard extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: context.textTheme.bodyText2.copyWith(
                               color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
