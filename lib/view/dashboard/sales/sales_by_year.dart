@@ -162,7 +162,7 @@ class BuildSalesBarChart extends StatelessWidget {
       salesByUnitData,
       animate: true,
       defaultRenderer: charts.BarRendererConfig(
-        groupingType: charts.BarGroupingType.groupedStacked,
+        groupingType: charts.BarGroupingType.grouped,
       ),
       customSeriesRenderers: [
         charts.LineRendererConfig(

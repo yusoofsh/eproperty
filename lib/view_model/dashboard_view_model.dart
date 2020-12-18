@@ -3,6 +3,7 @@ import 'package:eproperty/repository/finance_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class DashboardViewModel {
   final companiesRepository = CompaniesRepository();
@@ -207,7 +208,21 @@ class DashboardViewModel {
 
     return _response;
   }
+
+  String formatToIdr(num value) {
+    final _parsed = NumberFormat.currency(
+      locale: 'id',
+      name: 'Rp. ',
+      decimalDigits: 0,
+    ).format(value);
+
+    return _parsed;
+  }
 }
+
+final dashboardProvider = Provider<DashboardViewModel>(
+  (_) => DashboardViewModel(),
+);
 
 final salesDataProvider = FutureProvider<List<dynamic>>(
   (_) => DashboardViewModel().fetchSalesData(),

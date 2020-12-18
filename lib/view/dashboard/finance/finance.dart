@@ -1,10 +1,12 @@
 import 'package:eproperty/model/finance/aging_debt.dart';
 import 'package:eproperty/model/finance/collection_percentage.dart';
+import 'package:eproperty/model/finance/debt_acceptance.dart';
 import 'package:eproperty/model/finance/hold_percentage.dart';
 import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/view/dashboard/finance/aging_debt.dart';
 import 'package:eproperty/view/dashboard/finance/collection_percentage.dart';
+import 'package:eproperty/view/dashboard/finance/debt_acceptance.dart';
 import 'package:eproperty/view/dashboard/finance/finance_summary.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
@@ -46,7 +48,7 @@ class BuildFinance extends StatelessWidget {
     final collectionPercentage = data[4] as CollectionPercentage;
     final holdPercentage = data[5] as HoldPercentage;
     final agingDebt = data[6] as AgingDebt;
-    // final debtAcceptance = data[7] as DebtAcceptance;
+    final debtAcceptance = data[7] as DebtAcceptance;
     // final kprReception = data[8] as KprReception;
 
     return Expanded(
@@ -76,6 +78,8 @@ class BuildFinance extends StatelessWidget {
                   ),
                   const SizedBox(height: Sizes.height4),
                   BuildAgingDebt(agingDebt: agingDebt),
+                  const SizedBox(height: Sizes.height4),
+                  BuildDebtAcceptance(debtAcceptance: debtAcceptance),
                 ],
               ),
             ),

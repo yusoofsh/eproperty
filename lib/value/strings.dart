@@ -65,4 +65,5 @@ class Strings {
   static const String noData = 'No Data';
   static const String agingDebt = 'Aging Piutang';
   static const String day = 'Hari';
+  static const String debtAcceptance = 'Penerimaan Piutang';
 }
