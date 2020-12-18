@@ -177,6 +177,31 @@ class DashboardViewModel {
           key: _apiKey,
           data: _data,
         ),
+        financeRepository.requestCollectionPercentage(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.requestHoldPercentage(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.requestAgingDebt(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.requestDebtAcceptance(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.requestKprReception(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
       ],
     );
 

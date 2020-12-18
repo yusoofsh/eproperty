@@ -3,6 +3,11 @@ import 'dart:io';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:eproperty/model/base_model.dart';
 import 'package:eproperty/model/companies_model.dart';
+import 'package:eproperty/model/finance/aging_debt.dart';
+import 'package:eproperty/model/finance/collection_percentage.dart';
+import 'package:eproperty/model/finance/debt_acceptance.dart';
+import 'package:eproperty/model/finance/hold_percentage.dart';
+import 'package:eproperty/model/finance/kpr_reception.dart';
 import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/model/sales/aging_reservation.dart';
 import 'package:eproperty/model/sales/cancel_reason.dart';
@@ -150,6 +155,36 @@ abstract class RestService {
 
   @GET('/realisasiretensi')
   Future<MonthSummary> retentionRealization(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/percentcoll')
+  Future<CollectionPercentage> collectionPercentage(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/percenthold')
+  Future<HoldPercentage> holdPercentage(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/agingpiutang')
+  Future<AgingDebt> agingDebt(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/penerimaanhutang')
+  Future<DebtAcceptance> debtAcceptance(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/penerimaankpr')
+  Future<KprReception> kprReception(
     @Header('ApiKey') String authentication,
     @Queries() Map<String, dynamic> queries,
   );
