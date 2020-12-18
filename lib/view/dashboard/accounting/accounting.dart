@@ -1,6 +1,8 @@
 import 'package:eproperty/model/accounting/cash_ratio.dart';
+import 'package:eproperty/model/accounting/profit.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/view/dashboard/accounting/cash_ratio.dart';
+import 'package:eproperty/view/dashboard/accounting/profit.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,7 +30,7 @@ class BuildAccounting extends StatelessWidget {
   Widget success(List<dynamic> data) {
     final cashRatio = data[0] as Ratio;
     final currentRatio = data[1] as Ratio;
-    // final profit = data[2] as Profit;
+    final profit = data[2] as Profit;
     // final cashFlow = data[3] as CashFlow;
     // final debtPayments = data[4] as DebtPayments;
     // final debt = data[5] as Debt;
@@ -49,6 +51,7 @@ class BuildAccounting extends StatelessWidget {
                 cashRatio: cashRatio,
                 currentRatio: currentRatio,
               ),
+              BuildProfit(profit: profit),
             ],
           ),
         ),

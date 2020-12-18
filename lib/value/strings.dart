@@ -21,7 +21,7 @@ class Strings {
   static const String resetPassword = 'Reset\nPassword';
   static const String success = 'Redirecting you now';
   static const String welcome = 'Welcome back,';
-  static const String year = 'Year';
+  static const String year = 'Tahun';
   static const String reservation = 'Reservasi';
   static const String active = '(Aktif)';
   static const String thisMonth = 'Bulan Ini';
@@ -72,4 +72,7 @@ class Strings {
   static const String liquidityRatio = '$ratio Likuiditas';
   static const String profitabilityRatio = '$ratio Profitabilitas';
   static const String debtRatio = '$ratio Hutang';
+  static const String profit = 'Laba';
+  static const String thisYear = '$year Ini\n(Rp)';
+  static const String lastYear = '$year Lalu\n(Rp)';
 }
