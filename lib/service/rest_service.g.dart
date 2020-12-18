@@ -374,4 +374,87 @@ class _RestService implements RestService {
     final value = LegalUnitStatus.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<MonthSummary> debtPayments(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/pembayaranhutang',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = MonthSummary.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<MonthSummary> jtCredit(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/piutangjt',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = MonthSummary.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<MonthSummary> outstandingRetention(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/outstandingretensi',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = MonthSummary.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<MonthSummary> retentionRealization(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/realisasiretensi',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = MonthSummary.fromJson(_result.data);
+    return value;
+  }
 }

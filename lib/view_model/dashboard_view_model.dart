@@ -1,4 +1,5 @@
 import 'package:eproperty/repository/companies_repository.dart';
+import 'package:eproperty/repository/finance_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class DashboardViewModel {
   final companiesRepository = CompaniesRepository();
   final salesRepository = SalesRepository();
+  final financeRepository = FinanceRepository();
   final userRepository = UserRepository();
 
   Future<Map<String, String>> api() async {
@@ -54,7 +56,19 @@ class DashboardViewModel {
     return _result;
   }
 
-  Future<List<dynamic>> fetchData() async {
+  Future<String> company() async {
+    final _companies = await companies();
+
+    return _companies['company'] as String;
+  }
+
+  Future<int> year() async {
+    final _companies = await companies();
+
+    return _companies['year'] as int;
+  }
+
+  Future<List<dynamic>> fetchSalesData() async {
     final _api = await api();
     final _data = await companies();
 
@@ -134,28 +148,55 @@ class DashboardViewModel {
     return _response;
   }
 
-  Future<String> company() async {
-    final _companies = await companies();
+  Future<List<dynamic>> fetchFinanceData() async {
+    final _api = await api();
+    final _data = await companies();
 
-    return _companies['company'] as String;
-  }
+    final _apiUrl = _api['url'];
+    final _apiKey = _api['key'];
 
-  Future<int> year() async {
-    final _companies = await companies();
+    final _response = await Future.wait<dynamic>(
+      [
+        financeRepository.requestDebtPayments(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.requestJtCredit(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.requestOutstandingRetention(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.requestRetentionRealization(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+      ],
+    );
 
-    return _companies['year'] as int;
+    return _response;
   }
 }
 
-final dataProvider = FutureProvider<List<dynamic>>(
-  (_) => DashboardViewModel().fetchData(),
+final salesDataProvider = FutureProvider<List<dynamic>>(
+  (_) => DashboardViewModel().fetchSalesData(),
 );
 
-final companyProvider = FutureProvider<String>(
+final financeDataProvider = FutureProvider<List<dynamic>>(
+  (_) => DashboardViewModel().fetchFinanceData(),
+);
+
+final currentCompanyProvider = FutureProvider<String>(
   (_) => DashboardViewModel().company(),
 );
 
-final yearProvider = FutureProvider<int>(
+final currentYearProvider = FutureProvider<int>(
   (_) => DashboardViewModel().year(),
 );
 

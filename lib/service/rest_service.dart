@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:eproperty/model/base_model.dart';
 import 'package:eproperty/model/companies_model.dart';
+import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/model/sales/aging_reservation.dart';
 import 'package:eproperty/model/sales/cancel_reason.dart';
 import 'package:eproperty/model/sales/cancel_status.dart';
@@ -125,6 +126,30 @@ abstract class RestService {
 
   @GET('/statuslegalunit')
   Future<LegalUnitStatus> legalUnitStatus(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/pembayaranhutang')
+  Future<MonthSummary> debtPayments(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/piutangjt')
+  Future<MonthSummary> jtCredit(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/outstandingretensi')
+  Future<MonthSummary> outstandingRetention(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/realisasiretensi')
+  Future<MonthSummary> retentionRealization(
     @Header('ApiKey') String authentication,
     @Queries() Map<String, dynamic> queries,
   );

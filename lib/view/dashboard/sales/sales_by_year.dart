@@ -120,7 +120,7 @@ class BuildSalesByCard extends StatelessWidget {
             children: [
               Consumer(
                 builder: (_, watch, __) {
-                  final year = watch(yearProvider);
+                  final year = watch(currentYearProvider);
                   return year.when(
                     data: (data) {
                       return Text(
