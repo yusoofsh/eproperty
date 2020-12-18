@@ -41,7 +41,12 @@ class BuildLegalUnitStatus extends StatelessWidget {
                     (data) {
                       return DataRow(
                         cells: [
-                          DataCell(Text(data.name)),
+                          DataCell(
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(data.name),
+                            ),
+                          ),
                           DataCell(
                             Align(
                               alignment: Alignment.centerRight,

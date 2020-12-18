@@ -2,12 +2,14 @@ import 'package:eproperty/model/finance/aging_debt.dart';
 import 'package:eproperty/model/finance/collection_percentage.dart';
 import 'package:eproperty/model/finance/debt_acceptance.dart';
 import 'package:eproperty/model/finance/hold_percentage.dart';
+import 'package:eproperty/model/finance/kpr_reception.dart';
 import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/view/dashboard/finance/aging_debt.dart';
 import 'package:eproperty/view/dashboard/finance/collection_percentage.dart';
 import 'package:eproperty/view/dashboard/finance/debt_acceptance.dart';
 import 'package:eproperty/view/dashboard/finance/finance_summary.dart';
+import 'package:eproperty/view/dashboard/finance/kpr_reception.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,7 +51,7 @@ class BuildFinance extends StatelessWidget {
     final holdPercentage = data[5] as HoldPercentage;
     final agingDebt = data[6] as AgingDebt;
     final debtAcceptance = data[7] as DebtAcceptance;
-    // final kprReception = data[8] as KprReception;
+    final kprReception = data[8] as KprReception;
 
     return Expanded(
       child: SingleChildScrollView(
@@ -80,6 +82,8 @@ class BuildFinance extends StatelessWidget {
                   BuildAgingDebt(agingDebt: agingDebt),
                   const SizedBox(height: Sizes.height4),
                   BuildDebtAcceptance(debtAcceptance: debtAcceptance),
+                  const SizedBox(height: Sizes.height4),
+                  BuildKprReception(kprReception: kprReception),
                 ],
               ),
             ),

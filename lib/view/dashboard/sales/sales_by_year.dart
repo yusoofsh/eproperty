@@ -39,7 +39,10 @@ class BuildSalesByYear extends StatelessWidget {
           measureFn: (sales, _) => sales.percentValue,
           domainFn: (sales, _) => '${sales.month}',
           colorFn: (_, index) => charts.ColorUtil.fromDartColor(Colors.green),
-        )..setAttribute(charts.rendererIdKey, 'Unit Percentage Line'),
+        )..setAttribute(
+            charts.rendererIdKey,
+            'Unit Percentage',
+          ),
       ];
     }
 
@@ -164,9 +167,13 @@ class BuildSalesBarChart extends StatelessWidget {
       defaultRenderer: charts.BarRendererConfig(
         groupingType: charts.BarGroupingType.grouped,
       ),
+      primaryMeasureAxis: const charts.NumericAxisSpec(
+        tickProviderSpec:
+            charts.BasicNumericTickProviderSpec(desiredTickCount: 3),
+      ),
       customSeriesRenderers: [
         charts.LineRendererConfig(
-          customRendererId: 'Unit Percentage Line',
+          customRendererId: 'Unit Percentage',
         )
       ],
       behaviors: [
@@ -196,11 +203,10 @@ class BuildSalesLineChart extends StatelessWidget {
     return charts.LineChart(
       salesByIdrData,
       animate: true,
-      customSeriesRenderers: [
-        charts.LineRendererConfig(
-          customRendererId: 'IDR Percentage Line',
-        )
-      ],
+      primaryMeasureAxis: const charts.NumericAxisSpec(
+        tickProviderSpec:
+            charts.BasicNumericTickProviderSpec(desiredTickCount: 3),
+      ),
       behaviors: [
         charts.SlidingViewport(
           charts.SelectionModelType.action,

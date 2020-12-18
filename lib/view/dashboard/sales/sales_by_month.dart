@@ -57,7 +57,6 @@ class BuildSalesByMonth extends StatelessWidget {
               ),
               const SizedBox(height: Sizes.height8),
               SizedBox(
-                width: context.mediaQuerySize.width,
                 height: context.mediaQuerySize.height * 0.2,
                 child: charts.PieChart(
                   salesByPaymentData(),
