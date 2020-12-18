@@ -34,7 +34,7 @@ class Data {
     this.thisMonth,
   });
 
-  int thisMonth;
+  double thisMonth;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 

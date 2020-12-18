@@ -397,7 +397,7 @@ class _RestService implements RestService {
   }
 
   @override
-  Future<MonthSummary> jtCredit(authentication, queries) async {
+  Future<MonthSummary> dueCredit(authentication, queries) async {
     ArgumentError.checkNotNull(authentication, 'authentication');
     ArgumentError.checkNotNull(queries, 'queries');
     const _extra = <String, dynamic>{};

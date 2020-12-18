@@ -162,7 +162,7 @@ class DashboardViewModel {
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestJtCredit(
+        financeRepository.requestdueCredit(
           url: _apiUrl,
           key: _apiKey,
           data: _data,

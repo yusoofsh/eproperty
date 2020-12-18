@@ -36,6 +36,7 @@ dependencies:
   google_nav_bar: ^3.1.0
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
+  intl: ^0.16.1
   logger: ^0.9.4
   retrofit: ^1.3.4+1
 

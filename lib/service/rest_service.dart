@@ -137,7 +137,7 @@ abstract class RestService {
   );
 
   @GET('/piutangjt')
-  Future<MonthSummary> jtCredit(
+  Future<MonthSummary> dueCredit(
     @Header('ApiKey') String authentication,
     @Queries() Map<String, dynamic> queries,
   );

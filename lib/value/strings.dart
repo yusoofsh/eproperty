@@ -53,4 +53,9 @@ class Strings {
   static const String unknown = 'TIDAK DIKETAHUI';
   static const String finance = 'Keuangan';
   static const String accounting = 'Akuntasi';
+  static const String debt = 'Piutang';
+  static const String debtPayments = 'Pembayaran\n$debt';
+  static const String dueCredit = '$debt\nJatuh Tempo';
+  static const String outstandingRetention = 'Outstanding\nRetensi Bank';
+  static const String retentionRealization = 'KPR & Retensi\nCair';
 }

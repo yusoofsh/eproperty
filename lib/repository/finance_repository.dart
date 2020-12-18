@@ -24,12 +24,12 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<MonthSummary> requestJtCredit({
+  Future<MonthSummary> requestdueCredit({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
   }) async {
-    final _response = await rest(url: url).jtCredit(
+    final _response = await rest(url: url).dueCredit(
       key,
       data,
     );
