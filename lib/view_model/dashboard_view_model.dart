@@ -77,67 +77,67 @@ class DashboardViewModel {
 
     final _response = await Future.wait<dynamic>(
       [
-        salesRepository.requestReservation(
+        salesRepository.reservation(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestMailOrder(
+        salesRepository.mailOrder(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestUnitStatus(
+        salesRepository.unitStatus(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestCancelStatus(
+        salesRepository.cancelStatus(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestTopSales(
+        salesRepository.topSales(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestSales(
+        salesRepository.sales(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestSalesAsOf(
+        salesRepository.salesAsOf(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestSalesByPayment(
+        salesRepository.salesByPayment(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestCancelReason(
+        salesRepository.cancelReason(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestAgingReservation(
+        salesRepository.agingReservation(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestUnitStockPerType(
+        salesRepository.unitStockPerType(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestKprStatus(
+        salesRepository.kprStatus(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        salesRepository.requestLegalUnitStatus(
+        salesRepository.legalUnitStatus(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
@@ -157,47 +157,47 @@ class DashboardViewModel {
 
     final _response = await Future.wait<dynamic>(
       [
-        financeRepository.requestDebtPayments(
+        financeRepository.debtPayments(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestdueCredit(
+        financeRepository.dueCredit(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestOutstandingRetention(
+        financeRepository.outstandingRetention(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestRetentionRealization(
+        financeRepository.retentionRealization(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestCollectionPercentage(
+        financeRepository.collectionPercentage(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestHoldPercentage(
+        financeRepository.holdPercentage(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestAgingDebt(
+        financeRepository.agingDebt(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestDebtAcceptance(
+        financeRepository.debtAcceptance(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
         ),
-        financeRepository.requestKprReception(
+        financeRepository.kprReception(
           url: _apiUrl,
           key: _apiKey,
           data: _data,
@@ -225,4 +225,4 @@ final currentYearProvider = FutureProvider<int>(
   (_) => DashboardViewModel().year(),
 );
 
-final selectedIndexProvider = StateProvider<int>((_) => 0);
+final selectedIndexProvider = StateProvider<int>((_) => 1);

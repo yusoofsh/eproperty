@@ -186,7 +186,7 @@ class _BuildFormState extends State<BuildForm> {
                   final formState = formKey.currentState;
                   final crp = context.read(logInViewModelProvider);
                   if (formState.saveAndValidate()) {
-                    crp.requestAuthentication(formState.value);
+                    crp.authentication(formState.value);
                   }
                 },
               )

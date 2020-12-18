@@ -38,8 +38,8 @@ class Datum {
   });
 
   int month;
-  int target;
-  int realisasi;
+  num target;
+  num realisasi;
   int percent;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));

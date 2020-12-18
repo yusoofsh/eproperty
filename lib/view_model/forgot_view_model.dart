@@ -19,11 +19,11 @@ class ForgotViewModel extends ChangeNotifier {
 
   String message;
 
-  Future<void> requestCode(
+  Future<void> code(
     Map<String, String> value,
   ) async {
     try {
-      await forgotRepository.requestForgot(value);
+      await forgotRepository.forgot(value);
 
       state = ForgotState.next;
 
@@ -37,11 +37,11 @@ class ForgotViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> requestReset(
+  Future<void> reset(
     Map<String, dynamic> value,
   ) async {
     try {
-      await forgotRepository.requestReset(value);
+      await forgotRepository.reset(value);
 
       state = ForgotState.success;
 

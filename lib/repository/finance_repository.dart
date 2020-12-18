@@ -16,7 +16,7 @@ class FinanceRepository {
     );
   }
 
-  Future<MonthSummary> requestDebtPayments({
+  Future<MonthSummary> debtPayments({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -29,7 +29,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<MonthSummary> requestdueCredit({
+  Future<MonthSummary> dueCredit({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -42,7 +42,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<MonthSummary> requestOutstandingRetention({
+  Future<MonthSummary> outstandingRetention({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -55,7 +55,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<MonthSummary> requestRetentionRealization({
+  Future<MonthSummary> retentionRealization({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -68,7 +68,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<CollectionPercentage> requestCollectionPercentage({
+  Future<CollectionPercentage> collectionPercentage({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -81,7 +81,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<HoldPercentage> requestHoldPercentage({
+  Future<HoldPercentage> holdPercentage({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -94,7 +94,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<AgingDebt> requestAgingDebt({
+  Future<AgingDebt> agingDebt({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -107,7 +107,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<DebtAcceptance> requestDebtAcceptance({
+  Future<DebtAcceptance> debtAcceptance({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -120,7 +120,7 @@ class FinanceRepository {
     return _response;
   }
 
-  Future<KprReception> requestKprReception({
+  Future<KprReception> kprReception({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,

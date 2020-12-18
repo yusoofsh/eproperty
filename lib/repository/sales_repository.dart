@@ -23,7 +23,7 @@ class SalesRepository {
     );
   }
 
-  Future<Reservation> requestReservation({
+  Future<Reservation> reservation({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -36,7 +36,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<MailOrder> requestMailOrder({
+  Future<MailOrder> mailOrder({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -49,7 +49,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<UnitStatus> requestUnitStatus({
+  Future<UnitStatus> unitStatus({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -62,7 +62,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<CancelStatus> requestCancelStatus({
+  Future<CancelStatus> cancelStatus({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -75,7 +75,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<TopSales> requestTopSales({
+  Future<TopSales> topSales({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -88,7 +88,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<Sales> requestSales({
+  Future<Sales> sales({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -101,7 +101,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<SalesAsOf> requestSalesAsOf({
+  Future<SalesAsOf> salesAsOf({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -114,7 +114,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<SalesByPayment> requestSalesByPayment({
+  Future<SalesByPayment> salesByPayment({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -127,7 +127,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<CancelReason> requestCancelReason({
+  Future<CancelReason> cancelReason({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -140,7 +140,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<AgingReservation> requestAgingReservation({
+  Future<AgingReservation> agingReservation({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -153,7 +153,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<UnitStockPerType> requestUnitStockPerType({
+  Future<UnitStockPerType> unitStockPerType({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -166,7 +166,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<KprStatus> requestKprStatus({
+  Future<KprStatus> kprStatus({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,
@@ -179,7 +179,7 @@ class SalesRepository {
     return _response;
   }
 
-  Future<LegalUnitStatus> requestLegalUnitStatus({
+  Future<LegalUnitStatus> legalUnitStatus({
     @required String url,
     @required String key,
     @required Map<String, dynamic> data,

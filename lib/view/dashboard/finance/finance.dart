@@ -1,6 +1,9 @@
+import 'package:eproperty/model/finance/collection_percentage.dart';
+import 'package:eproperty/model/finance/hold_percentage.dart';
 import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/view/core/widget/custom_spaces.dart';
+import 'package:eproperty/view/dashboard/finance/collection_percentage.dart';
 import 'package:eproperty/view/dashboard/finance/finance_summary.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
@@ -14,11 +17,11 @@ class BuildFinance extends StatelessWidget {
     return Expanded(
       child: Consumer(
         builder: (_, watch, __) {
-          final sales = watch(financeDataProvider);
+          final finance = watch(financeDataProvider);
 
           return Column(
             children: [
-              sales.when(
+              finance.when(
                 data: (data) => success(data),
                 loading: () => loading(),
                 error: (error, __) => failure(error),
@@ -35,10 +38,15 @@ class BuildFinance extends StatelessWidget {
   Widget loading() => const Center(child: CircularProgressIndicator());
 
   Widget success(List<dynamic> data) {
-    final _debtPayments = data[0] as MonthSummary;
-    final _dueCredit = data[1] as MonthSummary;
-    final _outstandingRetention = data[2] as MonthSummary;
-    final _retentionRealization = data[3] as MonthSummary;
+    final debtPayments = data[0] as MonthSummary;
+    final dueCredit = data[1] as MonthSummary;
+    final outstandingRetention = data[2] as MonthSummary;
+    final retentionRealization = data[3] as MonthSummary;
+    final collectionPercentage = data[4] as CollectionPercentage;
+    final holdPercentage = data[5] as HoldPercentage;
+    // final agingDebt = data[6] as AgingDebt;
+    // final debtAcceptance = data[7] as DebtAcceptance;
+    // final kprReception = data[8] as KprReception;
 
     return Expanded(
       child: SingleChildScrollView(
@@ -47,10 +55,10 @@ class BuildFinance extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             BuildFinanceSummary(
-              debtPayments: _debtPayments,
-              dueCredit: _dueCredit,
-              outstandingRetention: _outstandingRetention,
-              retentionRealization: _retentionRealization,
+              debtPayments: debtPayments,
+              dueCredit: dueCredit,
+              outstandingRetention: outstandingRetention,
+              retentionRealization: retentionRealization,
             ),
             const CustomSpaces(height: Sizes.height4),
             Container(
@@ -61,9 +69,12 @@ class BuildFinance extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  // BuildTopSales(topSales: _topSales),
+                  BuildCollectionPercentage(
+                    collectionPercentage: collectionPercentage,
+                    holdPercentage: holdPercentage,
+                  ),
                   // const CustomSpaces(height: Sizes.height4),
-                  // BuildSalesByYear(salesByYear: _salesByYear),
+                  // BuildSalesByYear(salesByYear: salesByYear),
                 ],
               ),
             ),

@@ -35,7 +35,7 @@ class Data {
     this.detail,
   });
 
-  int total;
+  num total;
   List<Detail> detail;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
@@ -64,7 +64,7 @@ class Detail {
 
   String name;
   String category;
-  int value;
+  double value;
   int percent;
 
   factory Detail.fromRawJson(String str) => Detail.fromJson(json.decode(str));

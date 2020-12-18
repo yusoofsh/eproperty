@@ -38,7 +38,7 @@ class FilterViewModel extends ChangeNotifier {
 
   Future<void> populateCompaniesActive() async {
     try {
-      final _response = await companiesRepository.requestCompaniesActive(
+      final _response = await companiesRepository.companiesActive(
         await token(),
       );
 
@@ -60,7 +60,7 @@ class FilterViewModel extends ChangeNotifier {
 
   Future<void> populateCompaniesChild(int item) async {
     try {
-      final _response = await companiesRepository.requestCompaniesChild(
+      final _response = await companiesRepository.companiesChild(
         item,
         await token(),
       );

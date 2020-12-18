@@ -4,10 +4,14 @@ import 'package:eproperty/model/sales/aging_reservation.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view/dashboard/core/not_a_summary_card.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildAgingReservation extends StatelessWidget {
-  const BuildAgingReservation({this.agingReservation});
+  const BuildAgingReservation({
+    Key key,
+    this.agingReservation,
+  }) : super(key: key);
 
   final AgingReservation agingReservation;
 
@@ -38,41 +42,22 @@ class BuildAgingReservation extends StatelessWidget {
       ];
     }
 
-    return SizedBox(
-      width: context.mediaQuerySize.width,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.padding8,
-            horizontal: Sizes.padding24,
-          ),
-          child: Column(
-            children: [
-              Text(
-                Strings.agingReservation,
-                textAlign: TextAlign.center,
-                style: context.textTheme.headline6.copyWith(
-                  color: Colors.blue,
-                ),
+    return BuildNotASummaryCard(
+      title: Strings.agingReservation,
+      child: SizedBox(
+        width: context.mediaQuerySize.width * 0.72,
+        height: context.mediaQuerySize.height * 0.16,
+        child: charts.PieChart(
+          agingReservationData(),
+          animate: true,
+          behaviors: [
+            charts.DatumLegend(
+              position: charts.BehaviorPosition.end,
+              cellPadding: const EdgeInsets.only(
+                left: Sizes.padding8,
               ),
-              SizedBox(
-                width: context.mediaQuerySize.width * 0.72,
-                height: context.mediaQuerySize.height * 0.16,
-                child: charts.PieChart(
-                  agingReservationData(),
-                  animate: true,
-                  behaviors: [
-                    charts.DatumLegend(
-                      position: charts.BehaviorPosition.end,
-                      cellPadding: const EdgeInsets.only(
-                        left: Sizes.padding8,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

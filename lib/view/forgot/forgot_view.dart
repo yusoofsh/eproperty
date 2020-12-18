@@ -115,8 +115,7 @@ class BuildBody extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.all(Sizes.padding0),
             children: [
-              SizedBox(
-                  height: _height * 0.45),
+              SizedBox(height: _height * 0.45),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: Sizes.margin20,
@@ -165,7 +164,7 @@ class _BuildFormState extends State<BuildForm> {
                 if (_formState.saveAndValidate()) {
                   context
                       .read(forgotViewModelProvider)
-                      .requestCode(_formState.value.cast());
+                      .code(_formState.value.cast());
                 }
               },
             ),
@@ -215,7 +214,7 @@ class _BuildFormState extends State<BuildForm> {
                             if (_formState.saveAndValidate()) {
                               context
                                   .read(forgotViewModelProvider)
-                                  .requestReset(_formState.value);
+                                  .reset(_formState.value);
                             }
                           },
                         ),

@@ -17,7 +17,6 @@ class Strings {
   static const String pleaseWait = 'Please wait';
   static const String project = 'Project';
   static const String requestCode = 'Request code';
-  static const String requestReset = 'Request reset';
   static const String reset = 'Reset';
   static const String resetPassword = 'Reset\nPassword';
   static const String success = 'Redirecting you now';
@@ -58,4 +57,10 @@ class Strings {
   static const String dueCredit = '$debt\nJatuh Tempo';
   static const String outstandingRetention = 'Outstanding\nRetensi Bank';
   static const String retentionRealization = 'KPR & Retensi\nCair';
+  static const String collectionPercentage = 'Collection Bulan Ini';
+  static const String smooth = 'Lancar';
+  static const String notSmooth = 'Tidak $smooth';
+  static const String delayReasons = 'Alasan Tunda Pembayaran';
+  static const String zero = '0';
+  static const String noData = 'No Data';
 }
