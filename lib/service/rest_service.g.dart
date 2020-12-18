@@ -376,7 +376,7 @@ class _RestService implements RestService {
   }
 
   @override
-  Future<MonthSummary> debtPayments(authentication, queries) async {
+  Future<MonthSummary> financeDebtPayments(authentication, queries) async {
     ArgumentError.checkNotNull(authentication, 'authentication');
     ArgumentError.checkNotNull(queries, 'queries');
     const _extra = <String, dynamic>{};
@@ -557,6 +557,127 @@ class _RestService implements RestService {
             baseUrl: baseUrl),
         data: _data);
     final value = KprReception.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<Ratio> cashRatio(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/cashratio',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Ratio.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<Ratio> currentRatio(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/currentratio',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Ratio.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<Profit> profit(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/laba',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Profit.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<CashFlow> cashFlow(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/cashflow',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CashFlow.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<DebtPayments> accountingDebtPayments(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/pembayaranhutang',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = DebtPayments.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<Debt> debt(authentication, queries) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/hutang',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'ApiKey': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Debt.fromJson(_result.data);
     return value;
   }
 }

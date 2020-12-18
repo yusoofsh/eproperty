@@ -1,6 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart' hide Headers;
+import 'package:eproperty/model/accounting/cash_flow.dart';
+import 'package:eproperty/model/accounting/cash_ratio.dart';
+import 'package:eproperty/model/accounting/debt.dart';
+import 'package:eproperty/model/accounting/debt_payments.dart';
+import 'package:eproperty/model/accounting/profit.dart';
 import 'package:eproperty/model/base_model.dart';
 import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/model/finance/aging_debt.dart';
@@ -136,7 +141,7 @@ abstract class RestService {
   );
 
   @GET('/pembayaranhutang')
-  Future<MonthSummary> debtPayments(
+  Future<MonthSummary> financeDebtPayments(
     @Header('ApiKey') String authentication,
     @Queries() Map<String, dynamic> queries,
   );
@@ -185,6 +190,42 @@ abstract class RestService {
 
   @GET('/penerimaankpr')
   Future<KprReception> kprReception(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/cashratio')
+  Future<Ratio> cashRatio(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/currentratio')
+  Future<Ratio> currentRatio(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/laba')
+  Future<Profit> profit(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/cashflow')
+  Future<CashFlow> cashFlow(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/pembayaranhutang')
+  Future<DebtPayments> accountingDebtPayments(
+    @Header('ApiKey') String authentication,
+    @Queries() Map<String, dynamic> queries,
+  );
+
+  @GET('/hutang')
+  Future<Debt> debt(
     @Header('ApiKey') String authentication,
     @Queries() Map<String, dynamic> queries,
   );

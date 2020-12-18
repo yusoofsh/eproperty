@@ -22,31 +22,23 @@ import 'package:eproperty/view/dashboard/sales/sales_by_year.dart';
 import 'package:eproperty/view/dashboard/sales/sales_summary.dart';
 import 'package:eproperty/view/dashboard/sales/top_sales.dart';
 import 'package:eproperty/view/dashboard/sales/unit_stock_per_type.dart';
-import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BuildSales extends StatelessWidget {
-  const BuildSales({Key key}) : super(key: key);
+  const BuildSales(
+    this.sales, {
+    Key key,
+  }) : super(key: key);
+
+  final AsyncValue<List<dynamic>> sales;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Consumer(
-        builder: (_, watch, __) {
-          final sales = watch(salesDataProvider);
-
-          return Column(
-            children: [
-              sales.when(
-                data: (data) => success(data),
-                loading: () => loading(),
-                error: (error, __) => failure(error),
-              ),
-            ],
-          );
-        },
-      ),
+    return sales.when(
+      data: (data) => success(data),
+      loading: () => loading(),
+      error: (error, __) => failure(error),
     );
   }
 

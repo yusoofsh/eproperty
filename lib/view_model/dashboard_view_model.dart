@@ -1,3 +1,4 @@
+import 'package:eproperty/repository/accounting_repository.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/finance_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
@@ -9,6 +10,7 @@ class DashboardViewModel {
   final companiesRepository = CompaniesRepository();
   final salesRepository = SalesRepository();
   final financeRepository = FinanceRepository();
+  final accountingRepository = AccountingRepository();
   final userRepository = UserRepository();
 
   Future<Map<String, String>> api() async {
@@ -209,6 +211,51 @@ class DashboardViewModel {
     return _response;
   }
 
+  Future<List<dynamic>> fetchAccountingData() async {
+    final _api = await api();
+    final _data = await companies();
+
+    final _apiUrl = _api['url'];
+    final _apiKey = _api['key'];
+
+    final _response = await Future.wait<dynamic>(
+      [
+        accountingRepository.cashRatio(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.currentRatio(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.profit(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.cashFlow(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.debtPayments(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.debt(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+      ],
+    );
+
+    return _response;
+  }
+
   String formatToIdr(num value) {
     final _parsed = NumberFormat.currency(
       locale: 'id',
@@ -232,6 +279,10 @@ final financeDataProvider = FutureProvider<List<dynamic>>(
   (_) => DashboardViewModel().fetchFinanceData(),
 );
 
+final accountingDataProvider = FutureProvider<List<dynamic>>(
+  (_) => DashboardViewModel().fetchAccountingData(),
+);
+
 final currentCompanyProvider = FutureProvider<String>(
   (_) => DashboardViewModel().company(),
 );
@@ -240,4 +291,4 @@ final currentYearProvider = FutureProvider<int>(
   (_) => DashboardViewModel().year(),
 );
 
-final selectedIndexProvider = StateProvider<int>((_) => 1);
+final indexProvider = StateProvider<int>((_) => 2);

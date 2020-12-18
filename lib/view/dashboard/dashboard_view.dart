@@ -4,6 +4,7 @@ import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view/dashboard/accounting/accounting.dart';
 import 'package:eproperty/view/dashboard/finance/finance.dart';
 import 'package:eproperty/view/dashboard/sales/sales.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
@@ -31,8 +32,11 @@ class BuildBody extends StatelessWidget {
     return SafeArea(
       child: Consumer(
         builder: (context, watch, __) {
+          final index = watch(indexProvider).state;
           final company = watch(currentCompanyProvider);
-          final selectedIndex = watch(selectedIndexProvider).state;
+          final sales = watch(salesDataProvider);
+          final finance = watch(financeDataProvider);
+          final accounting = watch(accountingDataProvider);
 
           return Column(
             children: [
@@ -55,26 +59,28 @@ class BuildBody extends StatelessWidget {
                         size: Sizes.size32,
                         color: Colors.black,
                       ),
-                      onPressed: () =>
-                          context.navigator.push(Routes.filterView),
+                      onPressed: () {
+                        context.navigator.push(Routes.filterView);
+                      },
                     ),
                   ],
                 ),
               ),
               Builder(
                 builder: (_) {
-                  switch (selectedIndex) {
+                  switch (index) {
                     case 0:
-                      return const BuildSales();
+                      return BuildSales(sales);
                       break;
                     case 1:
-                      return const BuildFinance();
+                      return BuildFinance(finance);
                       break;
                     case 2:
-                      return const Center(child: Text('2'));
+                      return BuildAccounting(accounting);
                       break;
                     default:
-                      return const Text('oops');
+                      return Text('oops $index');
+                      break;
                   }
                 },
               ),
@@ -109,7 +115,7 @@ class BuildBottomNavigationBar extends StatelessWidget {
           ),
           child: Consumer(
             builder: (_, watch, __) {
-              final selectedIndex = watch(selectedIndexProvider).state;
+              final selectedIndex = watch(indexProvider).state;
 
               return GNav(
                 selectedIndex: selectedIndex,
@@ -128,7 +134,7 @@ class BuildBottomNavigationBar extends StatelessWidget {
                     icon: FeatherIcons.barChart,
                     iconColor: Colors.black,
                     iconActiveColor: Colors.blue,
-                    backgroundColor: Colors.blue.withOpacity(.2),
+                    backgroundColor: Colors.blue.withOpacity(.1),
                   ),
                   GButton(
                     text: Strings.finance,
@@ -136,22 +142,22 @@ class BuildBottomNavigationBar extends StatelessWidget {
                     icon: FeatherIcons.dollarSign,
                     iconColor: Colors.black,
                     iconActiveColor: Colors.orange,
-                    backgroundColor: Colors.orange.withOpacity(.2),
+                    backgroundColor: Colors.orange.withOpacity(.1),
                   ),
                   GButton(
                     text: Strings.accounting,
                     textColor: Colors.green,
-                    icon: FeatherIcons.search,
+                    icon: FeatherIcons.pieChart,
                     iconColor: Colors.black,
                     iconActiveColor: Colors.green,
-                    backgroundColor: Colors.green.withOpacity(.2),
+                    backgroundColor: Colors.green.withOpacity(.1),
                   ),
                 ],
                 onTabChange: (int index) {
                   if (selectedIndex < index) {
-                    context.read(selectedIndexProvider).state++;
+                    context.read(indexProvider).state++;
                   } else if (selectedIndex > index) {
-                    context.read(selectedIndexProvider).state--;
+                    context.read(indexProvider).state--;
                   }
                 },
               );

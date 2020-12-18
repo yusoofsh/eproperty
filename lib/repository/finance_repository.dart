@@ -21,7 +21,7 @@ class FinanceRepository {
     @required String key,
     @required Map<String, dynamic> data,
   }) async {
-    final _response = await rest(url: url).debtPayments(
+    final _response = await rest(url: url).financeDebtPayments(
       key,
       data,
     );

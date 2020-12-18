@@ -10,31 +10,23 @@ import 'package:eproperty/view/dashboard/finance/collection_percentage.dart';
 import 'package:eproperty/view/dashboard/finance/debt_acceptance.dart';
 import 'package:eproperty/view/dashboard/finance/finance_summary.dart';
 import 'package:eproperty/view/dashboard/finance/kpr_reception.dart';
-import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BuildFinance extends StatelessWidget {
-  const BuildFinance({Key key}) : super(key: key);
+  const BuildFinance(
+    this.finance, {
+    Key key,
+  }) : super(key: key);
+
+  final AsyncValue<List<dynamic>> finance;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Consumer(
-        builder: (_, watch, __) {
-          final finance = watch(financeDataProvider);
-
-          return Column(
-            children: [
-              finance.when(
-                data: (data) => success(data),
-                loading: () => loading(),
-                error: (error, __) => failure(error),
-              ),
-            ],
-          );
-        },
-      ),
+    return finance.when(
+      data: (data) => success(data),
+      loading: () => loading(),
+      error: (error, __) => failure(error),
     );
   }
 
