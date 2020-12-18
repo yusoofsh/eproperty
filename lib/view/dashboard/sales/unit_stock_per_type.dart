@@ -3,7 +3,6 @@ import 'package:eproperty/model/sales/unit_stock_per_type.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildUnitStockPerType extends StatelessWidget {
@@ -29,7 +28,7 @@ class BuildUnitStockPerType extends StatelessWidget {
                   color: Colors.blue,
                 ),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
               DataTable(
                 columnSpacing: context.mediaQuerySize.width * 0.08,
                 columns: const [
@@ -86,7 +85,7 @@ class BuildUnitStockPerType extends StatelessWidget {
                   },
                 ).toList(),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
             ],
           ),
         ),

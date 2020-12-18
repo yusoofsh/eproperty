@@ -3,7 +3,6 @@ import 'package:eproperty/model/sales/legal_unit_status.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildLegalUnitStatus extends StatelessWidget {
@@ -29,7 +28,7 @@ class BuildLegalUnitStatus extends StatelessWidget {
                   color: Colors.blue,
                 ),
               ),
-              const CustomSpaces(height: Sizes.height12),
+              const SizedBox(height: Sizes.height12),
               SizedBox(
                 width: context.mediaQuerySize.width,
                 child: DataTable(

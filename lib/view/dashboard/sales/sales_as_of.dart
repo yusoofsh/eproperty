@@ -3,7 +3,6 @@ import 'package:eproperty/model/sales/sales_as_of.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildSalesAsOf extends StatelessWidget {
@@ -31,7 +30,7 @@ class BuildSalesAsOf extends StatelessWidget {
                   color: Colors.blue,
                 ),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
               Table(
                 columnWidths: const {
                   0: FixedColumnWidth(160.0),
@@ -79,7 +78,7 @@ class BuildSalesAsOf extends StatelessWidget {
                   )
                 ],
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
             ],
           ),
         ),

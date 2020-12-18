@@ -5,7 +5,6 @@ import 'package:eproperty/model/sales/top_sales.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildTopSales extends StatelessWidget {
@@ -62,7 +61,7 @@ class BuildTopSales extends StatelessWidget {
                   ],
                 ),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
             ],
           ),
         ),

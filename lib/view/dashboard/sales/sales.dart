@@ -12,7 +12,6 @@ import 'package:eproperty/model/sales/top_sales.dart';
 import 'package:eproperty/model/sales/unit_status.dart';
 import 'package:eproperty/model/sales/unit_stock_per_type.dart';
 import 'package:eproperty/value/sizes.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view/dashboard/sales/aging_reservation.dart';
 import 'package:eproperty/view/dashboard/sales/cancel_reason.dart';
 import 'package:eproperty/view/dashboard/sales/kpr_status.dart';
@@ -82,7 +81,7 @@ class BuildSales extends StatelessWidget {
               unitStatus: _unitStatus,
               cancelStatus: _cancelStatus,
             ),
-            const CustomSpaces(height: Sizes.height4),
+            const SizedBox(height: Sizes.height4),
             Container(
               margin: const EdgeInsets.only(
                 right: Sizes.margin16,
@@ -92,21 +91,21 @@ class BuildSales extends StatelessWidget {
               child: Column(
                 children: [
                   BuildTopSales(topSales: _topSales),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildSalesByYear(salesByYear: _salesByYear),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildSalesAsOf(salesAsOf: _salesAsOf),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildSalesByMonth(salesByMonth: _salesByMonth),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildCancelReason(cancelReason: _cancelReason),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildAgingReservation(agingReservation: _agingReservation),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildUnitStockPerType(unitStockPerType: _unitStockPerType),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildKprStatus(kprStatus: _kprStatus),
-                  const CustomSpaces(height: Sizes.height4),
+                  const SizedBox(height: Sizes.height4),
                   BuildLegalUnitStatus(legalUnitStatus: _legalUnitStatus),
                 ],
               ),

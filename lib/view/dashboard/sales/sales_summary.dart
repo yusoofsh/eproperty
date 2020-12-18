@@ -6,7 +6,6 @@ import 'package:eproperty/model/sales/unit_status.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view/dashboard/core/summary_card.dart';
 import 'package:flutter/material.dart' hide Colors;
 
@@ -44,7 +43,7 @@ class BuildSalesSummary extends StatelessWidget {
                 lowerSecondTitle: Strings.cancelTotal,
                 lowerSecondSubtitle: reservation.data.batal.toString(),
               ),
-              const CustomSpaces(width: Sizes.width4),
+              const SizedBox(width: Sizes.width4),
               SummaryCard(
                 color: Colors.green,
                 upperTitle: Strings.mailOrder,
@@ -54,7 +53,7 @@ class BuildSalesSummary extends StatelessWidget {
                 lowerSecondTitle: Strings.lastMonth,
                 lowerSecondSubtitle: mailOrder.data.bulanLalu.toString(),
               ),
-              const CustomSpaces(width: Sizes.width4),
+              const SizedBox(width: Sizes.width4),
               SummaryCard(
                 color: Colors.orange,
                 upperTitle: Strings.stock,
@@ -66,7 +65,7 @@ class BuildSalesSummary extends StatelessWidget {
                 lowerThirdTitle: Strings.hold,
                 lowerThirdSubtitle: unitStatus.data.statusH.toString(),
               ),
-              const CustomSpaces(width: Sizes.width4),
+              const SizedBox(width: Sizes.width4),
               SummaryCard(
                 color: Colors.red,
                 upperTitle: Strings.cancel,

@@ -8,7 +8,6 @@ import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -175,7 +174,7 @@ class _BuildFormState extends State<BuildForm> {
               } else {
                 return Column(
                   children: [
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomDropdownField(
                       name: 'project',
                       labelText: Strings.project,
@@ -207,7 +206,7 @@ class _BuildFormState extends State<BuildForm> {
               } else {
                 return Column(
                   children: [
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomDropdownField(
                       labelText: Strings.year,
                       name: 'year',
@@ -221,7 +220,7 @@ class _BuildFormState extends State<BuildForm> {
                         },
                       ).toList(),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomDropdownField(
                       name: 'month',
                       labelText: Strings.month,
@@ -246,7 +245,7 @@ class _BuildFormState extends State<BuildForm> {
               }
             },
           ),
-          const CustomSpaces(height: 12),
+          const SizedBox(height: 12),
           Row(
             children: [
               const Spacer(),

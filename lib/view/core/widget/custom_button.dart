@@ -1,7 +1,6 @@
 import 'package:build_context/build_context.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class CustomElevatedButton extends StatelessWidget {
@@ -98,7 +97,7 @@ class BuildContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         icon ?? const SizedBox(),
-        if (icon != null) const CustomSpaces(width: 8) else const SizedBox(),
+        if (icon != null) const SizedBox(width: 8) else const SizedBox(),
         if (title != null)
           Padding(
             padding: const EdgeInsets.symmetric(

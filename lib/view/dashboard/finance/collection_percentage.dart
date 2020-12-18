@@ -4,7 +4,6 @@ import 'package:eproperty/model/finance/hold_percentage.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view/dashboard/core/not_a_summary_card.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:percent_indicator/percent_indicator.dart';
@@ -50,7 +49,7 @@ class BuildCollectionPercentage extends StatelessWidget {
             child: LinearPercentIndicator(
               animation: true,
               percent: smoothness.toDouble() / 100,
-              lineHeight: Sizes.size16,
+              lineHeight: Sizes.size24,
               progressColor: Colors.orange,
               backgroundColor: Colors.orange.withOpacity(.2),
               linearStrokeCap: LinearStrokeCap.roundAll,
@@ -64,7 +63,7 @@ class BuildCollectionPercentage extends StatelessWidget {
               ),
             ),
           ),
-          const CustomSpaces(height: Sizes.height4),
+          const SizedBox(height: Sizes.height4),
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: context.mediaQuerySize.width * 0.2,
@@ -80,7 +79,7 @@ class BuildCollectionPercentage extends StatelessWidget {
               color: Colors.blue,
             ),
           ),
-          const CustomSpaces(height: Sizes.height4),
+          const SizedBox(height: Sizes.height4),
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
@@ -89,19 +88,19 @@ class BuildCollectionPercentage extends StatelessWidget {
                 center: percent(0).toString(),
                 footer: name(0),
               ),
-              const CustomSpaces(width: Sizes.width8),
+              const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
                 percent: percent(1),
                 center: percent(1).toString(),
                 footer: name(1),
               ),
-              const CustomSpaces(width: Sizes.width8),
+              const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
                 percent: percent(2),
                 center: percent(2).toString(),
                 footer: name(2),
               ),
-              const CustomSpaces(width: Sizes.width8),
+              const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
                 percent: percent(3),
                 center: percent(3).toString(),

@@ -63,4 +63,6 @@ class Strings {
   static const String delayReasons = 'Alasan Tunda Pembayaran';
   static const String zero = '0';
   static const String noData = 'No Data';
+  static const String agingDebt = 'Aging Piutang';
+  static const String day = 'Hari';
 }

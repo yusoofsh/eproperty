@@ -5,7 +5,6 @@ import 'package:eproperty/model/sales/sales_by_payment.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildSalesByMonth extends StatelessWidget {
@@ -56,7 +55,7 @@ class BuildSalesByMonth extends StatelessWidget {
                   color: Colors.blue,
                 ),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
               SizedBox(
                 width: context.mediaQuerySize.width,
                 height: context.mediaQuerySize.height * 0.2,

@@ -4,7 +4,6 @@ import 'package:eproperty/model/sales/sales.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,7 +75,7 @@ class BuildSalesByYear extends StatelessWidget {
           salesByUnitData: salesByUnitData(),
           isUnit: true,
         ),
-        const CustomSpaces(height: Sizes.height4),
+        const SizedBox(height: Sizes.height4),
         BuildSalesByCard(
           salesByIdrData: salesByIdrData(),
           isUnit: false,
@@ -135,13 +134,13 @@ class BuildSalesByCard extends StatelessWidget {
                   );
                 },
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
               Expanded(
                 child: isUnit
                     ? BuildSalesBarChart(salesByUnitData: salesByUnitData)
                     : BuildSalesLineChart(salesByIdrData: salesByIdrData),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
             ],
           ),
         ),

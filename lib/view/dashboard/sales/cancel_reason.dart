@@ -4,7 +4,6 @@ import 'package:eproperty/model/sales/cancel_reason.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildCancelReason extends StatelessWidget {
@@ -76,7 +75,7 @@ class BuildCancelReason extends StatelessWidget {
                   ],
                 ),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height8),
             ],
           ),
         ),

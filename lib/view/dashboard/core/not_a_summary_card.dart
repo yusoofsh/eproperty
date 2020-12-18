@@ -1,7 +1,6 @@
 import 'package:build_context/build_context.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:flutter/material.dart' hide Colors;
 
 class BuildNotASummaryCard extends StatelessWidget {
@@ -21,7 +20,7 @@ class BuildNotASummaryCard extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: Sizes.padding8,
+            vertical: Sizes.padding12,
             horizontal: Sizes.padding24,
           ),
           child: Column(
@@ -33,7 +32,7 @@ class BuildNotASummaryCard extends StatelessWidget {
                   color: Colors.blue,
                 ),
               ),
-              const CustomSpaces(height: Sizes.height8),
+              const SizedBox(height: Sizes.height4),
               child,
             ],
           ),

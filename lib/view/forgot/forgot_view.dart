@@ -8,7 +8,6 @@ import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/forgot_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -178,28 +177,28 @@ class _BuildFormState extends State<BuildForm> {
               } else {
                 return Column(
                   children: [
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: 'code',
                       labelText: Strings.code,
                       keyboardType: TextInputType.number,
                       validator: FormBuilderValidators.required(context),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: 'newPassword',
                       obscureText: true,
                       labelText: Strings.newPassword,
                       validator: FormBuilderValidators.required(context),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: 'confirmNewPassword',
                       obscureText: true,
                       labelText: Strings.confirmNewPassword,
                       validator: FormBuilderValidators.required(context),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     Row(
                       children: [
                         const SizedBox(),

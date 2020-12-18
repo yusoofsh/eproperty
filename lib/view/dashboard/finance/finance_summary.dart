@@ -3,7 +3,6 @@ import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view/dashboard/core/summary_card.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:intl/intl.dart';
@@ -50,7 +49,7 @@ class BuildFinanceSummary extends StatelessWidget {
                   debtPayments.data.thisMonth,
                 ),
               ),
-              const CustomSpaces(width: Sizes.width4),
+              const SizedBox(width: Sizes.width4),
               SummaryCard(
                 color: Colors.green,
                 upperTitle: Strings.dueCredit,
@@ -59,7 +58,7 @@ class BuildFinanceSummary extends StatelessWidget {
                   dueCredit.data.thisMonth,
                 ),
               ),
-              const CustomSpaces(width: Sizes.width4),
+              const SizedBox(width: Sizes.width4),
               SummaryCard(
                 color: Colors.orange,
                 upperTitle: Strings.outstandingRetention,
@@ -68,7 +67,7 @@ class BuildFinanceSummary extends StatelessWidget {
                   outstandingRetention.data.thisMonth,
                 ),
               ),
-              const CustomSpaces(width: Sizes.width4),
+              const SizedBox(width: Sizes.width4),
               SummaryCard(
                 color: Colors.red,
                 upperTitle: Strings.retentionRealization,

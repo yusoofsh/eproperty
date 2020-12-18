@@ -1,8 +1,9 @@
+import 'package:eproperty/model/finance/aging_debt.dart';
 import 'package:eproperty/model/finance/collection_percentage.dart';
 import 'package:eproperty/model/finance/hold_percentage.dart';
 import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/value/sizes.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
+import 'package:eproperty/view/dashboard/finance/aging_debt.dart';
 import 'package:eproperty/view/dashboard/finance/collection_percentage.dart';
 import 'package:eproperty/view/dashboard/finance/finance_summary.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
@@ -44,7 +45,7 @@ class BuildFinance extends StatelessWidget {
     final retentionRealization = data[3] as MonthSummary;
     final collectionPercentage = data[4] as CollectionPercentage;
     final holdPercentage = data[5] as HoldPercentage;
-    // final agingDebt = data[6] as AgingDebt;
+    final agingDebt = data[6] as AgingDebt;
     // final debtAcceptance = data[7] as DebtAcceptance;
     // final kprReception = data[8] as KprReception;
 
@@ -60,7 +61,7 @@ class BuildFinance extends StatelessWidget {
               outstandingRetention: outstandingRetention,
               retentionRealization: retentionRealization,
             ),
-            const CustomSpaces(height: Sizes.height4),
+            const SizedBox(height: Sizes.height4),
             Container(
               margin: const EdgeInsets.only(
                 right: Sizes.margin16,
@@ -73,8 +74,8 @@ class BuildFinance extends StatelessWidget {
                     collectionPercentage: collectionPercentage,
                     holdPercentage: holdPercentage,
                   ),
-                  // const CustomSpaces(height: Sizes.height4),
-                  // BuildSalesByYear(salesByYear: salesByYear),
+                  const SizedBox(height: Sizes.height4),
+                  BuildAgingDebt(agingDebt: agingDebt),
                 ],
               ),
             ),

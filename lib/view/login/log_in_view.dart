@@ -8,7 +8,6 @@ import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -149,7 +148,7 @@ class _BuildFormState extends State<BuildForm> {
               FormBuilderValidators.email(context),
             ]),
           ),
-          const CustomSpaces(height: 12),
+          const SizedBox(height: 12),
           CustomTextField(
             name: 'password',
             labelText: Strings.password,
@@ -163,7 +162,7 @@ class _BuildFormState extends State<BuildForm> {
               color: Colors.black87,
             ),
           ),
-          const CustomSpaces(height: 12),
+          const SizedBox(height: 12),
           Row(
             children: [
               InkWell(
