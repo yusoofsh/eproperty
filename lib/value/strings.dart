@@ -52,7 +52,7 @@ class Strings {
   static const String unknown = 'TIDAK DIKETAHUI';
   static const String finance = 'Keuangan';
   static const String accounting = 'Akuntasi';
-  static const String debt = 'Piutang';
+  static const String debt = 'Hutang';
   static const String debtPayments = 'Pembayaran\n$debt';
   static const String dueCredit = '$debt\nJatuh Tempo';
   static const String outstandingRetention = 'Outstanding\nRetensi Bank';
@@ -63,7 +63,7 @@ class Strings {
   static const String delayReasons = 'Alasan Tunda Pembayaran';
   static const String zero = '0';
   static const String noData = 'No Data';
-  static const String agingDebt = 'Aging Piutang';
+  static const String agingDebt = 'Aging $debt';
   static const String day = 'Hari';
   static const String debtAcceptance = 'Penerimaan Piutang';
   static const String kprReception = 'Penerimaan KPR';
@@ -75,4 +75,5 @@ class Strings {
   static const String profit = 'Laba';
   static const String thisYear = '$year Ini\n(Rp)';
   static const String lastYear = '$year Lalu\n(Rp)';
+  static const String cashFlow = 'Cash Flow';
 }
