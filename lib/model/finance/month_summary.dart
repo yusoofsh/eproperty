@@ -17,15 +17,15 @@ class MonthSummary {
   String toRawJson() => json.encode(toJson());
 
   factory MonthSummary.fromJson(Map<String, dynamic> json) => MonthSummary(
-        code: json["code"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
+        code: json['code'],
+        message: json['message'],
+        data: Data.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": data.toJson(),
+        'code': code,
+        'message': message,
+        'data': data.toJson(),
       };
 }
 
@@ -34,17 +34,17 @@ class Data {
     this.thisMonth,
   });
 
-  double thisMonth;
+  num thisMonth;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        thisMonth: json["thisMonth"],
+        thisMonth: json['thisMonth'],
       );
 
   Map<String, dynamic> toJson() => {
-        "thisMonth": thisMonth,
+        'thisMonth': thisMonth,
       };
 }

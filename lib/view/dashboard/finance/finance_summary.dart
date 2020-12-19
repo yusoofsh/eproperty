@@ -4,8 +4,9 @@ import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/dashboard/core/summary_card.dart';
+import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BuildFinanceSummary extends StatelessWidget {
   const BuildFinanceSummary({
@@ -22,12 +23,8 @@ class BuildFinanceSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formatToIdr(double value) {
-      return NumberFormat.currency(
-        locale: 'id',
-        name: 'Rp. ',
-        decimalDigits: 0,
-      ).format(value);
+    String formatToIdr(num value) {
+      return context.read(dashboardProvider).formatToIdr(value);
     }
 
     return SingleChildScrollView(

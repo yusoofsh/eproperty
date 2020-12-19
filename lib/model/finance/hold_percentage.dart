@@ -17,15 +17,15 @@ class HoldPercentage {
   String toRawJson() => json.encode(toJson());
 
   factory HoldPercentage.fromJson(Map<String, dynamic> json) => HoldPercentage(
-        code: json["code"],
-        message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        code: json['code'],
+        message: json['message'],
+        data: List<Datum>.from(json['data'].map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        'code': code,
+        'message': message,
+        'data': List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
@@ -36,19 +36,19 @@ class Datum {
   });
 
   String name;
-  int percent;
+  num percent;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        name: json["name"],
-        percent: json["percent"],
+        name: json['name'],
+        percent: json['percent'],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "percent": percent,
+        'name': name,
+        'percent': percent,
       };
 }

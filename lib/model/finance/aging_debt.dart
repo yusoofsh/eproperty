@@ -17,15 +17,15 @@ class AgingDebt {
   String toRawJson() => json.encode(toJson());
 
   factory AgingDebt.fromJson(Map<String, dynamic> json) => AgingDebt(
-        code: json["code"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
+        code: json['code'],
+        message: json['message'],
+        data: Data.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": data.toJson(),
+        'code': code,
+        'message': message,
+        'data': data.toJson(),
       };
 }
 
@@ -43,14 +43,14 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        total: json["total"],
+        total: json['total'],
         detail:
-            List<Detail>.from(json["detail"].map((x) => Detail.fromJson(x))),
+            List<Detail>.from(json['detail'].map((x) => Detail.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "total": total,
-        "detail": List<dynamic>.from(detail.map((x) => x.toJson())),
+        'total': total,
+        'detail': List<dynamic>.from(detail.map((x) => x.toJson())),
       };
 }
 
@@ -64,24 +64,24 @@ class Detail {
 
   String name;
   String category;
-  double value;
-  int percent;
+  num value;
+  num percent;
 
   factory Detail.fromRawJson(String str) => Detail.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
-        name: json["name"],
-        category: json["category"],
-        value: json["value"],
-        percent: json["percent"],
+        name: json['name'],
+        category: json['category'],
+        value: json['value'],
+        percent: json['percent'],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "category": category,
-        "value": value,
-        "percent": percent,
+        'name': name,
+        'category': category,
+        'value': value,
+        'percent': percent,
       };
 }

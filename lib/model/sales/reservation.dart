@@ -36,9 +36,9 @@ class Data {
     this.batal,
   });
 
-  int asOf;
+  num asOf;
   int bulanIni;
-  int batal;
+  num batal;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 

@@ -37,7 +37,7 @@ class Datum {
   });
 
   String name;
-  int unit;
+  num unit;
   num value;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));

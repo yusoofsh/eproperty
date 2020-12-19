@@ -36,7 +36,7 @@ class Data {
     this.bulanLalu,
   });
 
-  int asOf;
+  num asOf;
   int bulanIni;
   int bulanLalu;
 

@@ -9,21 +9,21 @@ class Ratio {
 
   int code;
   String message;
-  int data;
+  num data;
 
   factory Ratio.fromRawJson(String str) => Ratio.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Ratio.fromJson(Map<String, dynamic> json) => Ratio(
-        code: json["code"],
-        message: json["message"],
-        data: json["data"],
+        code: json['code'],
+        message: json['message'],
+        data: json['data'],
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": data,
+        'code': code,
+        'message': message,
+        'data': data,
       };
 }
