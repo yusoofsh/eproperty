@@ -39,9 +39,9 @@ class Datum {
   });
 
   String type;
-  int stock;
-  int sold;
-  int remain;
+  num stock;
+  num sold;
+  num remain;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 

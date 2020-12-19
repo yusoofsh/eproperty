@@ -17,15 +17,15 @@ class DebtPayments {
   String toRawJson() => json.encode(toJson());
 
   factory DebtPayments.fromJson(Map<String, dynamic> json) => DebtPayments(
-        code: json["code"],
-        message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        code: json['code'],
+        message: json['message'],
+        data: List<Datum>.from(json['data'].map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        'code': code,
+        'message': message,
+        'data': List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
@@ -43,12 +43,12 @@ class Datum {
   String toRawJson() => json.encode(toJson());
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        name: json["name"],
-        value: json["value"],
+        name: json['name'],
+        value: json['value'],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "value": value,
+        'name': name,
+        'value': value,
       };
 }

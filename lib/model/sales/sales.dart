@@ -40,12 +40,12 @@ class Datum {
   });
 
   int month;
-  int targetQty;
-  int realisasiQty;
-  int percentQty;
-  int targetValue;
-  int realisasiValue;
-  int percentValue;
+  num targetQty;
+  num realisasiQty;
+  num percentQty;
+  num targetValue;
+  num realisasiValue;
+  num percentValue;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 

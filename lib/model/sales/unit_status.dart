@@ -37,10 +37,10 @@ class Data {
     this.statusH,
   });
 
-  int statusAll;
-  int statusA;
-  int statusB;
-  int statusH;
+  num statusAll;
+  num statusA;
+  num statusB;
+  num statusH;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
