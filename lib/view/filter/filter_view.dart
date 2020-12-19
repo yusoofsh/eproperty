@@ -6,9 +6,8 @@ import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
-import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/filter_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -64,8 +63,8 @@ class BuildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = context.mediaQuerySize.height;
-    final width = context.mediaQuerySize.width;
+    final _height = context.mediaQuerySize.height;
+    final _width = context.mediaQuerySize.width;
 
     return GestureDetector(
       onTap: () {
@@ -82,8 +81,8 @@ class BuildBody extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Container(
-              height: height * 0.4,
-              width: width,
+              height: _height * 0.4,
+              width: _width,
               color: Colors.blue,
               child: Container(
                 margin: const EdgeInsets.only(left: Sizes.margin24),
@@ -91,7 +90,7 @@ class BuildBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: height * 0.1,
+                      height: _height * 0.1,
                     ),
                     Text(
                       Strings.fillRequired,
@@ -114,9 +113,7 @@ class BuildBody extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.all(Sizes.padding0),
             children: [
-              SizedBox(
-                height: height * 0.45,
-              ),
+              SizedBox(height: _height * 0.45),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: Sizes.margin20,
@@ -153,7 +150,8 @@ class _BuildFormState extends State<BuildForm> {
               return CustomDropdownField(
                 name: 'company',
                 labelText: Strings.company,
-                autovalidateMode: AutovalidateMode.disabled,
+                onChanged: (_) => _wp.resetFormValue(formKey, 'project'),
+                validator: FormBuilderValidators.required(context),
                 items: _companiesActive.map<DropdownMenuItem<String>>(
                   (value) {
                     return DropdownMenuItem<String>(
@@ -163,7 +161,6 @@ class _BuildFormState extends State<BuildForm> {
                     );
                   },
                 ).toList(),
-                validator: FormBuilderValidators.required(context),
               );
             },
           ),
@@ -177,12 +174,13 @@ class _BuildFormState extends State<BuildForm> {
               } else {
                 return Column(
                   children: [
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomDropdownField(
-                      labelText: Strings.project,
                       name: 'project',
+                      labelText: Strings.project,
+                      validator: FormBuilderValidators.required(context),
                       items: _companiesChild.map<DropdownMenuItem<String>>(
-                            (value) {
+                        (value) {
                           return DropdownMenuItem<String>(
                             value: value.name,
                             onTap: () => _wp.configureDateInput(),
@@ -190,7 +188,6 @@ class _BuildFormState extends State<BuildForm> {
                           );
                         },
                       ).toList(),
-                      validator: FormBuilderValidators.required(context),
                     ),
                   ],
                 );
@@ -203,51 +200,52 @@ class _BuildFormState extends State<BuildForm> {
               final _state = _wp.state;
               final _months = _wp.months;
               final _years = _wp.years;
+
               if (_state != FilterState.next) {
                 return const SizedBox();
               } else {
                 return Column(
                   children: [
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomDropdownField(
                       labelText: Strings.year,
                       name: 'year',
+                      validator: FormBuilderValidators.required(context),
                       items: _years.map<DropdownMenuItem<int>>(
-                            (value) {
+                        (value) {
                           return DropdownMenuItem<int>(
                             value: value,
                             child: Text(value.toString()),
                           );
                         },
                       ).toList(),
-                      validator: FormBuilderValidators.required(context),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomDropdownField(
-                      labelText: Strings.month,
                       name: 'month',
+                      labelText: Strings.month,
+                      validator: FormBuilderValidators.required(context),
                       items: _months
                           .map(
                             (id, name) {
-                          return MapEntry(
-                            id,
-                            DropdownMenuItem<int>(
-                              value: id,
-                              child: Text(name),
-                            ),
-                          );
-                        },
-                      )
+                              return MapEntry(
+                                id,
+                                DropdownMenuItem<int>(
+                                  value: id,
+                                  child: Text(name),
+                                ),
+                              );
+                            },
+                          )
                           .values
                           .toList(),
-                      validator: FormBuilderValidators.required(context),
                     ),
                   ],
                 );
               }
             },
           ),
-          const CustomSpaces(height: 12),
+          const SizedBox(height: 12),
           Row(
             children: [
               const Spacer(),
@@ -261,7 +259,7 @@ class _BuildFormState extends State<BuildForm> {
                   if (formState.saveAndValidate()) {
                     context
                         .read(filterViewModelProvider)
-                        .storeCompaniesPreference(formState.value.cast());
+                        .storePreferences(formState.value.cast());
                   }
                 },
               )

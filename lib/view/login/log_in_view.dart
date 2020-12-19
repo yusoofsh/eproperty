@@ -6,9 +6,8 @@ import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
-import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/log_in_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -62,8 +61,8 @@ class BuildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = context.mediaQuerySize.height;
-    final width = context.mediaQuerySize.width;
+    final _height = context.mediaQuerySize.height;
+    final _width = context.mediaQuerySize.width;
 
     return GestureDetector(
       onTap: () {
@@ -80,8 +79,8 @@ class BuildBody extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Container(
-              height: height * 0.4,
-              width: width,
+              height: _height * 0.4,
+              width: _width,
               color: Colors.blue,
               child: Container(
                 margin: const EdgeInsets.only(left: Sizes.margin24),
@@ -89,7 +88,7 @@ class BuildBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: height * 0.1,
+                      height: _height * 0.1,
                     ),
                     Text(
                       Strings.welcome,
@@ -112,9 +111,7 @@ class BuildBody extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.all(Sizes.padding0),
             children: [
-              SizedBox(
-                height: height * 0.45,
-              ),
+              SizedBox(height: _height * 0.45),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: Sizes.margin20,
@@ -151,7 +148,7 @@ class _BuildFormState extends State<BuildForm> {
               FormBuilderValidators.email(context),
             ]),
           ),
-          const CustomSpaces(height: 12),
+          const SizedBox(height: 12),
           CustomTextField(
             name: 'password',
             labelText: Strings.password,
@@ -165,7 +162,7 @@ class _BuildFormState extends State<BuildForm> {
               color: Colors.black87,
             ),
           ),
-          const CustomSpaces(height: 12),
+          const SizedBox(height: 12),
           Row(
             children: [
               InkWell(
@@ -188,7 +185,7 @@ class _BuildFormState extends State<BuildForm> {
                   final formState = formKey.currentState;
                   final crp = context.read(logInViewModelProvider);
                   if (formState.saveAndValidate()) {
-                    crp.requestAuthentication(formState.value);
+                    crp.authentication(formState.value);
                   }
                 },
               )

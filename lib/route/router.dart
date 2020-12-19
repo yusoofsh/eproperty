@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:eproperty/view/auth/auth_view.dart';
-import 'package:eproperty/view/auth/forgot/forgot_view.dart';
-import 'package:eproperty/view/auth/login/log_in_view.dart';
 import 'package:eproperty/view/dashboard/dashboard_view.dart';
 import 'package:eproperty/view/filter/filter_view.dart';
+import 'package:eproperty/view/forgot/forgot_view.dart';
+import 'package:eproperty/view/login/log_in_view.dart';
+import 'package:eproperty/view/splash/auth_view.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     MaterialRoute(
-      path: '/auth',
-      page: AuthView,
+      path: '/splash',
+      page: SplashView,
       initial: true,
     ),
     MaterialRoute(

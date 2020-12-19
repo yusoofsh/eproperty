@@ -5,7 +5,7 @@ import 'package:eproperty/service/rest_service.dart';
 class ForgotRepository {
   final rest = RestService(dio);
 
-  Future<BaseModel> requestForgot(
+  Future<BaseModel> forgot(
     Map<String, String> body,
   ) async {
     final _response = await rest.authForgot(
@@ -15,7 +15,7 @@ class ForgotRepository {
     return _response;
   }
 
-  Future<BaseModel> requestReset(
+  Future<BaseModel> reset(
     Map<String, dynamic> body,
   ) async {
     final _response = await rest.authReset(

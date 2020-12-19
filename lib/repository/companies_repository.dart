@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 class CompaniesRepository {
   final rest = RestService(dio);
 
-  Future<CompaniesModel> requestCompaniesActive(
+  Future<CompaniesModel> companiesActive(
     String token,
   ) async {
     final _response = await rest.companiesActive(token);
@@ -16,7 +16,7 @@ class CompaniesRepository {
     return _response;
   }
 
-  Future<CompaniesModel> requestCompaniesChild(
+  Future<CompaniesModel> companiesChild(
     int id,
     String token,
   ) async {

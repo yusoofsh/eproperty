@@ -5,7 +5,8 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.gr.dart"
     - "lib/generated*.dart"
-    - "lib/model/*.dart"
+    - "lib/model/**.dart"
+    - "lib/model/sales/**.dart"
 
 linter:
   rules:

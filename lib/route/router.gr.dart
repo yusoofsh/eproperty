@@ -9,20 +9,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../view/auth/auth_view.dart';
-import '../view/auth/forgot/forgot_view.dart';
-import '../view/auth/login/log_in_view.dart';
 import '../view/dashboard/dashboard_view.dart';
 import '../view/filter/filter_view.dart';
+import '../view/forgot/forgot_view.dart';
+import '../view/login/log_in_view.dart';
+import '../view/splash/auth_view.dart';
 
 class Routes {
-  static const String authView = '/auth';
+  static const String splashView = '/splash';
   static const String logInView = '/log-in';
   static const String forgotView = '/forgot';
   static const String filterView = '/filter';
   static const String dashboardView = '/dashboard';
   static const all = <String>{
-    authView,
+    splashView,
     logInView,
     forgotView,
     filterView,
@@ -34,7 +34,7 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(Routes.authView, page: AuthView),
+    RouteDef(Routes.splashView, page: SplashView),
     RouteDef(Routes.logInView, page: LogInView),
     RouteDef(Routes.forgotView, page: ForgotView),
     RouteDef(Routes.filterView, page: FilterView),
@@ -43,9 +43,9 @@ class Router extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    AuthView: (data) {
+    SplashView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AuthView(),
+        builder: (context) => SplashView(),
         settings: data,
       );
     },

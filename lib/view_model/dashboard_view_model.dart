@@ -1,12 +1,16 @@
-import 'package:eproperty/model/sales_model.dart';
+import 'package:eproperty/repository/accounting_repository.dart';
 import 'package:eproperty/repository/companies_repository.dart';
+import 'package:eproperty/repository/finance_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class DashboardViewModel {
   final companiesRepository = CompaniesRepository();
   final salesRepository = SalesRepository();
+  final financeRepository = FinanceRepository();
+  final accountingRepository = AccountingRepository();
   final userRepository = UserRepository();
 
   Future<Map<String, String>> api() async {
@@ -29,6 +33,10 @@ class DashboardViewModel {
   }
 
   Future<Map<String, dynamic>> companies() async {
+    final _company = await companiesRepository.retrieveData<String>(
+      name: 'company',
+    );
+
     final _project = await companiesRepository.retrieveData<String>(
       name: 'project',
     );
@@ -42,6 +50,7 @@ class DashboardViewModel {
     );
 
     final _result = {
+      'company': _company,
       'project': _project,
       'year': _year,
       'month': _month,
@@ -50,62 +59,261 @@ class DashboardViewModel {
     return _result;
   }
 
-  Future<SalesReservationModel> populateSalesReservation({
-    String apiUrl,
-    String apiKey,
-    Map<String, dynamic> data,
-  }) async {
-    final _response = await salesRepository.requestSalesReservation(
-      url: apiUrl,
-      key: apiKey,
-      data: data,
-    );
+  Future<String> company() async {
+    final _companies = await companies();
 
-    return _response;
+    return _companies['company'] as String;
   }
 
-  Future<SalesMailOrderModel> populateSalesMailOrder({
-    String apiUrl,
-    String apiKey,
-    Map<String, dynamic> data,
-  }) async {
-    final _response = await salesRepository.requestSalesMailOrder(
-      url: apiUrl,
-      key: apiKey,
-      data: data,
-    );
+  Future<int> year() async {
+    final _companies = await companies();
 
-    return _response;
+    return _companies['year'] as int;
   }
 
-  Future<List<SalesModel>> fetchData() async {
+  Future<List<dynamic>> fetchSalesData() async {
     final _api = await api();
     final _data = await companies();
 
     final _apiUrl = _api['url'];
     final _apiKey = _api['key'];
 
-    final _response = await Future.wait([
-      populateSalesReservation(
-        apiUrl: _apiUrl,
-        apiKey: _apiKey,
-        data: _data,
-      ),
-      populateSalesMailOrder(
-        apiUrl: _apiUrl,
-        apiKey: _apiKey,
-        data: _data,
-      ),
-    ]);
+    final _response = await Future.wait<dynamic>(
+      [
+        salesRepository.reservation(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.mailOrder(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.unitStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.cancelStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.topSales(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.sales(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.salesAsOf(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.salesByPayment(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.cancelReason(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.agingReservation(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.unitStockPerType(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.kprStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        salesRepository.legalUnitStatus(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+      ],
+    );
 
     return _response;
   }
-}
 
-final dashboardViewModelProvider = FutureProvider<List<SalesModel>>(
-  (_) async {
-    final _response = DashboardViewModel().fetchData();
+  Future<List<dynamic>> fetchFinanceData() async {
+    final _api = await api();
+    final _data = await companies();
+
+    final _apiUrl = _api['url'];
+    final _apiKey = _api['key'];
+
+    final _response = await Future.wait<dynamic>(
+      [
+        financeRepository.debtPayments(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.dueCredit(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.outstandingRetention(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.retentionRealization(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.collectionPercentage(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.holdPercentage(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.agingDebt(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.debtAcceptance(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        financeRepository.kprReception(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+      ],
+    );
 
     return _response;
-  },
+  }
+
+  Future<List<dynamic>> fetchAccountingData() async {
+    final _api = await api();
+    final _data = await companies();
+
+    final _apiUrl = _api['url'];
+    final _apiKey = _api['key'];
+
+    final _response = await Future.wait<dynamic>(
+      [
+        accountingRepository.cashRatio(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.currentRatio(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.profit(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.cashFlow(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.debtPayments(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+        accountingRepository.debt(
+          url: _apiUrl,
+          key: _apiKey,
+          data: _data,
+        ),
+      ],
+    );
+
+    return _response;
+  }
+
+  Future<List<String>> fetchUserData() async {
+    final _result = await Future.wait<String>(
+      [
+        userRepository.retrieveData<String>(
+          name: 'email',
+          value: '',
+        ),
+        userRepository.retrieveData<String>(
+          name: 'name',
+          value: '',
+        ),
+        userRepository.retrieveData<String>(
+          name: 'image',
+          value: '',
+        ),
+      ],
+    );
+
+    return _result;
+  }
+
+  String formatToIdr(num value) {
+    final _parsed = NumberFormat.currency(
+      locale: 'id',
+      name: 'Rp. ',
+      decimalDigits: 0,
+    ).format(value);
+
+    return _parsed;
+  }
+}
+
+final dashboardProvider = Provider<DashboardViewModel>(
+  (_) => DashboardViewModel(),
 );
+
+final salesDataProvider = FutureProvider<List<dynamic>>(
+  (_) => DashboardViewModel().fetchSalesData(),
+);
+
+final financeDataProvider = FutureProvider<List<dynamic>>(
+  (_) => DashboardViewModel().fetchFinanceData(),
+);
+
+final accountingDataProvider = FutureProvider<List<dynamic>>(
+  (_) => DashboardViewModel().fetchAccountingData(),
+);
+
+final userDataProvider = FutureProvider<List<String>>(
+  (_) => DashboardViewModel().fetchUserData(),
+);
+
+final currentCompanyProvider = FutureProvider<String>(
+  (_) => DashboardViewModel().company(),
+);
+
+final currentYearProvider = FutureProvider<int>(
+  (_) => DashboardViewModel().year(),
+);
+
+final indexProvider = StateProvider<int>((_) => 2);

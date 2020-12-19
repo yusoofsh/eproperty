@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 class UserRepository {
   final rest = RestService(dio);
 
-  Future<UserModel> requestLogIn(String token) async {
+  Future<UserModel> logIn(String token) async {
     final _response = await rest.authToken(token);
 
     return _response;

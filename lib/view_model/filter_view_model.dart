@@ -3,6 +3,8 @@ import 'package:eproperty/model/companies_model.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum FilterState {
@@ -18,11 +20,11 @@ class FilterViewModel extends ChangeNotifier {
   final userRepository = UserRepository();
 
   FilterState state = FilterState.loading;
-  List<Datum> companiesActive = [];
-  List<Datum> companiesChild = [];
+  List<Datum> companiesActive = <Datum>[];
+  List<Datum> companiesChild = <Datum>[];
+  List<int> years = <int>[];
+  Map<int, String> months = <int, String>{};
 
-  List<int> years;
-  Map<int, String> months;
   String message;
 
   Future<String> token() async {
@@ -36,7 +38,7 @@ class FilterViewModel extends ChangeNotifier {
 
   Future<void> populateCompaniesActive() async {
     try {
-      final _response = await companiesRepository.requestCompaniesActive(
+      final _response = await companiesRepository.companiesActive(
         await token(),
       );
 
@@ -58,17 +60,17 @@ class FilterViewModel extends ChangeNotifier {
 
   Future<void> populateCompaniesChild(int item) async {
     try {
-      final _response = await companiesRepository.requestCompaniesChild(
+      final _response = await companiesRepository.companiesChild(
         item,
         await token(),
       );
 
-      if (companiesChild != null) {
+      if (companiesChild.isNotEmpty) {
         companiesChild.clear();
       }
 
       if (_response.data.isNotEmpty) {
-        companiesChild.addAll(_response.data);
+        companiesChild = _response.data;
       }
 
       state = FilterState.dismiss;
@@ -84,33 +86,40 @@ class FilterViewModel extends ChangeNotifier {
   }
 
   void configureDateInput() {
-    for (int year = 2010; year <= DateTime.now().year; year++) {
-      years.add(year);
-    }
+    if (years.isEmpty && months.isEmpty) {
+      for (int year = 2010; year <= DateTime.now().year; year++) {
+        years.add(year);
+      }
 
-    months = {
-      1: 'January',
-      2: 'February',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December',
-    };
+      months = {
+        1: 'January',
+        2: 'February',
+        3: 'March',
+        4: 'April',
+        5: 'May',
+        6: 'June',
+        7: 'July',
+        8: 'August',
+        9: 'September',
+        10: 'October',
+        11: 'November',
+        12: 'December',
+      };
+    }
 
     state = FilterState.next;
 
     notifyListeners();
   }
 
-  Future<void> storeCompaniesPreference(
-    Map<String, dynamic> data,
-  ) async {
+  void resetFormValue(
+    GlobalKey<FormBuilderState> formKey,
+    String name,
+  ) {
+    formKey.currentState.fields[name]?.didChange(null);
+  }
+
+  Future<void> storePreferences(Map<String, dynamic> data) async {
     try {
       await companiesRepository.storeData(data: data);
 

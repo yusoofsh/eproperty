@@ -18,22 +18,22 @@ class LogInViewModel extends ChangeNotifier {
 
   String message;
 
-  Future<void> requestAuthentication(Map<String, dynamic> credential) async {
+  Future<void> authentication(Map<String, dynamic> credential) async {
     final token = 'Basic ${base64Encode(
       utf8.encode('${credential['email']}:${credential['password']}'),
     )}';
 
     try {
-      final _response = await userRepository.requestLogIn(token);
+      final _response = await userRepository.logIn(token);
 
       final _data = {
+        'is_logged_in': true,
+        'token': _response.token,
         'api_key': _response.user.apiKey,
         'api_url': _response.user.apiUrl,
+        'name': _response.user.name,
         'email': _response.user.email,
         'image': _response.user.image,
-        'is_logged_in': true,
-        'name': _response.user.name,
-        'token': _response.token,
       };
 
       await storeResponse(_data);

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:eproperty/helper/easy_loading_helper.dart';
 import 'package:eproperty/helper/hive_helper.dart';
-import 'package:eproperty/helper/provider_helper.dart';
 import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/value/themes.dart';
@@ -19,12 +18,7 @@ Future<void> main() async {
   await initialization();
 
   runApp(
-    ProviderScope(
-      observers: [
-        ObserveProvider(),
-      ],
-      child: App(),
-    ),
+    ProviderScope(child: App()),
   );
 }
 
@@ -37,7 +31,7 @@ class App extends StatelessWidget {
       onGenerateRoute: Router(),
       builder: ExtendedNavigator.builder<Router>(
         router: Router(),
-        initialRoute: Routes.authView,
+        initialRoute: Routes.splashView,
         builder: (_, navigator) => FlutterEasyLoading(child: navigator),
       ),
     );

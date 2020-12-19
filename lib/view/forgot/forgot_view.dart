@@ -6,9 +6,8 @@ import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/core/widget/custom_button.dart';
 import 'package:eproperty/view/core/widget/custom_clip_shadow.dart';
-import 'package:eproperty/view/core/widget/custom_clipper_shape.dart';
+import 'package:eproperty/view/core/widget/custom_clip_shape.dart';
 import 'package:eproperty/view/core/widget/custom_field.dart';
-import 'package:eproperty/view/core/widget/custom_spaces.dart';
 import 'package:eproperty/view_model/forgot_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -115,9 +114,7 @@ class BuildBody extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.all(Sizes.padding0),
             children: [
-              SizedBox(
-                height: _height * 0.45,
-              ),
+              SizedBox(height: _height * 0.45),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: Sizes.margin20,
@@ -166,7 +163,7 @@ class _BuildFormState extends State<BuildForm> {
                 if (_formState.saveAndValidate()) {
                   context
                       .read(forgotViewModelProvider)
-                      .requestCode(_formState.value.cast());
+                      .code(_formState.value.cast());
                 }
               },
             ),
@@ -180,28 +177,28 @@ class _BuildFormState extends State<BuildForm> {
               } else {
                 return Column(
                   children: [
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: 'code',
                       labelText: Strings.code,
                       keyboardType: TextInputType.number,
                       validator: FormBuilderValidators.required(context),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: 'newPassword',
                       obscureText: true,
                       labelText: Strings.newPassword,
                       validator: FormBuilderValidators.required(context),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: 'confirmNewPassword',
                       obscureText: true,
                       labelText: Strings.confirmNewPassword,
                       validator: FormBuilderValidators.required(context),
                     ),
-                    const CustomSpaces(height: 12),
+                    const SizedBox(height: 12),
                     Row(
                       children: [
                         const SizedBox(),
@@ -216,7 +213,7 @@ class _BuildFormState extends State<BuildForm> {
                             if (_formState.saveAndValidate()) {
                               context
                                   .read(forgotViewModelProvider)
-                                  .requestReset(_formState.value);
+                                  .reset(_formState.value);
                             }
                           },
                         ),
