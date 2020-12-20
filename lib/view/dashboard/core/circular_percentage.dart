@@ -22,7 +22,7 @@ class BuildCircularPercentage extends StatelessWidget {
       lineWidth: Sizes.size12,
       animation: true,
       percent: percent / 100,
-      center: Text('$center%'),
+      center: Text('${center ?? '0'}%'),
       footer: Text(footer),
       circularStrokeCap: CircularStrokeCap.round,
       progressColor: Colors.orange,

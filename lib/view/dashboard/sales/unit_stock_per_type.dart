@@ -15,10 +15,10 @@ class BuildUnitStockPerType extends StatelessWidget {
     return SizedBox(
       width: context.mediaQuerySize.width,
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
+        child: Container(
+          margin: const EdgeInsets.symmetric(
             vertical: Sizes.padding8,
-            horizontal: Sizes.padding24,
+            horizontal: Sizes.padding12,
           ),
           child: Column(
             children: [
@@ -29,61 +29,63 @@ class BuildUnitStockPerType extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: Sizes.height8),
-              DataTable(
-                columnSpacing: context.mediaQuerySize.width * 0.08,
-                columns: const [
-                  DataColumn(label: SizedBox()),
-                  DataColumn(
-                    label: Text(
-                      Strings.unitStock,
-                      textAlign: TextAlign.center,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                child: DataTable(
+                  dividerThickness: 0.4,
+                  showCheckboxColumn: false,
+                  columns: const [
+                    DataColumn(label: SizedBox()),
+                    DataColumn(
+                      label: Text(
+                        Strings.unitStock,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      Strings.unitSold,
-                      textAlign: TextAlign.center,
+                    DataColumn(
+                      label: Text(
+                        Strings.unitSold,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      Strings.unitRemain,
-                      textAlign: TextAlign.center,
+                    DataColumn(
+                      label: Text(
+                        Strings.unitRemain,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                ],
-                rows: unitStockPerType.data.map(
-                  (data) {
-                    return DataRow(
-                      cells: [
-                        DataCell(
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(data.type),
+                  ],
+                  rows: unitStockPerType.data.map(
+                    (data) {
+                      return DataRow(
+                        cells: [
+                          DataCell(
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(data.type),
+                            ),
                           ),
-                        ),
-                        DataCell(
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text('${data.stock}'),
+                          DataCell(
+                            Align(
+                              child: Text('${data.stock}'),
+                            ),
                           ),
-                        ),
-                        DataCell(
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text('${data.sold}'),
+                          DataCell(
+                            Align(
+                              child: Text('${data.sold}'),
+                            ),
                           ),
-                        ),
-                        DataCell(
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text('${data.remain}'),
+                          DataCell(
+                            Align(
+                              child: Text('${data.remain}'),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ).toList(),
+                        ],
+                      );
+                    },
+                  ).toList(),
+                ),
               ),
               const SizedBox(height: Sizes.height8),
             ],

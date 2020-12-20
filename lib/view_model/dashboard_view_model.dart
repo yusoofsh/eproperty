@@ -260,11 +260,11 @@ class DashboardViewModel {
     final _result = await Future.wait<String>(
       [
         userRepository.retrieveData<String>(
-          name: 'email',
+          name: 'name',
           value: '',
         ),
         userRepository.retrieveData<String>(
-          name: 'name',
+          name: 'email',
           value: '',
         ),
         userRepository.retrieveData<String>(
@@ -277,10 +277,10 @@ class DashboardViewModel {
     return _result;
   }
 
-  String formatToIdr(num value) {
+  String formatToIdr(num value, {String name}) {
     final _parsed = NumberFormat.currency(
       locale: 'id',
-      name: 'Rp. ',
+      name: name ?? 'Rp. ',
       decimalDigits: 0,
     ).format(value);
 
@@ -316,4 +316,4 @@ final currentYearProvider = FutureProvider<int>(
   (_) => DashboardViewModel().year(),
 );
 
-final indexProvider = StateProvider<int>((_) => 2);
+final indexProvider = StateProvider<int>((_) => 3);

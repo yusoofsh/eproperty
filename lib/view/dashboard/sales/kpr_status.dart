@@ -13,11 +13,15 @@ class BuildKprStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return BuildNotASummaryCard(
       title: Strings.kpr,
-      child: SizedBox(
-        width: context.mediaQuerySize.width,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
         child: DataTable(
+          dividerThickness: 0.4,
           headingRowHeight: 0.0,
+          showCheckboxColumn: false,
           columns: const [
+            DataColumn(label: SizedBox()),
             DataColumn(label: SizedBox()),
             DataColumn(label: SizedBox()),
           ],
@@ -30,6 +34,9 @@ class BuildKprStatus extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(data.name),
                     ),
+                  ),
+                  DataCell(
+                    SizedBox(width: context.mediaQuerySize.width * 0.2),
                   ),
                   DataCell(
                     Align(
