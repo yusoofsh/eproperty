@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:eproperty/helper/hive_helper.dart';
 import 'package:eproperty/repository/accounting_repository.dart';
 import 'package:eproperty/repository/companies_repository.dart';
@@ -295,31 +296,33 @@ class DashboardViewModel {
     return _parsed;
   }
 
+  Future<String> token() async {
+    return 'Bearer ${await userRepository.retrieveData<String>(
+      name: 'token',
+      value: '',
+    )}';
+  }
+
   Future<bool> changePhoto(BuildContext context) async {
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
     );
 
     if (pickedFile != null) {
-      final token = 'Bearer ${await userRepository.retrieveData<String>(
-        name: 'token',
-        value: '',
-      )}';
-
       final bytes = File(pickedFile.path).readAsBytesSync();
       final image = base64Encode(bytes);
       final data = {'image': image};
+      bool success;
 
-      final response = await userRepository.changePhoto(token, data);
+      try {
+        await userRepository.changePhoto(await token(), data);
 
-      if (response.success) {
-        userRepository.storeData(
-          key: 'image',
-          value: image,
-        );
+        success = true;
+      } on DioError catch (_) {
+        success = false;
+      }
 
-        context.refresh(userDataProvider);
-
+      if (success) {
         return true;
       } else {
         return false;
@@ -333,6 +336,24 @@ class DashboardViewModel {
     HiveHelper().deleteFromDisk();
 
     context.navigator.pushAndRemoveUntil(Routes.logInView, (route) => false);
+  }
+
+  Future<bool> changePassword(Map<String, dynamic> data) async {
+    bool success;
+
+    try {
+      await userRepository.changePassword(await token(), data);
+
+      success = true;
+    } on DioError catch (_) {
+      success = false;
+    }
+
+    if (success) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

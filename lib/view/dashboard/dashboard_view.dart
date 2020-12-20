@@ -158,7 +158,7 @@ class BuildBody extends StatelessWidget {
           change(
             icon: FeatherIcons.key,
             title: Strings.changePassword,
-            onTap: () {},
+            onTap: () => context.navigator.push(Routes.changeView),
           ),
           const Divider(
             thickness: Sizes.height2,

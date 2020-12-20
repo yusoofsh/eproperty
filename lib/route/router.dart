@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:eproperty/view/change/change_view.dart';
 import 'package:eproperty/view/dashboard/dashboard_view.dart';
 import 'package:eproperty/view/filter/filter_view.dart';
 import 'package:eproperty/view/forgot/forgot_view.dart';
@@ -27,6 +28,11 @@ import 'package:eproperty/view/splash/auth_view.dart';
     MaterialRoute(
       path: '/dashboard',
       page: DashboardView,
+    ),
+    MaterialRoute(
+      path: '/change',
+      page: ChangeView,
+      fullscreenDialog: true,
     ),
   ],
 )

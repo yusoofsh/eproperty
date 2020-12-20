@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide Colors;
 
 class Colors {
   static const Color primaryColor = blue;
+  static const background = Color(0xFFDDE6E8);
 
   static const Color transparent = Color(0x00000000);
 

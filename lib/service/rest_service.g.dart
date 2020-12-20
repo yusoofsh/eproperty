@@ -56,6 +56,27 @@ class _RestService implements RestService {
   }
 
   @override
+  Future<BaseModel> mePassword(authentication, body) async {
+    ArgumentError.checkNotNull(authentication, 'authentication');
+    ArgumentError.checkNotNull(body, 'body');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>('/me/password',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PATCH',
+            headers: <String, dynamic>{r'authorization': authentication},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = BaseModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   Future<BaseModel> authForgot(body) async {
     ArgumentError.checkNotNull(body, 'body');
     const _extra = <String, dynamic>{};

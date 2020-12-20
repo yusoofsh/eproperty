@@ -123,14 +123,14 @@ class Themes {
   ) {
     return ThemeData(
       accentColor: colorScheme.primary,
-      canvasColor: colorScheme.background,
+      canvasColor: Colors.background,
       colorScheme: colorScheme,
       elevatedButtonTheme: elevatedButtonTheme,
       buttonColor: Colors.blue,
       focusColor: Colors.primaryColor,
       highlightColor: Colors.transparent,
       iconTheme: const IconThemeData(color: Colors.white),
-      scaffoldBackgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: Colors.background,
       textTheme: textTheme,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );

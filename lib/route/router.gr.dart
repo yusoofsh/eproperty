@@ -9,6 +9,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../view/change/change_view.dart';
 import '../view/dashboard/dashboard_view.dart';
 import '../view/filter/filter_view.dart';
 import '../view/forgot/forgot_view.dart';
@@ -21,12 +22,14 @@ class Routes {
   static const String forgotView = '/forgot';
   static const String filterView = '/filter';
   static const String dashboardView = '/dashboard';
+  static const String changeView = '/change';
   static const all = <String>{
     splashView,
     logInView,
     forgotView,
     filterView,
     dashboardView,
+    changeView,
   };
 }
 
@@ -39,6 +42,7 @@ class Router extends RouterBase {
     RouteDef(Routes.forgotView, page: ForgotView),
     RouteDef(Routes.filterView, page: FilterView),
     RouteDef(Routes.dashboardView, page: DashboardView),
+    RouteDef(Routes.changeView, page: ChangeView),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -71,6 +75,13 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => DashboardView(),
         settings: data,
+      );
+    },
+    ChangeView: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ChangeView(),
+        settings: data,
+        fullscreenDialog: true,
       );
     },
   };

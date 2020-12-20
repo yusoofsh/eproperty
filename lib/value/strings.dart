@@ -81,4 +81,5 @@ class Strings {
   static const String changeProfilePicture = 'Ubah Foto Profil';
   static const String changePreference = 'Ubah $filter';
   static const String logOut = 'Keluar';
+  static const String currentPassword = 'Kata sandi saat ini';
 }

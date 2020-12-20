@@ -27,6 +27,18 @@ class UserRepository {
     return _response;
   }
 
+  Future<BaseModel> changePassword(
+    String token,
+    Map<String, dynamic> data,
+  ) async {
+    final _response = await rest.mePassword(
+      token,
+      data,
+    );
+
+    return _response;
+  }
+
   Future<Box> userBox() async {
     final _database = HiveHelper();
 
