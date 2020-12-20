@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:eproperty/helper/hive_helper.dart';
 import 'package:eproperty/repository/accounting_repository.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/finance_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
+import 'package:eproperty/route/router.gr.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -324,6 +327,12 @@ class DashboardViewModel {
     } else {
       return false;
     }
+  }
+
+  void logOut(BuildContext context) {
+    HiveHelper().deleteFromDisk();
+
+    context.navigator.pushAndRemoveUntil(Routes.logInView, (route) => false);
   }
 }
 

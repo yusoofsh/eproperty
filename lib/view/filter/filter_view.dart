@@ -178,12 +178,10 @@ class _BuildFormState extends State<BuildForm> {
                     CustomDropdownField(
                       name: 'project',
                       labelText: Strings.project,
-                      validator: FormBuilderValidators.required(context),
                       items: _companiesChild.map<DropdownMenuItem<String>>(
                         (value) {
                           return DropdownMenuItem<String>(
                             value: value.name,
-                            onTap: () => _wp.configureDateInput(),
                             child: Text(value.name),
                           );
                         },

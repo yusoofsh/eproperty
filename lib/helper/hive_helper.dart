@@ -37,4 +37,6 @@ class HiveHelper {
 
     return _key;
   }
+
+  void deleteFromDisk() => _hive.deleteFromDisk();
 }

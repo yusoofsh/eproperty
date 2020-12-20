@@ -119,7 +119,9 @@ class BuildBody extends StatelessWidget {
                     Strings.logOut,
                     style: TextStyle(color: Colors.black),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read(dashboardProvider).logOut(context);
+                  },
                 ),
               ),
             ],

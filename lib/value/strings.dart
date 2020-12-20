@@ -6,8 +6,8 @@ class Strings {
   static const String done = 'Selesai';
   static const String email = 'Alamat surel';
   static const String failure = 'Gagal';
-  static const String fillRequired = 'Isi data yang diperlukan,';
-  static const String filter = 'Preferensi Penyaringan';
+  static const String fillRequired = 'Isi data';
+  static const String filter = 'Filter';
   static const String forgot = 'Lupa kata sandi?';
   static const String logIn = 'Masuk';
   static const String month = 'Bulan';
