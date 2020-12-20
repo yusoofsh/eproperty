@@ -41,6 +41,18 @@ abstract class RestService {
     @Header(HttpHeaders.authorizationHeader) String authentication,
   );
 
+  @PATCH('/me/photo')
+  Future<BaseModel> mePhoto(
+    @Header(HttpHeaders.authorizationHeader) String authentication,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @PATCH('/me/password')
+  Future<BaseModel> mePassword(
+    @Header(HttpHeaders.authorizationHeader) String authentication,
+    @Body() Map<String, dynamic> body,
+  );
+
   @POST('/auth/forgot')
   Future<BaseModel> authForgot(
     @Body() Map<String, dynamic> body,

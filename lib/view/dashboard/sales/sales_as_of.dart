@@ -3,7 +3,9 @@ import 'package:eproperty/model/sales/sales_as_of.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
 import 'package:eproperty/value/strings.dart';
+import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BuildSalesAsOf extends StatelessWidget {
   const BuildSalesAsOf({
@@ -14,6 +16,10 @@ class BuildSalesAsOf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatToIdr(num value) {
+      return context.read(dashboardProvider).formatToIdr(value);
+    }
+
     return SizedBox(
       width: context.mediaQuerySize.width,
       child: Card(
@@ -59,21 +65,21 @@ class BuildSalesAsOf extends StatelessWidget {
                     children: [
                       Text(salesAsOf.data[0].name),
                       Text('${salesAsOf.data[0].unit}'),
-                      Text('${salesAsOf.data[0].value}'),
+                      Text(formatToIdr(salesAsOf.data[0].value)),
                     ],
                   ),
                   TableRow(
                     children: [
                       Text(salesAsOf.data[1].name),
                       Text('${salesAsOf.data[1].unit}'),
-                      Text('${salesAsOf.data[1].value}'),
+                      Text(formatToIdr(salesAsOf.data[1].value)),
                     ],
                   ),
                   TableRow(
                     children: [
                       Text(salesAsOf.data[2].name),
                       Text('${salesAsOf.data[2].unit}'),
-                      Text('${salesAsOf.data[2].value}'),
+                      Text(formatToIdr(salesAsOf.data[2].value)),
                     ],
                   )
                 ],

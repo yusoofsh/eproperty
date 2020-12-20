@@ -41,6 +41,23 @@ class BuildCollectionPercentage extends StatelessWidget {
       }
     }
 
+    Widget text(
+      String data, {
+      double leadingPaddingSize,
+      double trailingPaddingSize,
+    }) {
+      return Padding(
+        padding: EdgeInsets.only(
+          left: trailingPaddingSize ?? 0.0,
+          right: leadingPaddingSize ?? 0.0,
+        ),
+        child: Text(
+          data,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
     return BuildNotASummaryCard(
       title: Strings.collectionPercentage,
       child: Column(
@@ -106,23 +123,6 @@ class BuildCollectionPercentage extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget text(
-    String data, {
-    double leadingPaddingSize,
-    double trailingPaddingSize,
-  }) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: trailingPaddingSize ?? 0.0,
-        right: leadingPaddingSize ?? 0.0,
-      ),
-      child: Text(
-        data,
-        textAlign: TextAlign.center,
       ),
     );
   }

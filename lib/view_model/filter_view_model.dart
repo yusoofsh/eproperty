@@ -75,6 +75,8 @@ class FilterViewModel extends ChangeNotifier {
 
       state = FilterState.dismiss;
 
+      configureDateInput();
+
       notifyListeners();
     } on DioError catch (error) {
       message = error.response.data['message'] as String;

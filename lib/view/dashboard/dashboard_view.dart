@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:build_context/build_context.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eproperty/route/router.gr.dart';
 import 'package:eproperty/value/colors.dart';
 import 'package:eproperty/value/sizes.dart';
@@ -7,7 +10,6 @@ import 'package:eproperty/value/strings.dart';
 import 'package:eproperty/view/dashboard/accounting/accounting.dart';
 import 'package:eproperty/view/dashboard/finance/finance.dart';
 import 'package:eproperty/view/dashboard/sales/sales.dart';
-import 'package:eproperty/view/dashboard/user/user.dart';
 import 'package:eproperty/view_model/dashboard_view_model.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -30,6 +32,148 @@ class BuildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget avatar(
+      String image, {
+      double radius,
+    }) {
+      if (Uri.parse(image).isAbsolute) {
+        return CachedNetworkImage(
+          imageUrl: image,
+          imageBuilder: (_, image) {
+            return CircleAvatar(
+              radius: radius ?? Sizes.size20,
+              backgroundImage: image,
+            );
+          },
+          progressIndicatorBuilder: (_, __, progress) {
+            return CircularProgressIndicator(
+              value: progress.progress,
+            );
+          },
+          errorWidget: (_, __, ___) {
+            return const Icon(FeatherIcons.xCircle);
+          },
+        );
+      } else {
+        return CircleAvatar(
+          radius: radius ?? Sizes.size20,
+          child: Image.memory(
+            base64Decode(image),
+          ),
+        );
+      }
+    }
+
+    InkWell change({
+      IconData icon,
+      String title,
+      Function() onTap,
+    }) {
+      return InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.padding24),
+          margin: const EdgeInsets.symmetric(vertical: Sizes.margin8),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: Colors.black54,
+              ),
+              const SizedBox(width: Sizes.width20),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget dialog(List<String> data) {
+      return SimpleDialog(
+        contentPadding: EdgeInsets.zero,
+        children: [
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  FeatherIcons.x,
+                  color: Colors.black,
+                ),
+                onPressed: () => context.navigator.pop(),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: Sizes.padding4),
+                child: TextButton.icon(
+                  icon: const Icon(
+                    FeatherIcons.logOut,
+                    color: Colors.black,
+                    size: Sizes.size20,
+                  ),
+                  label: const Text(
+                    Strings.logOut,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    context.read(dashboardProvider).logOut(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.padding12),
+            child: Row(
+              children: [
+                avatar(data[2], radius: Sizes.size24),
+                const SizedBox(width: Sizes.width8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data[0],
+                      style: context.textTheme.subtitle1,
+                    ),
+                    Text(data[1]),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: Sizes.height8),
+          const Divider(
+            thickness: Sizes.height2,
+            color: Colors.black12,
+          ),
+          change(
+            icon: FeatherIcons.image,
+            title: Strings.changeProfilePicture,
+            onTap: () => context.read(dashboardProvider).changePhoto(context),
+          ),
+          change(
+            icon: FeatherIcons.key,
+            title: Strings.changePassword,
+            onTap: () => context.navigator.push(Routes.changeView),
+          ),
+          const Divider(
+            thickness: Sizes.height2,
+            color: Colors.black12,
+          ),
+          change(
+            icon: FeatherIcons.filter,
+            title: Strings.changePreference,
+            onTap: () => context.navigator.push(Routes.filterView),
+          ),
+          const SizedBox(height: Sizes.height12),
+        ],
+      );
+    }
+
     return SafeArea(
       child: Consumer(
         builder: (context, watch, __) {
@@ -58,15 +202,20 @@ class BuildBody extends StatelessWidget {
                         error: (error, _) => Text('$error'),
                       ),
                       const Spacer(),
-                      IconButton(
-                        icon: const Icon(
-                          FeatherIcons.filter,
-                          size: Sizes.size32,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          context.navigator.push(Routes.filterView);
+                      user.when(
+                        data: (data) {
+                          return InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => dialog(data),
+                              );
+                            },
+                            child: avatar(data[2]),
+                          );
                         },
+                        loading: () => const CircularProgressIndicator(),
+                        error: (error, _) => Text('$error'),
                       ),
                     ],
                   ),
@@ -82,9 +231,6 @@ class BuildBody extends StatelessWidget {
                       break;
                     case 2:
                       return BuildAccounting(accounting);
-                    case 3:
-                      return BuildUser(user);
-                      break;
                     default:
                       return Text('oops $index');
                       break;
@@ -122,10 +268,10 @@ class BuildBottomNavigationBar extends StatelessWidget {
           ),
           child: Consumer(
             builder: (_, watch, __) {
-              final selectedIndex = watch(indexProvider).state;
+              final index = watch(indexProvider).state;
 
               return GNav(
-                selectedIndex: selectedIndex,
+                selectedIndex: index,
                 curve: Curves.easeOutExpo,
                 gap: Sizes.size8,
                 iconSize: Sizes.size24,
@@ -159,21 +305,9 @@ class BuildBottomNavigationBar extends StatelessWidget {
                     iconActiveColor: Colors.orange,
                     backgroundColor: Colors.orange.withOpacity(.1),
                   ),
-                  GButton(
-                    text: Strings.user,
-                    textColor: Colors.red,
-                    icon: FeatherIcons.user,
-                    iconColor: Colors.black,
-                    iconActiveColor: Colors.red,
-                    backgroundColor: Colors.red.withOpacity(.1),
-                  ),
                 ],
                 onTabChange: (int index) {
-                  if (selectedIndex < index) {
-                    context.read(indexProvider).state++;
-                  } else if (selectedIndex > index) {
-                    context.read(indexProvider).state--;
-                  }
+                  context.read(indexProvider).state = index;
                 },
               );
             },

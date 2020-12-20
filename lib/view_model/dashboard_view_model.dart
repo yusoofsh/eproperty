@@ -1,9 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
+import 'package:eproperty/helper/hive_helper.dart';
 import 'package:eproperty/repository/accounting_repository.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/finance_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
+import 'package:eproperty/route/router.gr.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class DashboardViewModel {
@@ -260,11 +269,11 @@ class DashboardViewModel {
     final _result = await Future.wait<String>(
       [
         userRepository.retrieveData<String>(
-          name: 'email',
+          name: 'name',
           value: '',
         ),
         userRepository.retrieveData<String>(
-          name: 'name',
+          name: 'email',
           value: '',
         ),
         userRepository.retrieveData<String>(
@@ -277,14 +286,74 @@ class DashboardViewModel {
     return _result;
   }
 
-  String formatToIdr(num value) {
+  String formatToIdr(num value, {String name}) {
     final _parsed = NumberFormat.currency(
       locale: 'id',
-      name: 'Rp. ',
+      name: name ?? 'Rp. ',
       decimalDigits: 0,
     ).format(value);
 
     return _parsed;
+  }
+
+  Future<String> token() async {
+    return 'Bearer ${await userRepository.retrieveData<String>(
+      name: 'token',
+      value: '',
+    )}';
+  }
+
+  Future<bool> changePhoto(BuildContext context) async {
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+      final bytes = File(pickedFile.path).readAsBytesSync();
+      final image = base64Encode(bytes);
+      final data = {'image': image};
+      bool success;
+
+      try {
+        await userRepository.changePhoto(await token(), data);
+
+        success = true;
+      } on DioError catch (_) {
+        success = false;
+      }
+
+      if (success) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  void logOut(BuildContext context) {
+    HiveHelper().deleteFromDisk();
+
+    context.navigator.pushAndRemoveUntil(Routes.logInView, (route) => false);
+  }
+
+  Future<bool> changePassword(Map<String, dynamic> data) async {
+    bool success;
+
+    try {
+      await userRepository.changePassword(await token(), data);
+
+      success = true;
+    } on DioError catch (_) {
+      success = false;
+    }
+
+    if (success) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
@@ -316,4 +385,4 @@ final currentYearProvider = FutureProvider<int>(
   (_) => DashboardViewModel().year(),
 );
 
-final indexProvider = StateProvider<int>((_) => 2);
+final indexProvider = StateProvider<int>((_) => 0);

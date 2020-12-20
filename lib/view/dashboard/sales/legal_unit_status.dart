@@ -29,11 +29,15 @@ class BuildLegalUnitStatus extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: Sizes.height12),
-              SizedBox(
-                width: context.mediaQuerySize.width,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
                 child: DataTable(
+                  dividerThickness: 0.4,
                   headingRowHeight: 0.0,
+                  showCheckboxColumn: false,
                   columns: const [
+                    DataColumn(label: SizedBox()),
                     DataColumn(label: SizedBox()),
                     DataColumn(label: SizedBox()),
                   ],
@@ -46,6 +50,10 @@ class BuildLegalUnitStatus extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Text(data.name),
                             ),
+                          ),
+                          DataCell(
+                            SizedBox(
+                                width: context.mediaQuerySize.width * 0.36),
                           ),
                           DataCell(
                             Align(

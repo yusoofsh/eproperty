@@ -18,10 +18,10 @@ class BuildNotASummaryCard extends StatelessWidget {
     return SizedBox(
       width: context.mediaQuerySize.width,
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.padding12,
-            horizontal: Sizes.padding24,
+        child: Container(
+          margin: const EdgeInsets.symmetric(
+            vertical: Sizes.padding8,
+            horizontal: Sizes.padding12,
           ),
           child: Column(
             children: [
