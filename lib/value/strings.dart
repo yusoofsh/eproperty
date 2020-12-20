@@ -5,7 +5,7 @@ class Strings {
   static const String confirmNewPassword = 'Konfirmasi kata sandi baru';
   static const String done = 'Selesai';
   static const String email = 'Alamat surel';
-  static const String failure = 'Mohon coba lagi';
+  static const String failure = 'Gagal';
   static const String fillRequired = 'Isi data yang diperlukan,';
   static const String filter = 'Preferensi Penyaringan';
   static const String forgot = 'Lupa kata sandi?';

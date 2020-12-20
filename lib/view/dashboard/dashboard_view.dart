@@ -32,7 +32,10 @@ class BuildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget avatar(String image, {double radius}) {
+    Widget avatar(
+      String image, {
+      double radius,
+    }) {
       if (Uri.parse(image).isAbsolute) {
         return CachedNetworkImage(
           imageUrl: image,
@@ -148,7 +151,7 @@ class BuildBody extends StatelessWidget {
           change(
             icon: FeatherIcons.image,
             title: Strings.changeProfilePicture,
-            onTap: () {},
+            onTap: () => context.read(dashboardProvider).changePhoto(context),
           ),
           change(
             icon: FeatherIcons.key,

@@ -48,7 +48,7 @@ class LogInViewModel extends ChangeNotifier {
 
   Future<void> storeResponse(Map<String, dynamic> data) async {
     try {
-      await userRepository.storeData(data: data);
+      await userRepository.storeData(entries: data);
 
       state = LogInState.success;
 

@@ -1,5 +1,6 @@
 import 'package:eproperty/helper/dio_helper.dart';
 import 'package:eproperty/helper/hive_helper.dart';
+import 'package:eproperty/model/base_model.dart';
 import 'package:eproperty/model/user_model.dart';
 import 'package:eproperty/service/rest_service.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +11,18 @@ class UserRepository {
 
   Future<UserModel> logIn(String token) async {
     final _response = await rest.authToken(token);
+
+    return _response;
+  }
+
+  Future<BaseModel> changePhoto(
+    String token,
+    Map<String, dynamic> data,
+  ) async {
+    final _response = await rest.mePhoto(
+      token,
+      data,
+    );
 
     return _response;
   }
@@ -28,11 +41,17 @@ class UserRepository {
   }
 
   Future<void> storeData({
-    @required Map<String, dynamic> data,
+    Map<String, dynamic> entries,
+    String key,
+    dynamic value,
   }) async {
     final _box = await userBox();
 
-    await _box.putAll(data);
+    if (value != null) {
+      _box.put(key, value);
+    } else {
+      await _box.putAll(entries);
+    }
   }
 
   Future<T> retrieveData<T>({

@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:eproperty/repository/accounting_repository.dart';
 import 'package:eproperty/repository/companies_repository.dart';
 import 'package:eproperty/repository/finance_repository.dart';
 import 'package:eproperty/repository/sales_repository.dart';
 import 'package:eproperty/repository/user_repository.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class DashboardViewModel {
@@ -286,6 +291,40 @@ class DashboardViewModel {
 
     return _parsed;
   }
+
+  Future<bool> changePhoto(BuildContext context) async {
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+      final token = 'Bearer ${await userRepository.retrieveData<String>(
+        name: 'token',
+        value: '',
+      )}';
+
+      final bytes = File(pickedFile.path).readAsBytesSync();
+      final image = base64Encode(bytes);
+      final data = {'image': image};
+
+      final response = await userRepository.changePhoto(token, data);
+
+      if (response.success) {
+        userRepository.storeData(
+          key: 'image',
+          value: image,
+        );
+
+        context.refresh(userDataProvider);
+
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }
 
 final dashboardProvider = Provider<DashboardViewModel>(
@@ -316,4 +355,4 @@ final currentYearProvider = FutureProvider<int>(
   (_) => DashboardViewModel().year(),
 );
 
-final indexProvider = StateProvider<int>((_) => 3);
+final indexProvider = StateProvider<int>((_) => 0);
