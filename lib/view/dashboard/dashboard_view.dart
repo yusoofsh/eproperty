@@ -153,7 +153,7 @@ class BuildBody extends StatelessWidget {
           change(
             icon: FeatherIcons.image,
             title: Strings.changeProfilePicture,
-            onTap: () => context.read(dashboardProvider).changePhoto(context),
+            onTap: () => context.read(dashboardProvider).changePhoto(),
           ),
           change(
             icon: FeatherIcons.key,

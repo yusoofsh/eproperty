@@ -303,15 +303,17 @@ class DashboardViewModel {
     )}';
   }
 
-  Future<bool> changePhoto(BuildContext context) async {
+  Future<bool> changePhoto() async {
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
     );
 
     if (pickedFile != null) {
-      final bytes = File(pickedFile.path).readAsBytesSync();
+      final path = pickedFile.path;
+      final bytes = File(path).readAsBytesSync();
       final image = base64Encode(bytes);
-      final data = {'image': image};
+      final extension = path.substring(path.length - 3);
+      final data = {'image': 'data:image/$extension;base64,$image'};
       bool success;
 
       try {

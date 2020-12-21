@@ -44,16 +44,24 @@ class _ChangeViewState extends State<ChangeView> {
               color: Colors.black,
             ),
             onPressed: () async {
-              final result = await context
-                  .read(dashboardProvider)
-                  .changePassword(formKey.currentState.value.cast());
+              if (!context.focusScope.hasPrimaryFocus) {
+                context.focusScope.unfocus();
+              }
 
-              if (result) {
-                EasyLoading.showSuccess(Strings.success);
+              final formState = formKey.currentState;
 
-                context.navigator.pop();
-              } else {
-                EasyLoading.showError(Strings.failure);
+              if (formState.saveAndValidate()) {
+                final result = await context
+                    .read(dashboardProvider)
+                    .changePassword(formKey.currentState.value);
+
+                if (result) {
+                  EasyLoading.showSuccess(Strings.success);
+
+                  context.navigator.pop();
+                } else {
+                  EasyLoading.showError(Strings.failure);
+                }
               }
             },
           ),
