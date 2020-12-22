@@ -82,4 +82,7 @@ class Strings {
   static const String changePreference = 'Ubah $filter';
   static const String logOut = 'Keluar';
   static const String currentPassword = 'Kata sandi saat ini';
+  static const String sorry = 'Mohon maaf';
+  static const String notFound =
+      'data perusahaan atau project Anda\ntidak terdapat pada database';
 }

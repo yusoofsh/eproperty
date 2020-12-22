@@ -5,6 +5,7 @@ import 'package:eproperty/model/finance/hold_percentage.dart';
 import 'package:eproperty/model/finance/kpr_reception.dart';
 import 'package:eproperty/model/finance/month_summary.dart';
 import 'package:eproperty/value/sizes.dart';
+import 'package:eproperty/view/dashboard/core/failure.dart';
 import 'package:eproperty/view/dashboard/finance/aging_debt.dart';
 import 'package:eproperty/view/dashboard/finance/collection_percentage.dart';
 import 'package:eproperty/view/dashboard/finance/debt_acceptance.dart';
@@ -30,7 +31,7 @@ class BuildFinance extends StatelessWidget {
     );
   }
 
-  Widget failure(Object error) => Center(child: Text('$error'));
+  Widget failure(_) => BuildFailure();
 
   Widget loading() => const Center(child: CircularProgressIndicator());
 

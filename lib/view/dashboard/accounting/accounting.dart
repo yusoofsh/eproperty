@@ -9,6 +9,7 @@ import 'package:eproperty/view/dashboard/accounting/cash_ratio.dart';
 import 'package:eproperty/view/dashboard/accounting/debt.dart';
 import 'package:eproperty/view/dashboard/accounting/debt_payments.dart';
 import 'package:eproperty/view/dashboard/accounting/profit.dart';
+import 'package:eproperty/view/dashboard/core/failure.dart';
 import 'package:flutter/material.dart' hide Colors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +30,7 @@ class BuildAccounting extends StatelessWidget {
     );
   }
 
-  Widget failure(Object error) => Center(child: Text('$error'));
+  Widget failure(_) => BuildFailure();
 
   Widget loading() => const Center(child: CircularProgressIndicator());
 
