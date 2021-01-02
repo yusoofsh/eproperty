@@ -27,7 +27,11 @@ class BuildCollectionPercentage extends StatelessWidget {
 
     double percent(int index) {
       if (holdPercentageData.isNotEmpty) {
-        return holdPercentageData[index].percent.toDouble();
+        if (holdPercentageData.asMap().containsKey(index)) {
+          return holdPercentageData[index].percent.toDouble();
+        } else {
+          return 0.0;
+        }
       } else {
         return 0.0;
       }
@@ -35,7 +39,11 @@ class BuildCollectionPercentage extends StatelessWidget {
 
     String name(int index) {
       if (holdPercentageData.isNotEmpty) {
-        return holdPercentageData[index].name;
+        if (holdPercentageData.asMap().containsKey(index)) {
+          return holdPercentageData[index].name;
+        } else {
+          return Strings.noData;
+        }
       } else {
         return Strings.noData;
       }
