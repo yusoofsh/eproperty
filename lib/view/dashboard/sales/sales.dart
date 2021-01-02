@@ -12,6 +12,7 @@ import 'package:eproperty/model/sales/top_sales.dart';
 import 'package:eproperty/model/sales/unit_status.dart';
 import 'package:eproperty/model/sales/unit_stock_per_type.dart';
 import 'package:eproperty/value/sizes.dart';
+import 'package:eproperty/view/dashboard/core/failure.dart';
 import 'package:eproperty/view/dashboard/sales/aging_reservation.dart';
 import 'package:eproperty/view/dashboard/sales/cancel_reason.dart';
 import 'package:eproperty/view/dashboard/sales/kpr_status.dart';
@@ -42,7 +43,7 @@ class BuildSales extends StatelessWidget {
     );
   }
 
-  Widget failure(Object error) => Center(child: Text('$error'));
+  Widget failure(_) => BuildFailure();
 
   Widget loading() => const Center(child: CircularProgressIndicator());
 

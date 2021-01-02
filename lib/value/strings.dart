@@ -19,7 +19,7 @@ class Strings {
   static const String requestCode = 'Rekues kode';
   static const String reset = 'Reset';
   static const String resetPassword = 'Setel ulang\nkata sandi';
-  static const String success = 'Mengarahkan';
+  static const String success = 'Sukses';
   static const String welcome = 'Selamat datang kembali,';
   static const String year = 'Tahun';
   static const String reservation = 'Reservasi';
@@ -82,4 +82,7 @@ class Strings {
   static const String changePreference = 'Ubah $filter';
   static const String logOut = 'Keluar';
   static const String currentPassword = 'Kata sandi saat ini';
+  static const String sorry = 'Mohon maaf';
+  static const String notFound =
+      'data perusahaan atau project Anda\ntidak terdapat pada database';
 }

@@ -153,7 +153,7 @@ class BuildBody extends StatelessWidget {
           change(
             icon: FeatherIcons.image,
             title: Strings.changeProfilePicture,
-            onTap: () => context.read(dashboardProvider).changePhoto(context),
+            onTap: () => context.read(dashboardProvider).changePhoto(),
           ),
           change(
             icon: FeatherIcons.key,
@@ -186,40 +186,37 @@ class BuildBody extends StatelessWidget {
 
           return Column(
             children: [
-              if (index == 3)
-                const SizedBox()
-              else
-                Container(
-                  margin: const EdgeInsets.all(Sizes.margin16),
-                  child: Row(
-                    children: [
-                      company.when(
-                        data: (data) => Text(
-                          data,
-                          style: context.textTheme.headline3,
-                        ),
-                        loading: () => const CircularProgressIndicator(),
-                        error: (error, _) => Text('$error'),
+              Container(
+                margin: const EdgeInsets.all(Sizes.margin16),
+                child: Row(
+                  children: [
+                    company.when(
+                      data: (data) => Text(
+                        data,
+                        style: context.textTheme.headline3,
                       ),
-                      const Spacer(),
-                      user.when(
-                        data: (data) {
-                          return InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => dialog(data),
-                              );
-                            },
-                            child: avatar(data[2]),
-                          );
-                        },
-                        loading: () => const CircularProgressIndicator(),
-                        error: (error, _) => Text('$error'),
-                      ),
-                    ],
-                  ),
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, _) => Text('$error'),
+                    ),
+                    const Spacer(),
+                    user.when(
+                      data: (data) {
+                        return InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => dialog(data),
+                            );
+                          },
+                          child: avatar(data[2]),
+                        );
+                      },
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, _) => Text('$error'),
+                    ),
+                  ],
                 ),
+              ),
               Builder(
                 builder: (_) {
                   switch (index) {
