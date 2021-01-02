@@ -25,7 +25,15 @@ class BuildCollectionPercentage extends StatelessWidget {
     final nonSmoothness = collectionPercentage.data.tidakLancar;
     final holdPercentageData = holdPercentage.data;
 
-    double percent(int index) {
+    double linearPercent() {
+      if (smoothness > 999) {
+        return smoothness.toDouble() / 10000;
+      } else {
+        return smoothness.toDouble() / 100;
+      }
+    }
+
+    double circularPercent(int index) {
       if (holdPercentageData.isNotEmpty) {
         if (holdPercentageData.asMap().containsKey(index)) {
           return holdPercentageData[index].percent.toDouble();
@@ -37,7 +45,7 @@ class BuildCollectionPercentage extends StatelessWidget {
       }
     }
 
-    String name(int index) {
+    String circularName(int index) {
       if (holdPercentageData.isNotEmpty) {
         if (holdPercentageData.asMap().containsKey(index)) {
           return holdPercentageData[index].name;
@@ -74,7 +82,7 @@ class BuildCollectionPercentage extends StatelessWidget {
             width: context.mediaQuerySize.width * 0.8,
             child: LinearPercentIndicator(
               animation: true,
-              percent: smoothness.toDouble() / 100,
+              percent: linearPercent(),
               lineHeight: Sizes.size24,
               progressColor: Colors.orange,
               backgroundColor: Colors.orange.withOpacity(.2),
@@ -110,23 +118,23 @@ class BuildCollectionPercentage extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               BuildCircularPercentage(
-                percent: percent(0),
-                footer: name(0),
+                percent: circularPercent(0),
+                footer: circularName(0),
               ),
               const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
-                percent: percent(1),
-                footer: name(1),
+                percent: circularPercent(1),
+                footer: circularName(1),
               ),
               const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
-                percent: percent(2),
-                footer: name(2),
+                percent: circularPercent(2),
+                footer: circularName(2),
               ),
               const SizedBox(width: Sizes.width8),
               BuildCircularPercentage(
-                percent: percent(3),
-                footer: name(3),
+                percent: circularPercent(3),
+                footer: circularName(3),
               ),
             ],
           ),

@@ -32,6 +32,12 @@ class BuildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.refresh(salesDataProvider);
+    context.refresh(financeDataProvider);
+    context.refresh(accountingDataProvider);
+    context.refresh(currentCompanyProvider);
+    context.refresh(currentYearProvider);
+
     Widget avatar(
       String image, {
       double radius,
@@ -167,7 +173,12 @@ class BuildBody extends StatelessWidget {
           change(
             icon: FeatherIcons.filter,
             title: Strings.changePreference,
-            onTap: () => context.navigator.push(Routes.filterView),
+            onTap: () {
+              context.navigator.pushAndRemoveUntil(
+                Routes.filterView,
+                (Route<dynamic> route) => false,
+              );
+            },
           ),
           const SizedBox(height: Sizes.height12),
         ],
