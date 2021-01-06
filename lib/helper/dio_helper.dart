@@ -17,8 +17,12 @@ final dio = Dio()
       onError: (error) {
         // Do something with response error.
         // We print error message;
-        logger.e(error);
+        final baseUrl = error.request.baseUrl;
+        final path = error.request.path;
+        final statusCode = error.response.statusCode;
+        final data = error.response.data;
 
+        logger.e('$baseUrl$path\n$statusCode\n$data');
         // Continue.
         return error;
       },

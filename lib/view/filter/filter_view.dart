@@ -17,7 +17,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class FilterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    context.read(filterViewModelProvider).populateCompaniesActive();
+    final cr = context.read(filterViewModelProvider);
+
+    cr.clear();
+    cr.populateCompaniesActive();
 
     return ProviderListener<FilterViewModel>(
       provider: filterViewModelProvider,
@@ -44,7 +47,10 @@ class FilterView extends StatelessWidget {
 
             break;
           case FilterState.success:
-            context.navigator.replace(Routes.dashboardView);
+            context.navigator.pushAndRemoveUntil(
+              Routes.dashboardView,
+              (Route<dynamic> route) => false,
+            );
 
             break;
         }

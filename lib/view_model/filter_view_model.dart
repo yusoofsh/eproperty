@@ -135,6 +135,14 @@ class FilterViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void clear() {
+    companiesActive = <Datum>[];
+    companiesChild = <Datum>[];
+    years = <int>[];
+    months = <int, String>{};
+    message = '';
+  }
 }
 
 final filterViewModelProvider = ChangeNotifierProvider(
