@@ -27,54 +27,50 @@ class BuildFinanceSummary extends StatelessWidget {
       return context.read(dashboardProvider).formatToIdr(value);
     }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: Sizes.margin16),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          alignment: Alignment.topCenter,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SummaryCard(
-                color: Colors.blue,
-                upperTitle: Strings.debtPayments,
-                lowerFirstTitle: Strings.thisMonth,
-                lowerFirstSubtitle: formatToIdr(
-                  debtPayments.data.thisMonth,
-                ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: Sizes.margin16),
+      child: FittedBox(
+        fit: BoxFit.fill,
+        alignment: Alignment.topCenter,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SummaryCard(
+              color: Colors.blue,
+              upperTitle: Strings.debtPayments,
+              lowerFirstTitle: Strings.thisMonth,
+              lowerFirstSubtitle: formatToIdr(
+                debtPayments.data.thisMonth,
               ),
-              const SizedBox(width: Sizes.width4),
-              SummaryCard(
-                color: Colors.green,
-                upperTitle: Strings.dueCredit,
-                lowerFirstTitle: Strings.thisMonth,
-                lowerFirstSubtitle: formatToIdr(
-                  dueCredit.data.thisMonth,
-                ),
+            ),
+            const SizedBox(height: Sizes.height4),
+            SummaryCard(
+              color: Colors.green,
+              upperTitle: Strings.dueCredit,
+              lowerFirstTitle: Strings.thisMonth,
+              lowerFirstSubtitle: formatToIdr(
+                dueCredit.data.thisMonth,
               ),
-              const SizedBox(width: Sizes.width4),
-              SummaryCard(
-                color: Colors.orange,
-                upperTitle: Strings.outstandingRetention,
-                lowerFirstTitle: Strings.thisMonth,
-                lowerFirstSubtitle: formatToIdr(
-                  outstandingRetention.data.thisMonth,
-                ),
+            ),
+            const SizedBox(height: Sizes.height4),
+            SummaryCard(
+              color: Colors.orange,
+              upperTitle: Strings.outstandingRetention,
+              lowerFirstTitle: Strings.thisMonth,
+              lowerFirstSubtitle: formatToIdr(
+                outstandingRetention.data.thisMonth,
               ),
-              const SizedBox(width: Sizes.width4),
-              SummaryCard(
-                color: Colors.red,
-                upperTitle: Strings.retentionRealization,
-                lowerFirstTitle: Strings.thisMonth,
-                lowerFirstSubtitle: formatToIdr(
-                  retentionRealization.data.thisMonth,
-                ),
+            ),
+            const SizedBox(height: Sizes.height4),
+            SummaryCard(
+              color: Colors.red,
+              upperTitle: Strings.retentionRealization,
+              lowerFirstTitle: Strings.thisMonth,
+              lowerFirstSubtitle: formatToIdr(
+                retentionRealization.data.thisMonth,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

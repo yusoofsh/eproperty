@@ -65,3 +65,5 @@ class LogInViewModel extends ChangeNotifier {
 final logInViewModelProvider = ChangeNotifierProvider(
   (_) => LogInViewModel(),
 );
+
+final obscureTextProvider = StateProvider<bool>((_) => true);

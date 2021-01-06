@@ -14,7 +14,7 @@ import '../view/dashboard/dashboard_view.dart';
 import '../view/filter/filter_view.dart';
 import '../view/forgot/forgot_view.dart';
 import '../view/login/log_in_view.dart';
-import '../view/splash/auth_view.dart';
+import '../view/splash/splash_view.dart';
 
 class Routes {
   static const String splashView = '/splash';

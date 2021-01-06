@@ -30,7 +30,7 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: context.mediaQuerySize.width * 0.64,
+      width: context.mediaQuerySize.width,
       child: Card(
         color: color,
         child: Padding(

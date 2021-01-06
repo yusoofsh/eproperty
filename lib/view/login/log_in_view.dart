@@ -142,25 +142,43 @@ class _BuildFormState extends State<BuildForm> {
         children: [
           CustomTextField(
             name: 'email',
-            labelText: Strings.email,
+            labelText: Strings.emailAddress,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
               FormBuilderValidators.email(context),
             ]),
           ),
           const SizedBox(height: 12),
-          CustomTextField(
-            name: 'password',
-            labelText: Strings.password,
-            obscureText: true,
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(context),
-              FormBuilderValidators.maxLength(context, 24),
-            ]),
-            suffixIcon: const Icon(
-              FeatherIcons.lock,
-              color: Colors.black87,
-            ),
+          Consumer(
+            builder: (context, watch, _) {
+              final obscureText = watch(obscureTextProvider).state;
+
+              return CustomTextField(
+                name: 'password',
+                labelText: Strings.password,
+                obscureText: obscureText,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(context),
+                  FormBuilderValidators.maxLength(context, 24),
+                ]),
+                suffixIcon: IconButton(
+                  icon: obscureText
+                      ? const Icon(
+                          FeatherIcons.eye,
+                          color: Colors.black87,
+                        )
+                      : const Icon(
+                          FeatherIcons.eyeOff,
+                          color: Colors.black87,
+                        ),
+                  onPressed: () {
+                    obscureText
+                        ? context.read(obscureTextProvider).state = false
+                        : context.read(obscureTextProvider).state = true;
+                  },
+                ),
+              );
+            },
           ),
           const SizedBox(height: 12),
           Row(
