@@ -4,7 +4,7 @@ import 'package:eproperty/view/dashboard/dashboard_view.dart';
 import 'package:eproperty/view/filter/filter_view.dart';
 import 'package:eproperty/view/forgot/forgot_view.dart';
 import 'package:eproperty/view/login/log_in_view.dart';
-import 'package:eproperty/view/splash/auth_view.dart';
+import 'package:eproperty/view/splash/splash_view.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
