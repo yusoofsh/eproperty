@@ -37,52 +37,55 @@ class BuildSalesAsOf extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: Sizes.height8),
-              Table(
-                columnWidths: const {
-                  0: FixedColumnWidth(160.0),
-                  1: FixedColumnWidth(80.0),
-                  2: FixedColumnWidth(240.0),
-                },
-                children: [
-                  const TableRow(
-                    children: [
-                      SizedBox(),
-                      Text(
-                        Strings.unit,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+              SizedBox(
+                width: context.mediaQuerySize.width * 0.8,
+                child: Table(
+                  columnWidths: const {
+                    0: FixedColumnWidth(160.0),
+                    1: FixedColumnWidth(64.0),
+                    2: FixedColumnWidth(224.0),
+                  },
+                  children: [
+                    const TableRow(
+                      children: [
+                        SizedBox(),
+                        Text(
+                          Strings.unit,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Text(
-                        Strings.contractValue,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                        Text(
+                          Strings.contractValue,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Text(salesAsOf.data[0].name),
-                      Text('${salesAsOf.data[0].unit}'),
-                      Text(formatToIdr(salesAsOf.data[0].value)),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Text(salesAsOf.data[1].name),
-                      Text('${salesAsOf.data[1].unit}'),
-                      Text(formatToIdr(salesAsOf.data[1].value)),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Text(salesAsOf.data[2].name),
-                      Text('${salesAsOf.data[2].unit}'),
-                      Text(formatToIdr(salesAsOf.data[2].value)),
-                    ],
-                  )
-                ],
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Text(salesAsOf.data[0].name),
+                        Text('${salesAsOf.data[0].unit}'),
+                        Text(formatToIdr(salesAsOf.data[0].value)),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Text(salesAsOf.data[1].name),
+                        Text('${salesAsOf.data[1].unit}'),
+                        Text(formatToIdr(salesAsOf.data[1].value)),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Text(salesAsOf.data[2].name),
+                        Text('${salesAsOf.data[2].unit}'),
+                        Text(formatToIdr(salesAsOf.data[2].value)),
+                      ],
+                    )
+                  ],
+                ),
               ),
               const SizedBox(height: Sizes.height8),
             ],
