@@ -4,7 +4,8 @@ class Strings {
   static const String company = 'Perusahaan';
   static const String confirmNewPassword = 'Konfirmasi kata sandi baru';
   static const String done = 'Selesai';
-  static const String email = 'Alamat surel';
+  static const String email = 'email';
+  static const String emailAddress = 'Alamat $email';
   static const String failure = 'Gagal';
   static const String fillRequired = 'Isi data';
   static const String filter = 'Filter';
@@ -16,9 +17,9 @@ class Strings {
   static const String password = 'Kata sandi';
   static const String pleaseWait = 'Mohon tunggu';
   static const String project = 'Proyek';
-  static const String requestCode = 'Rekues kode';
+  static const String requestCode = 'Request kode';
   static const String reset = 'Reset';
-  static const String resetPassword = 'Setel ulang\nkata sandi';
+  static const String resetPassword = 'Ubah\nkata sandi';
   static const String success = 'Sukses';
   static const String welcome = 'Selamat datang kembali,';
   static const String year = 'Tahun';
