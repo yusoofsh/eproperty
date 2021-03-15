@@ -15,42 +15,50 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.13.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
+  auto_route: ^0.6.9
+  build_context: ^3.0.0
+  cached_network_image: ^2.5.1
+  charts_flutter: ^0.10.0
   flutter:
     sdk: flutter
-
-  auto_route: ^0.6.9
-  build_context: ^2.0.4
-  charts_flutter: ^0.9.0
-  cached_network_image: ^2.5.0
-  dio: ^3.0.10
-  flutter_easyloading: ^2.2.2
+  flutter_easyloading: ^3.0.0
   flutter_feather_icons: ^1.0.3
-  flutter_form_builder: ^4.2.0
-  flutter_riverpod: ^0.12.1
-  google_fonts: ^1.1.1
-  google_nav_bar: ^3.1.0
-  hive: ^1.4.4+1
-  hive_flutter: ^0.3.1
-  image_picker: ^0.6.7+17
-  intl: ^0.16.1
+  flutter_form_builder:
+    git: https://github.com/sportner/flutter_form_builder
+  flutter_riverpod: ^0.13.1
+  google_fonts: ^2.0.0
+  google_nav_bar: ^5.0.3
+  hive: ^2.0.0
+  hive_flutter: ^1.0.0
+  image_picker: ^0.7.2+1
+  intl: ^0.17.0
   logger: ^0.9.4
-  percent_indicator: ^2.1.9
-  retrofit: ^1.3.4+1
+  percent_indicator: ^2.1.9+1
 
 dev_dependencies:
+  auto_route_generator: ^0.6.10
+  build_runner: any
   flutter_test:
     sdk: flutter
+  lint: ^1.5.3
+  retrofit_generator:
+    git:
+      url: https://github.com/chimerapps/retrofit.dart
+      ref: feature/nullabilitysafe
+      path: generator
 
-  auto_route_generator: ^0.6.10
-  build_runner: ^1.10.11
-  lint: ^1.3.0
-  retrofit_generator: ^1.4.1+1
+dependency_overrides:
+  retrofit:
+    git:
+      url: https://github.com/chimerapps/retrofit.dart
+      ref: feature/nullabilitysafe
+      path: annotation
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -65,4 +73,4 @@ flutter:
     - asset/image/
 
 scripts:
-  build: fvm flutter pub run build_runner build
+  build: flutter pub run build_runner build

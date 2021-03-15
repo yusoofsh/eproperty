@@ -283,7 +283,6 @@ class BuildBottomNavigationBar extends StatelessWidget {
                 curve: Curves.easeOutExpo,
                 gap: Sizes.size8,
                 iconSize: Sizes.size24,
-                duration: const Duration(milliseconds: 500),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 5,

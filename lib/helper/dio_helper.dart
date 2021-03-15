@@ -6,10 +6,8 @@ final dio = Dio()
     InterceptorsWrapper(
       onRequest: (options) async {
         // Do something before request is sent.
-        options.merge(
-          connectTimeout: 5000,
-          receiveTimeout: 3000,
-        );
+        options.connectTimeout = 5000;
+        options.receiveTimeout = 3000;
 
         // Continue.
         return options;
