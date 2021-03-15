@@ -8,7 +8,7 @@ part of 'rest_service.dart';
 
 class _RestService implements RestService {
   _RestService(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://34.101.219.118/eproperty-admin/api/admin/v1';
+    baseUrl ??= 'http://103.133.21.132:7000/api/admin/v1';
   }
 
   final Dio _dio;
